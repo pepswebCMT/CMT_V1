@@ -1,0 +1,81 @@
+.celebrity-detail-page {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    padding: 20px;
+    text-align: center; 
+  }
+  
+  .celebrity-header img {
+    width: 100%; 
+    height: auto;
+    margin-bottom: 16px;
+    border-radius: 8px;
+  }
+  
+  .celebrity-title {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .location-icon {
+    margin-right: 5px; 
+  }
+
+  .celebrity-name-dt {
+    color: #FFC300;
+    margin: 0 auto;
+    font-size: 2.2em;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .celebrity-visit-link {
+    display: inline-block;
+    background-color: #ffa500;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .celebrity-description {
+    font-size: 1em; 
+    margin-bottom: 1em;
+    line-height: 1.6;
+    text-align: justify;
+  }
+  
+  .celebrity-details {
+    font-size: 1em; 
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+  
+  /* Utilisez une approche mobile-first, les styles par défaut sont pour les mobiles */
+  @media (min-width: 768px) {
+    .celebrity-detail-page {
+      max-width: 600px;
+      margin: auto; /* Center the container on desktop */
+      padding: 40px 20px; /* More padding on larger screens */
+    }
+  
+    .celebrity-header img {
+      border-radius: 12px; /* Slightly larger border radius on larger screens */
+      max-height: 450px; /* Set a max-height for larger screens */
+    }
+  
+    .celebrity-title {
+      font-size: 2em; /* Larger font size for desktop */
+    }
+  
+    .celebrity-description {
+      font-size: 1.2em; /* Slightly larger font size for desktop */
+    }
+  
+    .celebrity-details {
+      font-size: 1.2em; /* Slightly larger font size for details on desktop */
+    }
+  }
+  

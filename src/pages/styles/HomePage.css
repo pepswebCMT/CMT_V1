@@ -1,0 +1,173 @@
+.homepage {
+  padding: 20px;
+}
+
+.home-title {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.featured-section {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.celebrity-list {
+  display: inline-flex;
+  gap: 20px;
+  padding-bottom: 20px;
+  animation: scrollAnimation 20s linear infinite;
+}
+
+@keyframes scrollAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-60%);
+  }
+}
+
+.celebrity-card {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 250px; 
+  height: 400px; 
+  display: flex;
+  flex-direction: column;
+}
+
+.celebrity-card:hover {
+  transform: translateY(-5px);
+}
+
+.celebrity-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+.celebrity-image-container {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.celebrity-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.celebrity-name {
+  color: white;
+  font-size: 1rem;
+  margin-left: 5px;
+  text-align: center;
+}
+
+.icon-container {
+  position: fixed;
+  bottom: 16px; /* Augmentez l'espacement en bas si nécessaire */
+  right: 16px; /* Augmentez l'espacement à droite pour ne pas coller au bord */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  top: 70%;
+}
+
+.icon-button {
+  background-color: rgba(250, 165, 7, 0.854); /* La couleur de fond du bouton */
+  border: none;
+  border-radius: 50%; /* Ceci rendra le bouton parfaitement rond */
+  width: 58px; /* La largeur du bouton */
+  height: 58px; /* La hauteur du bouton, identique à la largeur pour un cercle parfait */
+  display: flex; /* Pour centrer l'icône */
+  justify-content: center; /* Centrage horizontal de l'icône */
+  align-items: center; /* Centrage vertical de l'icône */
+  margin-top: 16px; /* Espace entre les boutons */
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  color: white; /* La couleur de l'icône */
+  width: 28px; /* La taille de l'icône */
+  height: 28px; /* La taille de l'icône, peut être ajustée si nécessaire */
+}
+
+
+
+
+.celebrity-name::before {
+  content: "\2605";
+  color: white;
+  font-size: 1rem;
+  margin-right: 5px;
+}
+
+.celebrity-info {
+  padding: 10px;
+  text-align: center;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.section-header h3 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.see-all-link {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.celebrity-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .celebrity-card {
+    min-width: 200px;
+  }
+
+  .celebrity-image {
+    width: 100% !important;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .homepage {
+    padding: 10px;
+  }
+
+  .featured-section,
+  .celebrity-info {
+    padding: 10px;
+  }
+
+  .celebrity-card {
+    min-width: 150px;
+  }
+}

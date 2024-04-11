@@ -1,0 +1,60 @@
+.home-container {
+    padding: 16px;
+    background: #ffffff;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .search-container h1 {
+    color: #333;
+    text-align: center;
+  }
+  
+  .icon-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 16px 0;
+  }
+  
+  .icon {
+    font-size: 24px;
+  }
+  
+  .famous-container h2 {
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .see-all {
+    float: right;
+    text-decoration: none;
+    color: #f90;
+    font-weight: bold;
+  }
+  
+  .celebrity-container {
+    overflow-x: auto;
+    display: flex;
+  }
+  
+  .celebrity {
+    margin-right: 16px;
+    text-align: center;
+  }
+  
+  .celebrity img {
+    border-radius: 10px;
+    width: 100px;
+    height: auto;
+  }
+  
+  .celebrity h3 {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .celebrity p {
+    font-size: 14px;
+    color: #666;
+  }
+  

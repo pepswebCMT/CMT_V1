@@ -1,0 +1,180 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.auth-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/src/assets/img/ribbon-5172088_1280.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-form, .signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 480px) {
+  .login-form, .signup-form {
+    padding: 10px;
+  }
+}
+
+h2 {
+  text-align: center;
+  color: #0c0c0c;
+  margin-bottom: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+input {
+  display: block;
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  align-items: center;
+}
+
+button {
+  width: 70%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #c8b80b;
+  color: white;
+  cursor: pointer;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+button:hover {
+  background-color: #2196f3;
+}
+
+p {
+  text-align: center;
+  margin-top: 10px;
+  color: #b01d1d;
+  font-family: 'Montserrat', sans-serif;
+}
+
+p span {
+  color: #e4d01a;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+p span:hover {
+  text-decoration: underline;
+}
+
+.success-message {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.google-signup {
+  position: relative;
+  bottom: -10px;
+  left: 35%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.google-signup:hover .google-icon {
+  opacity: 0.8;
+}
+
+.google-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.google-signup span {
+  color: #333;
+}
+
+.app-description {
+  color: #0c0c0c;
+  text-align: center;
+  font-size: medium;
+  position: absolute;
+  top: 15%;
+}
+
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.remember-me-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.remember-me-container label {
+  color: #0c0c0c;
+  font-family: 'Montserrat', sans-serif;
+  white-space: nowrap;
+  margin-left: 5px;
+}
+
+.remember-me-container input[type="checkbox"] {
+  margin: 0;
+  padding: 0; 
+  vertical-align: middle; 
+}
+
+
+
