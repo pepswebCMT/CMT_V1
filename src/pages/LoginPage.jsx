@@ -105,6 +105,7 @@ function LoginPage() {
             value={credentials.email}
             onChange={handleInputChange}
             placeholder="Adresse e-mail"
+            required
           />
           <input
             name="password"
@@ -112,6 +113,7 @@ function LoginPage() {
             value={credentials.password}
             onChange={handleInputChange}
             placeholder="Mot de passe"
+            required
           />
           {error && <p className="error-message">{error}</p>}
           <div className="remember-me-container">
@@ -145,6 +147,7 @@ function LoginPage() {
             value={credentials.fullName}
             onChange={handleInputChange}
             placeholder="Nom complet"
+            required
           />
           <input
             name="email"
@@ -152,6 +155,7 @@ function LoginPage() {
             value={credentials.email}
             onChange={handleInputChange}
             placeholder="Adresse e-mail"
+            required
           />
           <input
             name="password"
@@ -159,6 +163,7 @@ function LoginPage() {
             value={credentials.password}
             onChange={handleInputChange}
             placeholder="Mot de passe"
+            required
           />
           <input
             name="confirmPassword"
@@ -166,6 +171,7 @@ function LoginPage() {
             value={credentials.confirmPassword}
             onChange={handleInputChange}
             placeholder="Confirmer le mot de passe"
+            required
           />
           {error && <p className="error-message">{error}</p>}
           <div className="button-container">

@@ -82,8 +82,8 @@
 
 .icon-container {
   position: fixed;
-  bottom: 16px; /* Augmentez l'espacement en bas si nécessaire */
-  right: 16px; /* Augmentez l'espacement à droite pour ne pas coller au bord */
+  bottom: 16px; 
+  right: 16px; 
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -91,23 +91,23 @@
 }
 
 .icon-button {
-  background-color: rgba(250, 165, 7, 0.854); /* La couleur de fond du bouton */
+  background-color: rgba(250, 165, 7, 0.854); 
   border: none;
-  border-radius: 50%; /* Ceci rendra le bouton parfaitement rond */
-  width: 58px; /* La largeur du bouton */
-  height: 58px; /* La hauteur du bouton, identique à la largeur pour un cercle parfait */
-  display: flex; /* Pour centrer l'icône */
-  justify-content: center; /* Centrage horizontal de l'icône */
-  align-items: center; /* Centrage vertical de l'icône */
-  margin-top: 16px; /* Espace entre les boutons */
+  border-radius: 50%; 
+  width: 58px; 
+  height: 58px; 
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  margin-top: 16px; 
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .icon {
-  color: white; /* La couleur de l'icône */
-  width: 28px; /* La taille de l'icône */
-  height: 28px; /* La taille de l'icône, peut être ajustée si nécessaire */
+  color: white; 
+  width: 28px; 
+  height: 28px;
 }
 
 
@@ -171,3 +171,59 @@
     min-width: 150px;
   }
 }
+
+@media (max-width: 320px) {
+  .celebrity-card {
+    width: 140px;
+  }
+
+  .icon-button {
+    width: 44px;
+    height: 44px;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .homepage {
+    padding: 10px;
+  }
+
+  .featured-section, .celebrity-info {
+    padding: 10px;
+  }
+
+  .celebrity-card {
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .celebrity-card {
+    min-width: 200px;
+  }
+
+  .celebrity-image {
+    width: 100% !important;
+    border-radius: 6px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .icon-container {
+    bottom: 32px;
+    right: 32px;
+  }
+
+  .celebrity-card {
+    width: 220px;
+    height: 360px;
+  }
+
+  .icon-button {
+    width: 50px;
+    height: 50px;
+    margin-top: 16px;
+  }
+}
+

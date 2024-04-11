@@ -53,29 +53,28 @@
     margin-bottom: 1em;
   }
   
-  /* Utilisez une approche mobile-first, les styles par défaut sont pour les mobiles */
   @media (min-width: 768px) {
     .celebrity-detail-page {
       max-width: 600px;
-      margin: auto; /* Center the container on desktop */
-      padding: 40px 20px; /* More padding on larger screens */
+      margin: auto;
+      padding: 40px 20px;
     }
   
     .celebrity-header img {
-      border-radius: 12px; /* Slightly larger border radius on larger screens */
-      max-height: 450px; /* Set a max-height for larger screens */
+      border-radius: 12px;
+      max-height: 450px;
     }
   
     .celebrity-title {
-      font-size: 2em; /* Larger font size for desktop */
+      font-size: 2em;
     }
   
     .celebrity-description {
-      font-size: 1.2em; /* Slightly larger font size for desktop */
+      font-size: 1.2em;
     }
   
     .celebrity-details {
-      font-size: 1.2em; /* Slightly larger font size for details on desktop */
+      font-size: 1.2em; 
     }
   }
   

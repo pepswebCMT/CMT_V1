@@ -2,9 +2,7 @@ import React from 'react';
 import './IconeBar.css';
 
 const IconBar = ({ onCategoryChange }) => {
-  // Pas besoin d'utiliser navigate ici car nous passons la catégorie au parent
-
-  // Fonction pour appeler la fonction de rappel avec la catégorie
+  
   const handleIconClick = (category) => {
     onCategoryChange(category);
   };

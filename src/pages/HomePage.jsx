@@ -8,12 +8,14 @@ import Footer from '../components/Footer';
 import LogoutButton from '../components/Logout';
 import { MdAddAPhoto } from 'react-icons/md';
 import { FaMapMarkedAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Lesplusconnus');
   const displayedCelebrityCount = 7;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCelebrities = async (category) => {
@@ -29,6 +31,10 @@ const HomePage = () => {
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
+  };
+
+  const navigateToPhotoPage = () => {
+    navigate('/photopage');
   };
 
   return (
@@ -63,15 +69,15 @@ const HomePage = () => {
         </div>
       </div>
       <div className="icon-container">
-    <button className="icon-button camera-button">
+    <button className="icon-button camera-button" onClick={navigateToPhotoPage}>
       <MdAddAPhoto className="icon" />  
     </button>
     <button className="icon-button map-button">
       <FaMapMarkedAlt className="icon" />
     </button>
   </div>
-      <Footer />
-    </main>
+      {/* <Footer /> */}
+  </main>
   );
 };
 
