@@ -1,17 +1,40 @@
+/* Navbar.css */
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: space-around; /* Ajustement pour plus d'espace entre les icônes */
-  align-items: center; /* Assurez-vous que les icônes sont alignées verticalement au centre */
-  padding: 10px;
+  justify-content: space-between; /* Aligner les éléments aux extrémités */
+  align-items: center; /* Centrer verticalement */
+  padding: 10px 20px; /* Ajout de padding horizontal pour l'esthétique */
   background-color: orange;
   color: white;
+  box-sizing: border-box; /* Inclure le padding dans le calcul de la largeur */
 }
 
 .icon {
   cursor: pointer;
-  font-size: 20px; /* Ajustez la taille des icônes si nécessaire */
+  font-size: 24px; /* Taille visible de l'icône */
+}
+
+.search-container {
+  position: relative; /* Positionnement relatif pour les enfants absolus */
+  display: flex; /* Utiliser flexbox pour aligner les éléments horizontalement */
+  align-items: center; /* Aligner les éléments verticalement */
+}
+
+.search-input {
+  width: 100%; /* Prendre toute la largeur disponible */
+  padding: 8px 35px; /* Padding pour l'espace autour du texte */
+  border: none;
+  border-radius: 20px;
+  outline: none; /* Supprimer le contour lors du focus */
+}
+
+.search-icon {
+  position: absolute; /* Positionnement absolu pour placer l'icône à l'intérieur de l'input */
+  right: 10px; /* Espacement à droite */
+  color: gray; /* Couleur de l'icône qui ne distrait pas */
 }

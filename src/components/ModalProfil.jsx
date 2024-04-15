@@ -3,8 +3,6 @@ import { signOut } from 'firebase/auth';
 import { deleteUser } from 'firebase/auth';
 import { Auth } from '../firebase-config';
 import { useNavigate } from 'react-router-dom';
-//import './UserProfile.css'; // Assurez-vous de créer un CSS pour cela
-import LogoutButton from './Logout';
 import { FiLogOut } from 'react-icons/fi';
 
 const UserProfile = ({ user }) => {
@@ -13,7 +11,7 @@ const UserProfile = ({ user }) => {
   const handleSignOut = async () => {
     try {
       await signOut(Auth);
-      navigate('/'); // ou votre route de connexion
+      navigate('/');
     } catch (error) {
       console.error('Error signing out: ', error);
     }
@@ -24,7 +22,7 @@ const UserProfile = ({ user }) => {
     if (confirmation) {
       try {
         await deleteUser(Auth.currentUser);
-        navigate('/'); // ou votre route d'inscription
+        navigate('/');
       } catch (error) {
         console.error('Error deleting user: ', error);
       }

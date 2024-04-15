@@ -1,7 +1,5 @@
-// Footer.jsx
-
 import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa'; // Importer des icônes sociales
+import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {

@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import IconBar from '../components/IconBar';
 import './styles/HomePage.css';
 import { Auth } from '../firebase-config';
-//import Footer from '../components/Footer';
-//import LogoutButton from '../components/Logout';
 import { MdAddAPhoto } from 'react-icons/md';
 import { FaMapMarkedAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +12,7 @@ import UserProfile from '../components/ModalProfil';
 import Navbar from '../components/Navbar';
 import { onAuthStateChanged } from 'firebase/auth';
 import Modal from '../components/Modal';
-import Footer from '../components/Footer'; // Import du composant Footer
+import Footer from '../components/Footer';
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
@@ -35,18 +33,13 @@ const HomePage = () => {
   };
 
     useEffect(() => {
-    // Écoutez les changements d'état d'authentification
     const unsubscribe = onAuthStateChanged(Auth, (user) => {
       if (user) {
-        // L'utilisateur est connecté, utilisez l'objet 'user' de Firebase
         setCurrentUser(user);
       } else {
-        // L'utilisateur est déconnecté
         setCurrentUser(null);
       }
     });
-
-    // Nettoyez l'écouteur lorsque le composant se démonte
     return unsubscribe;
   }, []);
 
@@ -112,7 +105,7 @@ const HomePage = () => {
       <FaMapMarkedAlt className="icon" />
     </button>
   </div>
-      <Footer /> {/* Ajout du composant Footer */}
+      <Footer /> 
   </main>
   );
 };
