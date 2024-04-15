@@ -1,0 +1,90 @@
+/* Modal.css - Assurez-vous d'avoir déjà ces styles de base pour le modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 500px; /* ou une largeur spécifique selon votre design */
+  width: 90%; /* pour les écrans plus petits */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.user-profile h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 60px;
+}
+
+.user-profile p {
+  color: #666;
+  margin: 5px 0 20px;
+}
+
+/* Style pour le bouton de déconnexion et suppression du compte */
+.user-profile button {
+  background: #ff4136; /* Une couleur de bouton qui ressort */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.user-profile button:hover {
+  background: #e22a1f; /* Un peu plus foncé au survol */
+}
+
+/* Vous pouvez ajouter une classe pour le bouton de déconnexion si vous voulez le styliser différemment */
+.logout-button {
+  background: #4c4c4c; /* Couleur de fond pour le bouton de déconnexion */
+  color: white;
+  border: none;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espace entre l'icône et le texte */
+  font-size: 1rem;
+  text-transform: uppercase; /* Texte en majuscules */
+  font-weight: bold;
+}
+
+.logout-button:hover {
+  background: #333; /* Foncé au survol */
+}
+
+.logout-button .icon {
+  font-size: 1.2rem; /* Taille de l'icône */
+}
+
+.logout-button span {
+  display: inline-block; /* Pour aligner le texte avec l'icône */
+}

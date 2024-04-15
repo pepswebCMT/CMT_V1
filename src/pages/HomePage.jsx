@@ -4,18 +4,51 @@ import { collection, getDocs, doc } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import IconBar from '../components/IconBar';
 import './styles/HomePage.css';
-import Footer from '../components/Footer';
-import LogoutButton from '../components/Logout';
+import { Auth } from '../firebase-config';
+//import Footer from '../components/Footer';
+//import LogoutButton from '../components/Logout';
 import { MdAddAPhoto } from 'react-icons/md';
 import { FaMapMarkedAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-
+import UserProfile from '../components/ModalProfil';
+import Navbar from '../components/Navbar';
+import { onAuthStateChanged } from 'firebase/auth';
+import Modal from '../components/Modal';
+import Footer from '../components/Footer'; // Import du composant Footer
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Lesplusconnus');
   const displayedCelebrityCount = 7;
   const navigate = useNavigate();
+  const [showProfile, setShowProfile] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+
+  const handleUserIconClick = () => {
+    setIsProfileModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsProfileModalOpen(false);
+  };
+
+    useEffect(() => {
+    // Écoutez les changements d'état d'authentification
+    const unsubscribe = onAuthStateChanged(Auth, (user) => {
+      if (user) {
+        // L'utilisateur est connecté, utilisez l'objet 'user' de Firebase
+        setCurrentUser(user);
+      } else {
+        // L'utilisateur est déconnecté
+        setCurrentUser(null);
+      }
+    });
+
+    // Nettoyez l'écouteur lorsque le composant se démonte
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     const fetchCelebrities = async (category) => {
@@ -39,7 +72,10 @@ const HomePage = () => {
 
   return (
     <main className="homepage">
-      <LogoutButton />
+      <Navbar onUserIconClick={handleUserIconClick} />
+      <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
+        <UserProfile user={currentUser} />
+      </Modal>
       <div className="featured-section">
         <div className='home-title'>
           <h1>Où reposent en paix vos célébrités favorites ?</h1>
@@ -76,12 +112,9 @@ const HomePage = () => {
       <FaMapMarkedAlt className="icon" />
     </button>
   </div>
-      {/* <Footer /> */}
+      <Footer /> {/* Ajout du composant Footer */}
   </main>
   );
 };
 
-
-
 export default HomePage;
-
