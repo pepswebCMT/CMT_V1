@@ -19,7 +19,7 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('Lesplusconnus');
   const displayedCelebrityCount = 7;
   const navigate = useNavigate();
-  const [showProfile, setShowProfile] = useState(false);
+  //const [showProfile, setShowProfile] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
@@ -63,6 +63,10 @@ const HomePage = () => {
     navigate('/photopage');
   };
 
+  const navigateToMapPage = () => {
+    navigate('/map');
+  }
+
   return (
     <main className="homepage">
       <Navbar onUserIconClick={handleUserIconClick} />
@@ -101,7 +105,7 @@ const HomePage = () => {
     <button className="icon-button camera-button" onClick={navigateToPhotoPage}>
       <MdAddAPhoto className="icon" />  
     </button>
-    <button className="icon-button map-button">
+    <button className="icon-button map-button" onClick={navigateToMapPage}>
       <FaMapMarkedAlt className="icon" />
     </button>
   </div>
