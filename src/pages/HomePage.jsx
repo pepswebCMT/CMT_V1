@@ -86,7 +86,7 @@ const HomePage = () => {
         <div className="section-header">
           <h3>{selectedCategory}</h3>
           <Link to={`/category/${selectedCategory}`} className="see-all-link">
-            Tout voir >>{" "}
+            {t("home_see_all")}{" "}
           </Link>
         </div>
         <div className="celebrity-list">

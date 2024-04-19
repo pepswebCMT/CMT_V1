@@ -14,14 +14,10 @@ const LangManager = () => {
     <select
       value={i18n.language}
       onChange={handleLanguageChange}
-      className="w-100"
+      className="w-100 text-black"
     >
-      <option value="en">
-        <GB title="English" />
-      </option>
-      <option value="fr">
-        <FR title="Français" />
-      </option>
+      <option value="en">English</option>
+      <option value="fr">Français</option>
     </select>
   );
 };
