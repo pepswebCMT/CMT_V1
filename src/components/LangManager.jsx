@@ -11,7 +11,11 @@ const LangManager = () => {
   };
 
   return (
-    <select value={i18n.language} onChange={handleLanguageChange}>
+    <select
+      value={i18n.language}
+      onChange={handleLanguageChange}
+      className="w-100"
+    >
       <option value="en">
         <GB title="English" />
       </option>

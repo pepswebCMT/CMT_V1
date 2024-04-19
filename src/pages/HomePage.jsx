@@ -78,7 +78,7 @@ const HomePage = () => {
         <UserProfile user={currentUser} />
       </Modal>
       <div className="featured-section">
-        <div className="home-title">
+        <div className="w-full font-bold text-2xl p-6 text-center">
           <h1>{t("home_h1")}</h1>
         </div>
         <br />
