@@ -20,7 +20,6 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Lesplusconnus");
   const displayedCelebrityCount = 7;
   const navigate = useNavigate();
-  //const [showProfile, setShowProfile] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const { t } = useTranslation();

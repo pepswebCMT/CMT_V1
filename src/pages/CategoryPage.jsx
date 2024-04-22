@@ -31,10 +31,8 @@ const CategoryPage = () => {
   return (
     <div className="category-page">
       <div className="category-header">
-        <h1 className="category-name">{formattedCategory}</h1>
-        <Link to="/home" className="back-button">
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </Link>
+        <h1 className='category-name'>{formattedCategory}</h1>
+        <Link to="/" className="back-button"><FontAwesomeIcon icon={faArrowLeft} /></Link>
       </div>
       <h2 className="intro-ft">
         {t("category_title")}

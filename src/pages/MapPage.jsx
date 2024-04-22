@@ -88,7 +88,7 @@ const MyMap = () => {
       <button onClick={() => {
         window.open(`https://www.google.com/maps/search/?api=1&query=${tomb.location._lat},${tomb.location._long}`, '_blank');
       }}>
-        Visiter la tombe
+        Y aller
       </button>
     </div>
   </Popup>
