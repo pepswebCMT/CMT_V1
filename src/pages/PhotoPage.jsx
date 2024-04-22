@@ -1,42 +1,40 @@
-// PhotoPage.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { db, storage } from '../firebase-config';
 import { collection, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import './styles/PhotoPage.css';
-import illustration from '../assets/img/illustrationA.webp';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from 'react-router-dom';
+import './styles/PhotoPage.css';
+import illustration from '../assets/img/illustrationA.webp';
 
 const PhotoPage = () => {
   const [personality, setPersonality] = useState('');
   const [cemetery, setCemetery] = useState('');
   const [file, setFile] = useState(null);
-  const [imageUrl] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState('');
+  const [selectedFileName, setSelectedFileName] = useState('');
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
   const handlePersonalityChange = e => setPersonality(e.target.value);
   const handleCemeteryChange = e => setCemetery(e.target.value);
-  const [submitStatus, setSubmitStatus] = useState('');
-  const [selectedFileName, setSelectedFileName] = useState('');
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];
     if (newFile) {
       setFile(newFile);
-      setSelectedFileName(newFile.name); 
+      setSelectedFileName(newFile.name);
     }
   };
 
   useEffect(() => {
     return () => {
-      if (imageUrl) {
-        URL.revokeObjectURL(imageUrl);
+      if (file) {
+        URL.revokeObjectURL(file.preview);
       }
     };
-  }, [imageUrl]);
+  }, [file]);
 
   const handleTakePhotoClick = () => {
     fileInputRef.current.click();
@@ -65,19 +63,20 @@ const PhotoPage = () => {
         title: personality,
         cemetery: cemetery,
         imageUrl: imageUrl,
-        location: `${position.coords.latitude},${position.coords.longitude}`
+        location: `${position.coords.latitude},${position.coords.longitude}`,
+        status: 'en attente'
       };
 
       try {
-        await addDoc(collection(db, 'NewTombs'), tombData);
-        setSubmitStatus('Bravo !! la découverte a été partagée.');
+        await addDoc(collection(db, 'PendingTombs'), tombData);
+        setSubmitStatus('Votre soumission est en attente de vérification.');
         setTimeout(() => {
-        setSubmitStatus('');
-        setPersonality('');
-        setCemetery('');
-        setFile(null);
-        setSelectedFileName(''); 
-    }, 4000);
+          setSubmitStatus('');
+          setPersonality('');
+          setCemetery('');
+          setFile(null);
+          setSelectedFileName('');
+        }, 4000);
       } catch (error) {
         setSubmitStatus(`Oops : ${error.message}`);
       }
@@ -128,12 +127,10 @@ const PhotoPage = () => {
             required 
           />
           {selectedFileName && (
-          <a href={imageUrl} target="_blank" rel="noopener noreferrer">
-            {selectedFileName}
-          </a>
-        )}
+            <div className="selected-file-name">{selectedFileName}</div>
+          )}
           <button type="submit" className="submit-button">
-            <span className="arrow-icon">→</span>
+             <span className="arrow-icon">→</span>
           </button>
           {submitStatus && <div className="submit-status">{submitStatus}</div>}
         </form>

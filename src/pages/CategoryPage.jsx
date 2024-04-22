@@ -26,7 +26,7 @@ const CategoryPage = () => {
     <div className="category-page">
       <div className="category-header">
         <h1 className='category-name'>{formattedCategory}</h1>
-        <Link to="/home" className="back-button"><FontAwesomeIcon icon={faArrowLeft} /></Link>
+        <Link to="/" className="back-button"><FontAwesomeIcon icon={faArrowLeft} /></Link>
       </div>
       <h2 className='intro-ft'>Retrouvez ceux qui ont marqué le monde {formattedCategory}</h2>
       <div className="items-container">

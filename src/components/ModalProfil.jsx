@@ -34,9 +34,9 @@ const UserProfile = ({ user }) => {
       <h2>{user.name}</h2>
       <p>{user.email}</p>
       <button className="logout-button" onClick={handleSignOut}>
-  <FiLogOut className="icon" />
-  <span>Déconnexion</span>
-</button>
+      <FiLogOut className="icon" />
+      <span>Déconnexion</span>
+      </button>
       <button onClick={handleDeleteAccount}>Supprimer le compte</button>
     </div>
   );

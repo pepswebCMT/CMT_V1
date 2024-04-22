@@ -8,17 +8,20 @@ import CelebrityDetailPage from './pages/CelebDetailsPage';
 import PhotoPage from './pages/PhotoPage';
 import 'leaflet/dist/leaflet.css';
 import MyMap from './pages/MapPage';
+import AdminPage from './pages/AdminPage';
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/home" element={<HomePage />} />
+        
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/category/:categoryName/:celebrityId" element={<CelebrityDetailPage />} />
         <Route path="/photopage" element={<PhotoPage />} />
         <Route path="/map" element={<MyMap />} />
+        <Route path="/admin" element={< AdminPage/>}></Route>
       </Routes>
     </Router>
   );
