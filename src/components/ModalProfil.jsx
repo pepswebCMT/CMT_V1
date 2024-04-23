@@ -1,45 +1,98 @@
-import React from 'react';
-import { signOut } from 'firebase/auth';
-import { deleteUser } from 'firebase/auth';
+import React, { useState, useEffect } from 'react';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { Auth } from '../firebase-config';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
 import { FiLogOut } from 'react-icons/fi';
 
 const UserProfile = ({ user }) => {
   const navigate = useNavigate();
 
-  const handleSignOut = async () => {
-    try {
-      await signOut(Auth);
-      navigate('/');
-    } catch (error) {
-      console.error('Error signing out: ', error);
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    fullName: ''
+  });
+  const [rememberMe, setRememberMe] = useState(false); 
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [error, setError] = useState('');
+
+    useEffect(() => {
+    const errorTimeout = setTimeout(() => {
+      if (error) setError('');
+    }, 5000);
+    
+    const confirmationTimeout = setTimeout(() => {
+      if (confirmationMessage) setConfirmationMessage('');
+    }, 5000);
+
+    return () => {
+      clearTimeout(errorTimeout);
+      clearTimeout(confirmationTimeout);
+    };
+  }, [error, confirmationMessage]);
+
+    const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (type === 'checkbox') { 
+      setRememberMe(checked);
+    } else {
+      setCredentials({
+        ...credentials,
+        [name]: value
+      });
     }
   };
 
-  const handleDeleteAccount = async () => {
-    const confirmation = window.confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');
-    if (confirmation) {
-      try {
-        await deleteUser(Auth.currentUser);
-        navigate('/');
-      } catch (error) {
-        console.error('Error deleting user: ', error);
-      }
+    const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(Auth, credentials.email, credentials.password);
+      navigate('/admin');
+    } catch (error) {
+      setError('Identifiant ou mot de passe incorrect, veuillez réessayer.');
     }
   };
+
+
 
   return (
-    <div className="user-profile">
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
-      <button className="logout-button" onClick={handleSignOut}>
-      <FiLogOut className="icon" />
-      <span>Déconnexion</span>
-      </button>
-      <button onClick={handleDeleteAccount}>Supprimer le compte</button>
+    <div className="auth-container">
+        <div className="login-form">
+          <h2>Connexion</h2>
+          <input
+            name="email"
+            type="email"
+            value={credentials.email}
+            onChange={handleInputChange}
+            placeholder="Adresse e-mail"
+            required
+          />
+          <input
+            name="password"
+            type="password"
+            value={credentials.password}
+            onChange={handleInputChange}
+            placeholder="Mot de passe"
+            required
+          />
+          {error && <p className="error-message">{error}</p>}
+          <div className="remember-me-container">
+            <input
+              name="rememberMe"
+              type="checkbox"
+              checked={rememberMe}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="rememberMe">Se souvenir de moi</label>
+          </div>
+          <div className="button-container">
+            <button onClick={handleLogin}>Se connecter</button>
+          </div>
+          <br /><br />
+        </div>
     </div>
   );
-};
+}
 
 export default UserProfile;

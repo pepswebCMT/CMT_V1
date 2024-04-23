@@ -9,12 +9,13 @@ import PhotoPage from './pages/PhotoPage';
 import 'leaflet/dist/leaflet.css';
 import MyMap from './pages/MapPage';
 import AdminPage from './pages/AdminPage';
+import CoverPage from './pages/CoverPage';
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        
+        <Route path='/cover' element={<CoverPage/>}/>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/category/:category" element={<CategoryPage />} />

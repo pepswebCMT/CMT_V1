@@ -1,0 +1,64 @@
+.cover-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 100% de la hauteur de la fenêtre */
+}
+
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.install-button,
+.get-started-button {
+  display: inline-block;
+  width: 200px;
+  padding: 10px 20px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.install-button {
+  background-color: #FFA500;
+  border: 3px solid #808080;
+}
+
+.install-button:hover {
+  border-color: #808080;
+}
+
+.get-started-button {
+  background-color: #007bff;
+}
+
+.install-button:hover,
+.get-started-button:hover {
+  opacity: 0.8;
+}
+
+@media only screen and (max-width: 600px) {
+  .install-button,
+  .get-started-button {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    margin-bottom: 10px;
+  }
+}
