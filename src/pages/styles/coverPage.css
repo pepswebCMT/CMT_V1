@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* 100% de la hauteur de la fenêtre */
+  height: 100vh;
 }
 
 h1 {
