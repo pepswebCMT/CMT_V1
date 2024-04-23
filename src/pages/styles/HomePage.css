@@ -1,17 +1,16 @@
-.homepage {
+/* .homepage {
   padding: 20px;
-}
+} */
 
 .home-title {
   text-align: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .featured-section {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
   overflow: hidden;
 }
 
@@ -36,8 +35,8 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 250px; 
-  height: 400px; 
+  width: 250px;
+  height: 400px;
   display: flex;
   flex-direction: column;
 }
@@ -82,8 +81,8 @@
 
 .icon-container {
   position: fixed;
-  bottom: 16px; 
-  right: 16px; 
+  bottom: 16px;
+  right: 16px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -92,27 +91,24 @@
 }
 
 .icon-button {
-  background-color: rgba(250, 165, 7, 0.854); 
+  background-color: rgba(250, 165, 7, 0.854);
   border: none;
-  border-radius: 50%; 
-  width: 58px; 
-  height: 58px; 
+  border-radius: 50%;
+  width: 58px;
+  height: 58px;
   display: flex;
-  justify-content: center; 
-  align-items: center; 
-  margin-top: 16px; 
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .icon {
-  color: white; 
-  width: 28px; 
+  color: white;
+  width: 28px;
   height: 28px;
 }
-
-
-
 
 .celebrity-name::before {
   content: "\2605";
@@ -134,7 +130,7 @@
 }
 
 .section-header h3 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .see-all-link {
@@ -190,7 +186,8 @@
     padding: 10px;
   }
 
-  .featured-section, .celebrity-info {
+  .featured-section,
+  .celebrity-info {
     padding: 10px;
   }
 
@@ -227,4 +224,3 @@
     margin-top: 16px;
   }
 }
-

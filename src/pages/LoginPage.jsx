@@ -1,32 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { Auth } from '../firebase-config';
-import { useNavigate } from 'react-router-dom';
-import './styles/LoginPage.css';
-import googleIcon from '../assets/icons/search.png';
+import React, { useState, useEffect } from "react";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { Auth } from "../firebase-config";
+import { useNavigate } from "react-router-dom";
+import "./styles/LoginPage.css";
+import googleIcon from "../assets/icons/search.png";
 
 function LoginPage() {
   const navigate = useNavigate();
   const [isLoginView, setIsLoginView] = useState(true);
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: ''
+    email: "",
+    password: "",
+    confirmPassword: "",
+    fullName: "",
   });
-  const [rememberMe, setRememberMe] = useState(false); 
-  const [confirmationMessage, setConfirmationMessage] = useState('');
-  const [error, setError] = useState('');
-  const [googleError, setGoogleError] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [error, setError] = useState("");
+  const [googleError, setGoogleError] = useState("");
 
   useEffect(() => {
     const errorTimeout = setTimeout(() => {
-      if (error) setError('');
-      if (googleError) setGoogleError('');
+      if (error) setError("");
+      if (googleError) setGoogleError("");
     }, 5000);
-    
+
     const confirmationTimeout = setTimeout(() => {
-      if (confirmationMessage) setConfirmationMessage('');
+      if (confirmationMessage) setConfirmationMessage("");
     }, 5000);
 
     return () => {
@@ -37,50 +42,60 @@ function LoginPage() {
 
   const resetForm = () => {
     setCredentials({
-      email: '',
-      password: '',
-      confirmPassword: '',
-      fullName: ''
+      email: "",
+      password: "",
+      confirmPassword: "",
+      fullName: "",
     });
   };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') { 
+    if (type === "checkbox") {
       setRememberMe(checked);
     } else {
       setCredentials({
         ...credentials,
-        [name]: value
+        [name]: value,
       });
     }
   };
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(Auth, credentials.email, credentials.password);
-      navigate('/home');
+      await signInWithEmailAndPassword(
+        Auth,
+        credentials.email,
+        credentials.password
+      );
+      navigate("/admin");
     } catch (error) {
-      setError('Identifiant ou mot de passe incorrect, veuillez réessayer.');
+      setError("Identifiant ou mot de passe incorrect, veuillez réessayer.");
     }
   };
 
   const handleSignUp = async () => {
     if (credentials.password !== credentials.confirmPassword) {
-      setError('Les mots de passe ne correspondent pas.');
+      setError("Les mots de passe ne correspondent pas.");
       return;
     }
     try {
-      await createUserWithEmailAndPassword(Auth, credentials.email, credentials.password);
-      setConfirmationMessage('Inscription réussie. Vous pouvez maintenant vous connecter.');
-      setError('');
+      await createUserWithEmailAndPassword(
+        Auth,
+        credentials.email,
+        credentials.password
+      );
+      setConfirmationMessage(
+        "Inscription réussie. Vous pouvez maintenant vous connecter."
+      );
+      setError("");
       setTimeout(() => {
-        setConfirmationMessage('');
+        setConfirmationMessage("");
         setIsLoginView(true);
         resetForm();
       }, 5000);
     } catch (error) {
-      setError('Informations incorrectes. Vérifiez et réessayez.');
+      setError("Informations incorrectes. Vérifiez et réessayez.");
     }
   };
 
@@ -88,9 +103,9 @@ function LoginPage() {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(Auth, provider);
-      navigate('/home');
+      navigate("/home");
     } catch (error) {
-      setGoogleError('Erreur de connexion avec Google. Veuillez réessayer.');
+      setGoogleError("Erreur de connexion avec Google. Veuillez réessayer.");
     }
   };
 
@@ -129,14 +144,18 @@ function LoginPage() {
             <button onClick={handleLogin}>Se connecter</button>
           </div>
           <p>
-            Vous n'avez pas de compte ? <span onClick={() => setIsLoginView(false)}>S'inscrire</span>
+            Vous n'avez pas de compte ?{" "}
+            <span onClick={() => setIsLoginView(false)}>S'inscrire</span>
           </p>
           <div className="google-signup" onClick={handleGoogleSignIn}>
             <img src={googleIcon} alt="Google Icon" className="google-icon" />
             Se connecter avec Google
           </div>
-          <br /><br />
-          <p className="app-description">Trouvez le lieu de repos des défunts <br /> avec Catch my Tomb.</p>
+          <br />
+          <br />
+          <p className="app-description">
+            Trouvez le lieu de repos des défunts <br /> avec Catch my Tomb.
+          </p>
         </div>
       ) : (
         <div className="signup-form">
@@ -178,9 +197,12 @@ function LoginPage() {
             <button onClick={handleSignUp}>S'inscrire</button>
           </div>
           <p>
-            Vous avez déjà un compte ? <span onClick={() => setIsLoginView(true)}>Se connecter</span>
+            Vous avez déjà un compte ?{" "}
+            <span onClick={() => setIsLoginView(true)}>Se connecter</span>
           </p>
-          {confirmationMessage && <p className="success-message">{confirmationMessage}</p>}
+          {confirmationMessage && (
+            <p className="success-message">{confirmationMessage}</p>
+          )}
         </div>
       )}
       {googleError && <p className="error-message">{googleError}</p>}
