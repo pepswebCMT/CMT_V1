@@ -7,10 +7,10 @@ import './styles/LoginPage.css';
 function LoginPage() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: ''
+    email: "",
+    password: "",
+    confirmPassword: "",
+    fullName: "",
   });
   const [rememberMe, setRememberMe] = useState(false); 
   const [confirmationMessage, setConfirmationMessage] = useState('');
@@ -21,35 +21,40 @@ function LoginPage() {
     const errorTimeout = setTimeout(() => {
       if (error) setError('');
     }, 5000);
-    
+
     const confirmationTimeout = setTimeout(() => {
-      if (confirmationMessage) setConfirmationMessage('');
+      if (confirmationMessage) setConfirmationMessage("");
     }, 5000);
 
     return () => {
       clearTimeout(errorTimeout);
       clearTimeout(confirmationTimeout);
     };
+
   }, [error, confirmationMessage]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') { 
+    if (type === "checkbox") {
       setRememberMe(checked);
     } else {
       setCredentials({
         ...credentials,
-        [name]: value
+        [name]: value,
       });
     }
   };
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(Auth, credentials.email, credentials.password);
-      navigate('/home');
+      await signInWithEmailAndPassword(
+        Auth,
+        credentials.email,
+        credentials.password
+      );
+      navigate("/admin");
     } catch (error) {
-      setError('Identifiant ou mot de passe incorrect, veuillez réessayer.');
+      setError("Identifiant ou mot de passe incorrect, veuillez réessayer.");
     }
   };
 

@@ -1,24 +1,40 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { FR, GB } from "country-flag-icons/react/3x2";
+import { useState } from "react";
+import Modal from "./Modal";
+import ModalLang from "./ModalLang";
+import { CircleFlag } from "react-circle-flags";
+import i18n from "../i18n";
 
 const LangManager = () => {
-  const { i18n } = useTranslation();
+  const [isLangModalOpen, setIsLangModalOpen] = useState(false);
 
-  const handleLanguageChange = (e) => {
-    const newLang = e.target.value;
-    i18n.changeLanguage(newLang);
+  const closeModal = () => {
+    setIsLangModalOpen(false);
+  };
+
+  const selectCountry = () => {
+    switch (i18n.language) {
+      case "en":
+        return "uk";
+
+      default:
+        return i18n.language;
+    }
   };
 
   return (
-    <select
-      value={i18n.language}
-      onChange={handleLanguageChange}
-      className="w-100 text-black"
-    >
-      <option value="en">English</option>
-      <option value="fr">Français</option>
-    </select>
+    <>
+      <div
+        className="p-1 w-12 bg-white rounded-full"
+        onClick={() => {
+          setIsLangModalOpen(true);
+        }}
+      >
+        <CircleFlag countryCode={selectCountry()} className="w-full" />
+      </div>
+      <Modal isOpen={isLangModalOpen} onClose={closeModal}>
+        <ModalLang closeModal={closeModal} />
+      </Modal>
+    </>
   );
 };
 

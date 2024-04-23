@@ -22,6 +22,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
   const { t } = useTranslation();
 
   const handleUserIconClick = () => {
@@ -71,14 +72,15 @@ const HomePage = () => {
   };
 
   return (
-    <main className="homepage">
+    <main className="w-full">
       <Navbar onUserIconClick={handleUserIconClick} />
       <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
         <UserProfile user={currentUser} />
       </Modal>
-      <div className="featured-section">
+
+      <div className="featured-section p-5">
         <div className="w-full font-bold text-2xl p-6 text-center">
-          <h1>{t("home_h1")}</h1>
+          <h2>{t("home_h1")}</h2>
         </div>
         <br />
         <IconBar onCategoryChange={handleCategoryChange} />
