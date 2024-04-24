@@ -9,7 +9,7 @@ const IconBar = ({ onCategoryChange }) => {
 
   return (
     <div className="icon-bar">
-      <div onClick={() => handleIconClick('Litterature')}>📚</div>
+      <div onClick={() => handleIconClick('Litteraire')}>📚</div>
       <div onClick={() => handleIconClick('Sport')}>🏀</div>
       <div onClick={() => handleIconClick('Lesplusconnus')}>🌟</div>
       <div onClick={() => handleIconClick('HommesHistoire')}>🎩</div>
