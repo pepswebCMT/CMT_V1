@@ -14,6 +14,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import Modal from "../components/Modal";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import AdBox from "../components/AdBox";
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
@@ -72,7 +73,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className="w-full">
+    <main className="w-full pb-32">
       <Navbar onUserIconClick={handleUserIconClick} />
       <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
         <UserProfile user={currentUser} />
@@ -127,6 +128,9 @@ const HomePage = () => {
           <FaMapMarkedAlt className="icon" />
         </button>
       </div>
+      <section className="w-full p-4">
+        <AdBox />
+      </section>
       <Footer />
     </main>
   );

@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { Auth } from '../firebase-config';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState, useEffect } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Auth } from "../firebase-config";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = ({ user }) => {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: ''
+    email: "",
+    password: "",
+    confirmPassword: "",
+    fullName: "",
   });
-  const [rememberMe, setRememberMe] = useState(false); 
-  const [confirmationMessage, setConfirmationMessage] = useState('');
-  const [error, setError] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [error, setError] = useState("");
 
-    useEffect(() => {
+  useEffect(() => {
     const errorTimeout = setTimeout(() => {
-      if (error) setError('');
+      if (error) setError("");
     }, 5000);
-    
+
     const confirmationTimeout = setTimeout(() => {
-      if (confirmationMessage) setConfirmationMessage('');
+      if (confirmationMessage) setConfirmationMessage("");
     }, 5000);
 
     return () => {
@@ -31,66 +30,75 @@ const UserProfile = ({ user }) => {
     };
   }, [error, confirmationMessage]);
 
-    const handleInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') { 
+    if (type === "checkbox") {
       setRememberMe(checked);
     } else {
       setCredentials({
         ...credentials,
-        [name]: value
+        [name]: value,
       });
     }
   };
 
-    const handleLogin = async () => {
+  const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(Auth, credentials.email, credentials.password);
-      navigate('/admin');
+      await signInWithEmailAndPassword(
+        Auth,
+        credentials.email,
+        credentials.password
+      );
+      navigate("/admin");
     } catch (error) {
-      setError('Identifiant ou mot de passe incorrect, veuillez réessayer.');
+      setError("Identifiant ou mot de passe incorrect, veuillez réessayer.");
     }
   };
 
-
-
   return (
-    <div className="auth-container">
-        <div className="login-form">
-          <h2>Connexion</h2>
-          <input
-            name="email"
-            type="email"
-            value={credentials.email}
-            onChange={handleInputChange}
-            placeholder="Adresse e-mail"
-            required
-          />
-          <input
-            name="password"
-            type="password"
-            value={credentials.password}
-            onChange={handleInputChange}
-            placeholder="Mot de passe"
-            required
-          />
-          {error && <p className="error-message">{error}</p>}
-          <div className="remember-me-container">
-            <input
-              name="rememberMe"
-              type="checkbox"
-              checked={rememberMe}
-              onChange={handleInputChange}
-            />
-            <label htmlFor="rememberMe">Se souvenir de moi</label>
-          </div>
-          <div className="button-container">
-            <button onClick={handleLogin}>Se connecter</button>
-          </div>
-          <br /><br />
-        </div>
+    <div className="w-full text-gray-600 bg-white p-6 rounded-xl flex flex-col justify-evenly items-center">
+      <p className="w-full text-2xl font-bold text-center">Connexion</p>
+      <input
+        className="w-full m-2 p-2 text-xl text-black border-2 border-slate-500 rounded-md"
+        name="email"
+        type="email"
+        value={credentials.email}
+        onChange={handleInputChange}
+        placeholder="Adresse e-mail"
+        required
+      />
+      <input
+        className="w-full m-2 p-2 text-xl text-black border-2 border-slate-500 rounded-md"
+        name="password"
+        type="password"
+        value={credentials.password}
+        onChange={handleInputChange}
+        placeholder="Mot de passe"
+        required
+      />
+      {error && <p className="error-message">{error}</p>}
+      <div className="w-full text-lg font-bold p-2 flex items-center">
+        <input
+          className="m-2 w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          name="rememberMe"
+          type="checkbox"
+          checked={rememberMe}
+          onChange={handleInputChange}
+        />
+        <label className="" htmlFor="rememberMe">
+          Se souvenir de moi
+        </label>
+      </div>
+      <div className="w-full p-2 flex justify-center items-center">
+        <button
+          className="w-2/4 p-4 bg-blue-500 text-white rounded-xl"
+          onClick={handleLogin}
+        >
+          Se connecter
+        </button>
+      </div>
     </div>
   );
-}
+};
 
 export default UserProfile;

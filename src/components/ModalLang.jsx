@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { CircleFlag } from "react-circle-flags";
+import { motion } from "framer-motion";
 
 const ModalLang = ({ closeModal }) => {
   const { i18n } = useTranslation();
-  const languages = ["en", "fr"];
+  const languages = ["en", "fr", "en", "fr"];
 
   const handleLanguageChange = (e) => {
     const newLang = e.target.title;
@@ -11,31 +12,30 @@ const ModalLang = ({ closeModal }) => {
     closeModal();
   };
 
+  const selectCountry = (lang) => {
+    if (lang === "en") {
+      return "uk";
+    } else {
+      return lang;
+    }
+  };
+
   return (
-    <section className="grid grid-cols-3 gap-6">
+    <section className="grid grid-cols-3 gap-6 p-6 bg-white rounded-xl">
       {languages &&
         languages.map((lang) => {
-          if (lang === "en") {
-            return (
-              <div
-                className="w-full"
-                key={lang}
-                value="en"
-                onClick={handleLanguageChange}
-              >
-                <CircleFlag countryCode="uk" className="w-full" />
-              </div>
-            );
-          }
           return (
-            <div
-              className="w-full"
+            <motion.div
+              className="w-full p-1 bg-orange-400 rounded-full"
               key={lang}
               value={lang}
               onClick={handleLanguageChange}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
             >
-              <CircleFlag countryCode={lang} className="w-full" />
-            </div>
+              <CircleFlag countryCode={selectCountry(lang)} className="w-16" />
+            </motion.div>
           );
         })}
     </section>

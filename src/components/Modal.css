@@ -11,10 +11,6 @@
   z-index: 1000;
 }
 
-
-
-
-
 .user-profile h2 {
   margin-top: 0;
   color: #333;
@@ -26,12 +22,9 @@
   margin: 5px 0 20px;
 }
 
-
-
 .user-profile button:hover {
   background: #e22a1f;
 }
-
 
 .logout-button:hover {
   background: #333;
@@ -40,4 +33,3 @@
 .logout-button .icon {
   font-size: 1.2rem;
 }
-
