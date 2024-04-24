@@ -1,11 +1,10 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
-// import "./Navbar.css";
 import LangManager from "./LangManager";
-import { useTranslation } from "react-i18next";
+//import { useTranslation } from "react-i18next";
 
 const Navbar = ({ onUserIconClick }) => {
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
 
   return (
     <nav className="w-full z-50 bg-orange-400 fixed top-0 flex justify-between items-center gap-2 p-3">

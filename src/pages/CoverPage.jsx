@@ -1,46 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/coverPage.css';
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const navigate = useNavigate();
-  let deferredPrompt;
+  const deferredPrompt = useRef(null);
+
+  const showInstallButton = useCallback(() => {
+    const installButton = document.querySelector('.install-button');
+    if (installButton) {
+      installButton.style.display = 'block';
+      installButton.addEventListener('click', handleInstall);
+    }
+  }, []);
 
   useEffect(() => {
     const mediaQueryList = window.matchMedia('(display-mode: standalone)');
     if (mediaQueryList.matches) {
       setIsAppInstalled(true);
     } else {
-      setIsAppInstalled(false);
-      
       window.addEventListener('beforeinstallprompt', (event) => {
         event.preventDefault();
-        deferredPrompt = event;
+        deferredPrompt.current = event;
         showInstallButton();
       });
-    }
-  }, []);
 
-  const showInstallButton = () => {
-    const installButton = document.querySelector('.install-button');
-    if (installButton) {
-      installButton.style.display = 'block';
-      installButton.addEventListener('click', handleInstall);
+      return () => {
+        window.removeEventListener('beforeinstallprompt', (event) => {
+          deferredPrompt.current = null;
+        });
+      };
     }
-  };
+  }, [showInstallButton]); 
 
   const handleInstall = () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
+    if (deferredPrompt.current) {
+      deferredPrompt.current.prompt();
+      deferredPrompt.current.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
           console.log('L\'application a été installée');
           setIsAppInstalled(true);
         } else {
           console.log('L\'utilisateur a annulé l\'installation');
         }
-        deferredPrompt = null;
+        deferredPrompt.current = null;
       });
     }
   };

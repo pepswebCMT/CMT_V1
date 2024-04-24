@@ -86,6 +86,7 @@ const HomePage = () => {
         <br />
         <IconBar onCategoryChange={handleCategoryChange} />
         <div className="section-header">
+          
           <h3>{selectedCategory}</h3>
           <Link to={`/category/${selectedCategory}`} className="see-all-link">
             {t("home_see_all")}{" "}

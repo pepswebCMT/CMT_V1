@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs, updateDoc, doc, deleteDoc, addDoc, setDoc } from 'firebase/firestore';
-import { db, storage } from '../firebase-config';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { collection, getDocs, doc, deleteDoc, addDoc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase-config';
 import { FaCheck, FaTimes, FaEdit } from 'react-icons/fa';
 import './styles/admin.css';
 
@@ -21,11 +20,14 @@ const AdminPage = () => {
     fetchSubmissions();
   }, []);
 
-  const approveSubmission = async (submission) => {
-    const newDocRef = await addDoc(collection(db, "NewTombs"), submission);
+const approveSubmission = async (submission) => {
+    await addDoc(collection(db, "NewTombs"), submission);
     await deleteDoc(doc(db, "PendingTombs", submission.id));
     setSubmissions(submissions.filter(s => s.id !== submission.id));
-  };
+};
+
+
+  
 
   const rejectSubmission = async (id) => {
     await deleteDoc(doc(db, "PendingTombs", id));
@@ -46,7 +48,7 @@ const AdminPage = () => {
     setEditSubmission(null);
   };
 
-  const handleEditImageChange = async (e) => {
+ /* const handleEditImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -54,7 +56,7 @@ const AdminPage = () => {
     const uploadTask = await uploadBytes(storageRef, file);
     const imageUrl = await getDownloadURL(uploadTask.ref);
     setEditSubmission({ ...editSubmission, imageUrl: imageUrl });
-  };
+  };*/
 
   return (
     <div>
@@ -63,7 +65,7 @@ const AdminPage = () => {
           <div key={submission.id} className="submission">
             <h2>{submission.title}</h2>
                   {submission.imageUrl && (
-        <img src={submission.imageUrl} alt="Submission Image" className="submission-image" />
+        <img src={submission.imageUrl} alt="" className="submission-image" />
       )}
             <p>{submission.cemetery}</p>
             {editSubmission && editSubmission.id === submission.id ? (
