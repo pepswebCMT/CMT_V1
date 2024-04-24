@@ -79,7 +79,7 @@ const HomePage = () => {
         <UserProfile user={currentUser} />
       </Modal>
 
-      <div className="featured-section p-5">
+      <section className="overflow-hidden p-5">
         <div className="w-full font-bold text-2xl p-6 text-center">
           <h2>{t("home_h1")}</h2>
         </div>
@@ -116,7 +116,7 @@ const HomePage = () => {
             </Link>
           ))}
         </div>
-      </div>
+      </section>
       <div className="icon-container">
         <button
           className="icon-button camera-button"
