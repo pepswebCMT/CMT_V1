@@ -73,20 +73,18 @@ const HomePage = () => {
   };
 
   return (
-    <main className="w-full pb-32">
+    <main className="w-full pt-20 pb-20">
       <Navbar onUserIconClick={handleUserIconClick} />
       <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
         <UserProfile user={currentUser} />
       </Modal>
 
-      <section className="overflow-hidden p-5">
+      <section className="w-full overflow-hidden flex flex-col gap-3 items-center p-5">
         <div className="w-full font-bold text-2xl p-6 text-center">
           <h2>{t("home_h1")}</h2>
         </div>
-        <br />
         <IconBar onCategoryChange={handleCategoryChange} />
-        <div className="section-header">
-          
+        <div className="w-full p-4 flex justify-between items-center font-bold">
           <h3>{selectedCategory}</h3>
           <Link to={`/category/${selectedCategory}`} className="see-all-link">
             {t("home_see_all")}{" "}

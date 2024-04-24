@@ -1,7 +1,8 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import LangManager from "./LangManager";
-//import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
+import CMT from "../assets/img/svg/CMT-logo-text.svg";
 
 const Navbar = ({ onUserIconClick }) => {
   //const { t } = useTranslation();
@@ -11,7 +12,10 @@ const Navbar = ({ onUserIconClick }) => {
       <div className="w-1/5 flex justify-center items-center">
         <LangManager />
       </div>
-      <h1 className="text-2xl font-bold">Catch My Tomb</h1>
+      {/* <h1 className="text-2xl font-bold">Catch My Tomb</h1> */}
+      <div className="w-2/4 p-2">
+        <img src={CMT} alt="Catch my Tomb" className="w-full" />
+      </div>
       <FaUserCircle
         className="w-1/5 text-5xl text-white"
         onClick={onUserIconClick}

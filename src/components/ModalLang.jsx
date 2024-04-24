@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const ModalLang = ({ closeModal }) => {
   const { i18n } = useTranslation();
-  const languages = ["en", "fr", "en", "fr"];
+  const languages = ["en", "fr"];
 
   const handleLanguageChange = (e) => {
     const newLang = e.target.title;
