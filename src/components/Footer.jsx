@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+//import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import "./Footer.css";
 import { useTranslation } from "react-i18next";
 
