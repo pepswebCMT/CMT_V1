@@ -1,7 +1,7 @@
 .icon-bar {
   display: flex;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; 
+  -webkit-overflow-scrolling: touch;
   justify-content: space-around;
   align-items: center;
   padding: 10px;
@@ -21,7 +21,7 @@
 
 @media screen and (max-width: 480px) {
   .icon-bar div {
-    font-size: 1.5rem; 
+    font-size: 1.5rem;
     margin: 0 8px;
   }
 }
