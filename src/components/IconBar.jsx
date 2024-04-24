@@ -6,11 +6,6 @@ const IconBar = ({ onCategoryChange }) => {
     onCategoryChange(category);
   };
 
-  const variants = {
-    base: { opacity: 0.5 },
-    hovered: { scale: 1.2, transition: { duration: 0.2 } },
-  };
-
   return (
     <div className="w-full max-w-96 shadow-xl text-2xl p-2 flex justify-between items-center rounded-lg">
       <div
