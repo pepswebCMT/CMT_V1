@@ -13,8 +13,7 @@ const Navbar = ({ onUserIconClick }) => {
       <div className="w-1/5 flex justify-center items-center">
         <LangManager />
       </div>
-      {/* <h1 className="text-2xl font-bold">Catch My Tomb</h1> */}
-      <div className="w-2/4 p-2">
+      <div className="w-2/4 max-w-44 p-2">
         <img src={CMT} alt="Catch my Tomb" className="w-full" />
       </div>
       <FaUserCircle
