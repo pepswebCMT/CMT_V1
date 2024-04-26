@@ -1,5 +1,5 @@
 .photo-page {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: #333;
 }
 
@@ -24,7 +24,7 @@
 
 .photo-button {
   cursor: pointer;
-  background-color: orange;
+  background-color: #ffa500;
   color: white;
   border: none;
   border-radius: 20px;
@@ -53,7 +53,9 @@
   align-items: center;
 }
 
-.photo-content input[type="text"], .photo-button, .submit-button {
+.photo-content input[type="text"],
+.photo-button,
+.submit-button {
   width: 90%;
   max-width: 400px;
   margin: 10px 0;
@@ -92,23 +94,27 @@
 }
 
 @media (min-width: 768px) {
-  .photo-content, .cap-ph {
-    width: 80%; 
-    max-width: 600px; 
-    margin: 0 auto; 
+  .photo-content,
+  .cap-ph {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
-  .photo-content h1, .take-ph {
+  .photo-content h1,
+  .take-ph {
     font-size: 1.2em;
   }
 
-  .photo-button, .photo-content input[type="text"], .submit-button {
-    width: 80%; 
+  .photo-button,
+  .photo-content input[type="text"],
+  .submit-button {
+    width: 80%;
   }
 
   .submit-button {
     font-size: 28px;
-    width: 56px; 
+    width: 56px;
     height: 56px;
   }
 }

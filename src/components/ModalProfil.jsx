@@ -91,7 +91,7 @@ const UserProfile = ({ user }) => {
       </div>
       <div className="w-full p-2 flex justify-center items-center">
         <button
-          className="w-2/4 p-4 bg-blue-500 text-white rounded-xl"
+          className="w-3/4 p-4 bg-blue-500 text-xl text-white rounded-xl"
           onClick={handleLogin}
         >
           Se connecter
