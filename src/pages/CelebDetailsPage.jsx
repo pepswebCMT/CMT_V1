@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
-// import "./styles/CelDetailPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/Navbar";
@@ -65,15 +64,12 @@ const CelebrityDetailPage = () => {
     }
   };
 
-  console.log(celebrity);
-  console.log(categoryName);
-
   return (
-    <div className="w-full pt-28">
+    <section className="w-full flex justify-center pt-28">
       <Navbar />
       <Modal></Modal>
-      <section className="w-full p-5 flex flex-col justify-between items-center">
-        <div className="w-full p-2 flex justify-between items-center text-4xl text-orange-400">
+      <div className="w-full max-w-96 p-2 flex flex-col justify-between items-center">
+        <div className="w-full p-2 flex justify-between items-center text-3xl text-orange-400">
           <Link to="#" onClick={() => navigate(-1)} className="">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>
@@ -131,8 +127,8 @@ const CelebrityDetailPage = () => {
             </>
           )}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
