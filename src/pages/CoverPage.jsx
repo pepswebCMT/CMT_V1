@@ -71,7 +71,7 @@ const CoverPage = () => {
         </button>
         {!isAppInstalled && (
           <button
-            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-orange-400 text-white rounded-xl"
+            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin text-white rounded-xl"
             style={{ display: "none" }}
           >
             Install App

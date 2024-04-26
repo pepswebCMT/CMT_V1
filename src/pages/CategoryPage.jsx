@@ -34,7 +34,7 @@ const CategoryPage = () => {
       <Navbar />
       <Modal />
       <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
-        <div className="w-full flex justify-between items-center text-3xl text-orange-400">
+        <div className="w-full flex justify-between items-center text-3xl text-mandarin">
           <Link to="/home">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>

@@ -69,7 +69,7 @@ const CelebrityDetailPage = () => {
       <Navbar />
       <Modal></Modal>
       <div className="w-full max-w-96 p-2 flex flex-col justify-between items-center">
-        <div className="w-full p-2 flex justify-between items-center text-3xl text-orange-400">
+        <div className="w-full p-2 flex justify-between items-center text-3xl text-mandarin">
           <Link to="#" onClick={() => navigate(-1)} className="">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>
