@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './styles/coverPage.css';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import "./styles/coverPage.css";
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
@@ -8,41 +8,41 @@ const CoverPage = () => {
   const deferredPrompt = useRef(null);
 
   const showInstallButton = useCallback(() => {
-    const installButton = document.querySelector('.install-button');
+    const installButton = document.querySelector(".install-button");
     if (installButton) {
-      installButton.style.display = 'block';
-      installButton.addEventListener('click', handleInstall);
+      installButton.style.display = "block";
+      installButton.addEventListener("click", handleInstall);
     }
   }, []);
 
   useEffect(() => {
-    const mediaQueryList = window.matchMedia('(display-mode: standalone)');
+    const mediaQueryList = window.matchMedia("(display-mode: standalone)");
     if (mediaQueryList.matches) {
       setIsAppInstalled(true);
     } else {
-      window.addEventListener('beforeinstallprompt', (event) => {
+      window.addEventListener("beforeinstallprompt", (event) => {
         event.preventDefault();
         deferredPrompt.current = event;
         showInstallButton();
       });
 
       return () => {
-        window.removeEventListener('beforeinstallprompt', (event) => {
+        window.removeEventListener("beforeinstallprompt", (event) => {
           deferredPrompt.current = null;
         });
       };
     }
-  }, [showInstallButton]); 
+  }, [showInstallButton]);
 
   const handleInstall = () => {
     if (deferredPrompt.current) {
       deferredPrompt.current.prompt();
       deferredPrompt.current.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('L\'application a été installée');
+        if (choiceResult.outcome === "accepted") {
+          console.log("L'application a été installée");
           setIsAppInstalled(true);
         } else {
-          console.log('L\'utilisateur a annulé l\'installation');
+          console.log("L'utilisateur a annulé l'installation");
         }
         deferredPrompt.current = null;
       });
@@ -50,17 +50,20 @@ const CoverPage = () => {
   };
 
   const navigateToStart = () => {
-    navigate('/');
-  }
+    navigate("/home");
+  };
 
   return (
     <div className="cover-page">
-      <h1>Welcome to CatchMyTomb, the app that lets you find the resting place of your favourite celebrities!!!</h1>
+      <h1>
+        Welcome to CatchMyTomb, the app that lets you find the resting place of
+        your favourite celebrities!!!
+      </h1>
       <button className="get-started-button" onClick={navigateToStart}>
         Get start
       </button>
       {!isAppInstalled && (
-        <button className="install-button" style={{ display: 'none' }}>
+        <button className="install-button" style={{ display: "none" }}>
           Install App
         </button>
       )}
