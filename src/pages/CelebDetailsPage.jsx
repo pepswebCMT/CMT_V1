@@ -72,13 +72,6 @@ const CelebrityDetailPage = () => {
     <div className="w-full pt-28">
       <Navbar />
       <Modal></Modal>
-
-      {/* <div className="category-header">
-        <h1 className="celebrity-name-dt">{celebrity.title}</h1>
-        <Link to="#" onClick={() => navigate(-1)} className="back-button">
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </Link>
-      </div> */}
       <section className="w-full p-5 flex flex-col justify-between items-center">
         <div className="w-full p-2 flex justify-between items-center text-4xl text-orange-400">
           <Link to="#" onClick={() => navigate(-1)} className="">

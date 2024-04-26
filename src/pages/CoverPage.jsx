@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-// import "./styles/coverPage.css";
+import Navbar from "../components/Navbar";
+import Modal from "../components/Modal";
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
@@ -54,20 +55,30 @@ const CoverPage = () => {
   };
 
   return (
-    <div className="cover-page">
-      <h1>
-        Welcome to CatchMyTomb, the app that lets you find the resting place of
-        your favourite celebrities!!!
-      </h1>
-      <button className="get-started-button" onClick={navigateToStart}>
-        Get start
-      </button>
-      {!isAppInstalled && (
-        <button className="install-button" style={{ display: "none" }}>
-          Install App
+    <section className="w-full pt-28">
+      <Navbar />
+      <Modal />
+      <div className="w-full h-96 p-5 flex flex-col justify-around items-center">
+        <h1 className="w-full font-bold text-2xl text-justify">
+          Welcome to CatchMyTomb, the app that lets you find the resting place
+          of your favourite celebrities!
+        </h1>
+        <button
+          className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl"
+          onClick={navigateToStart}
+        >
+          Start browsing
         </button>
-      )}
-    </div>
+        {!isAppInstalled && (
+          <button
+            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-orange-400 text-white rounded-xl"
+            style={{ display: "none" }}
+          >
+            Install App
+          </button>
+        )}
+      </div>
+    </section>
   );
 };
 
