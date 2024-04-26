@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import "./styles/coverPage.css";
+// import "./styles/coverPage.css";
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
