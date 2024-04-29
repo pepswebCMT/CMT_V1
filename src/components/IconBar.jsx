@@ -1,5 +1,5 @@
 import React from "react";
-import "./IconeBar.css";
+// import "./IconeBar.css";
 
 const IconBar = ({ onCategoryChange }) => {
   const handleIconClick = (category) => {
