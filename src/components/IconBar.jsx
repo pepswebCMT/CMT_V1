@@ -10,7 +10,7 @@ const IconBar = ({ onCategoryChange }) => {
     <div className="w-full max-w-96 shadow-xl text-2xl p-2 flex justify-between items-center rounded-lg">
       <div
         className="grayscale hover:grayscale-0 hover:scale-125"
-        onClick={() => handleIconClick("Sport")}
+        onClick={() => handleIconClick("Litteraire")}
       >
         📚
       </div>
