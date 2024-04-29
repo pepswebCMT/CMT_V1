@@ -1,50 +1,49 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './styles/coverPage.css';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Modal from "../components/Modal";
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const navigate = useNavigate();
   const deferredPrompt = useRef(null);
 
-  useEffect(() => {
-    const mediaQueryList = window.matchMedia('(display-mode: standalone)');
-    const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault();
-      console.log('beforeinstallprompt event was fired.');
-      deferredPrompt.current = event;
-      if (!isAppInstalled) {
-        showInstallButton();
-      }
-    };
+  const showInstallButton = useCallback(() => {
+    const installButton = document.querySelector(".install-button");
+    if (installButton) {
+      installButton.style.display = "block";
+      installButton.addEventListener("click", handleInstall);
+    }
+  }, []);
 
+  useEffect(() => {
+    const mediaQueryList = window.matchMedia("(display-mode: standalone)");
     if (mediaQueryList.matches) {
       setIsAppInstalled(true);
     } else {
-      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        deferredPrompt.current = event;
+        showInstallButton();
+      });
 
       return () => {
-        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.removeEventListener("beforeinstallprompt", (event) => {
+          deferredPrompt.current = null;
+        });
       };
     }
-  }, [isAppInstalled]);
+  }, [showInstallButton]);
 
-  const showInstallButton = () => {
-    const installButton = document.querySelector('.install-button');
-    if (installButton) {
-      installButton.style.display = 'block';
-    }
-  };
-
-  const handleInstallClick = () => {
+  const handleInstall = () => {
     if (deferredPrompt.current) {
       deferredPrompt.current.prompt();
       deferredPrompt.current.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
+        if (choiceResult.outcome === "accepted") {
+          console.log("L'application a été installée");
           setIsAppInstalled(true);
         } else {
-          console.log('User dismissed the A2HS prompt');
+          console.log("L'utilisateur a annulé l'installation");
         }
         deferredPrompt.current = null;
       });
@@ -52,21 +51,34 @@ const CoverPage = () => {
   };
 
   const navigateToStart = () => {
-    navigate('/');
+    navigate("/home");
   };
 
   return (
-    <div className="cover-page">
-      <h1>Welcome to Catch My Tomb</h1>
-      <button className="get-started-button" onClick={navigateToStart}>
-        Get Started
-      </button>
-      {!isAppInstalled && (
-        <button className="install-button" onClick={handleInstallClick} style={{ display: 'none' }}>
-          Install App
+    <section className="w-full pt-28">
+      <Navbar />
+      <Modal />
+      <div className="w-full h-96 p-5 flex flex-col justify-around items-center">
+        <h1 className="w-full font-bold text-2xl text-justify">
+          Welcome to CatchMyTomb, the app that lets you find the resting place
+          of your favourite celebrities!
+        </h1>
+        <button
+          className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl"
+          onClick={navigateToStart}
+        >
+          Start browsing
         </button>
-      )}
-    </div>
+        {!isAppInstalled && (
+          <button
+            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin text-white rounded-xl"
+            style={{ display: "none" }}
+          >
+            Install App
+          </button>
+        )}
+      </div>
+    </section>
   );
 };
 

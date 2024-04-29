@@ -26,7 +26,7 @@ const ModalLang = ({ closeModal }) => {
         languages.map((lang) => {
           return (
             <motion.div
-              className="w-full p-1 bg-orange-400 rounded-full"
+              className="w-full p-1 bg-mandarin rounded-full"
               key={lang}
               value={lang}
               onClick={handleLanguageChange}

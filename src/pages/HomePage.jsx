@@ -80,7 +80,7 @@ const HomePage = () => {
       </Modal>
 
       <section className="w-full overflow-hidden flex flex-col gap-3 items-center p-5">
-        <div className="w-full font-bold text-2xl p-6 text-center">
+        <div className="w-full max-w-96 font-bold text-2xl p-2 text-center">
           <h2>{t("home_h1")}</h2>
         </div>
         <IconBar onCategoryChange={handleCategoryChange} />

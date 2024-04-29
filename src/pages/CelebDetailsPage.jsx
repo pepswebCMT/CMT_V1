@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
-import "./styles/CelDetailPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import Navbar from "../components/Navbar";
+import Modal from "../components/Modal";
 
 const CelebrityDetailPage = () => {
   const [celebrity, setCelebrity] = useState(null);
@@ -63,59 +64,71 @@ const CelebrityDetailPage = () => {
     }
   };
 
-  console.log(celebrity);
-
   return (
-    <div className="celebrity-detail-page">
-      <div className="category-header">
-        <h1 className="celebrity-name-dt">{celebrity.title}</h1>
-        <Link to="#" onClick={() => navigate(-1)} className="back-button">
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </Link>
-      </div>
-      <div className="celebrity-header">
+    <section className="w-full flex justify-center pt-28">
+      <Navbar />
+      <Modal></Modal>
+      <div className="w-full max-w-96 p-2 flex flex-col justify-between items-center">
+        <div className="w-full p-2 flex justify-between items-center text-3xl text-mandarin">
+          <Link to="#" onClick={() => navigate(-1)} className="">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </Link>
+          <h2 className="text-3xl">{categoryName}</h2>
+        </div>
+        <h1 className="w-full p-2 text-center text-2xl font-bold">
+          {celebrity.title}
+        </h1>
         <img
           src={celebrity.imageUrl}
           alt={celebrity.title}
-          className="celebrity-image"
+          className="w-full p-2 max-w-80 rounded-3xl"
         />
-        <h1 className="celebrity-title">{celebrity.title}</h1>
-        <span className="celebrity-country">
-          ({celebrity.country}, {celebrity.city})
+        <h3 className="w-full p-2 text-xl font-bold text-center">
+          {celebrity.cemetery}
+        </h3>
+        <span className="location-icon">
+          <FontAwesomeIcon
+            icon={faMapMarkerAlt}
+            style={{ fontSize: "40px", color: "red" }}
+          />{" "}
         </span>
-      </div>
-      <br />
-      <div className="celebrity-content">
-        <div className="celebrity-location">
-          <span className="location-icon">
-            <FontAwesomeIcon
-              icon={faMapMarkerAlt}
-              style={{ fontSize: "40px", color: "red" }}
-            />{" "}
-          </span>
-        </div>
-        <button onClick={navigateToMap} className="celebrity-visit-link">
-          Visitez le lieu
+        <p className="w-full p-2 text-lg text-center">
+          à {celebrity.city} en {celebrity.country}.
+        </p>
+        <button
+          onClick={navigateToMap}
+          className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl"
+        >
+          Visiter le lieu.
         </button>
-        <p className="celebrity-description">
+
+        <div className="w-full max-w-96 text-xl text-justify p-2 flex flex-col items-center justify-between">
           {showFullDescription || celebrity.description.length <= maxChar ? (
             celebrity.description
           ) : (
             <>
-              {`${celebrity.description.substring(0, maxChar)}... `}
-              <span className="more-text" onClick={toggleDescription}>
-                voir plus
-              </span>
+              <p>{`${celebrity.description.substring(0, maxChar)} ... `}</p>
+              <button
+                className="w-full p-2 text-blue-400 font-bold"
+                onClick={toggleDescription}
+              >
+                Voir plus.
+              </button>
             </>
           )}
           {showFullDescription && (
-            <span className="more-text" onClick={toggleDescription}>
-              ...voir moins
-            </span>
+            <>
+              <button
+                className="w-full p-2 text-blue-400 font-bold"
+                onClick={toggleDescription}
+              >
+                Voir moins.
+              </button>
+            </>
           )}
-        </p>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
