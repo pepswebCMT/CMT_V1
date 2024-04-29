@@ -22,7 +22,7 @@ const IconBar = ({ onCategoryChange }) => {
       </div>
       <div
         className="grayscale hover:grayscale-0 hover:scale-125"
-        onClick={() => handleIconClick("Lesplusconnus")}
+        onClick={() => handleIconClick("Les plus connus")}
       >
         🌟
       </div>

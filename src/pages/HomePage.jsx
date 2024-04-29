@@ -18,7 +18,7 @@ import AdBox from "../components/AdBox";
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Lesplusconnus");
+  const [selectedCategory, setSelectedCategory] = useState("Les plus connus");
   const displayedCelebrityCount = 7;
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
