@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Modal from "../components/Modal";
@@ -8,14 +8,6 @@ const CoverPage = () => {
   const navigate = useNavigate();
   const deferredPrompt = useRef(null);
 
-  const showInstallButton = useCallback(() => {
-    const installButton = document.querySelector(".install-button");
-    if (installButton) {
-      installButton.style.display = "block";
-      installButton.addEventListener("click", handleInstall);
-    }
-  }, []);
-
   useEffect(() => {
     const mediaQueryList = window.matchMedia("(display-mode: standalone)");
     if (mediaQueryList.matches) {
@@ -24,7 +16,7 @@ const CoverPage = () => {
       window.addEventListener("beforeinstallprompt", (event) => {
         event.preventDefault();
         deferredPrompt.current = event;
-        showInstallButton();
+        setIsAppInstalled(false); // L'application n'est pas encore installée
       });
 
       return () => {
@@ -33,7 +25,7 @@ const CoverPage = () => {
         });
       };
     }
-  }, [showInstallButton]);
+  }, []);
 
   const handleInstall = () => {
     if (deferredPrompt.current) {
@@ -72,7 +64,7 @@ const CoverPage = () => {
         {!isAppInstalled && (
           <button
             className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin text-white rounded-xl"
-            style={{ display: "none" }}
+            onClick={handleInstall}
           >
             Install App
           </button>
