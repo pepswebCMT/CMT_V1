@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/coverPage.css';
 
@@ -7,42 +7,44 @@ const CoverPage = () => {
   const navigate = useNavigate();
   const deferredPrompt = useRef(null);
 
-  const showInstallButton = useCallback(() => {
-    const installButton = document.querySelector('.install-button');
-    if (installButton) {
-      installButton.style.display = 'block';
-      installButton.addEventListener('click', handleInstall);
-    }
-  }, []);
-
   useEffect(() => {
     const mediaQueryList = window.matchMedia('(display-mode: standalone)');
+    const handleBeforeInstallPrompt = (event) => {
+      event.preventDefault();
+      console.log('beforeinstallprompt event was fired.');
+      deferredPrompt.current = event;
+      if (!isAppInstalled) {
+        showInstallButton();
+      }
+    };
+
     if (mediaQueryList.matches) {
       setIsAppInstalled(true);
     } else {
-      window.addEventListener('beforeinstallprompt', (event) => {
-        event.preventDefault();
-        deferredPrompt.current = event;
-        showInstallButton();
-      });
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
       return () => {
-        window.removeEventListener('beforeinstallprompt', (event) => {
-          deferredPrompt.current = null;
-        });
+        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       };
     }
-  }, [showInstallButton]); 
+  }, [isAppInstalled]);
 
-  const handleInstall = () => {
+  const showInstallButton = () => {
+    const installButton = document.querySelector('.install-button');
+    if (installButton) {
+      installButton.style.display = 'block';
+    }
+  };
+
+  const handleInstallClick = () => {
     if (deferredPrompt.current) {
       deferredPrompt.current.prompt();
       deferredPrompt.current.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('L\'application a été installée');
+          console.log('User accepted the A2HS prompt');
           setIsAppInstalled(true);
         } else {
-          console.log('L\'utilisateur a annulé l\'installation');
+          console.log('User dismissed the A2HS prompt');
         }
         deferredPrompt.current = null;
       });
@@ -51,16 +53,16 @@ const CoverPage = () => {
 
   const navigateToStart = () => {
     navigate('/');
-  }
+  };
 
   return (
     <div className="cover-page">
-      <h1>Welcome to CatchMyTomb, the app that lets you find the resting place of your favourite celebrities!!!</h1>
+      <h1>Welcome to Catch My Tomb</h1>
       <button className="get-started-button" onClick={navigateToStart}>
-        Get start
+        Get Started
       </button>
       {!isAppInstalled && (
-        <button className="install-button" style={{ display: 'none' }}>
+        <button className="install-button" onClick={handleInstallClick} style={{ display: 'none' }}>
           Install App
         </button>
       )}

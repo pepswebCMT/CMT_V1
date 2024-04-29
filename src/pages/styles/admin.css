@@ -59,15 +59,24 @@
 }
 
 input[type="text"],
-input[type="file"]
- {
+input[type="file"],
+buton {
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
+button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+button:hover {
+  background-color: #0056b3;
+}
 
 .no-new {
   font-size: 1.5rem;
