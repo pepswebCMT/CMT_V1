@@ -3,11 +3,7 @@ import { db } from "../firebase-config";
 import { collection, getDocs, doc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import IconBar from "../components/IconBar";
-import "./styles/HomePage.css";
 import { Auth } from "../firebase-config";
-import { MdAddAPhoto } from "react-icons/md";
-import { FaMapMarkedAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import UserProfile from "../components/ModalProfil";
 import Navbar from "../components/Navbar";
 import { onAuthStateChanged } from "firebase/auth";
@@ -15,16 +11,22 @@ import Modal from "../components/Modal";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import AdBox from "../components/AdBox";
+import CelebCard from "../components/CelebCard";
+import useMeasure from "react-use-measure";
+import { motion, animate, useMotionValue } from "framer-motion";
+import NavButtons from "../components/NavButtons";
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Les plus connus");
-  const displayedCelebrityCount = 7;
-  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState("Lesplusconnus");
+  const displayedCelebrityCount = 8;
   const [currentUser, setCurrentUser] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-
   const { t } = useTranslation();
+
+  let [ref, { width }] = useMeasure();
+
+  const xTranslation = useMotionValue(0);
 
   const handleUserIconClick = () => {
     setIsProfileModalOpen(true);
@@ -33,6 +35,21 @@ const HomePage = () => {
   const handleCloseModal = () => {
     setIsProfileModalOpen(false);
   };
+
+  useEffect(() => {
+    let controls;
+    let finalPosition = -width / 2;
+
+    controls = animate(xTranslation, [0, finalPosition], {
+      ease: "linear",
+      duration: 30,
+      repeat: Infinity,
+      repeatType: "loop",
+      repeatDelay: 0,
+    });
+
+    return controls.stop;
+  }, [xTranslation, width]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(Auth, (user) => {
@@ -64,72 +81,64 @@ const HomePage = () => {
     setSelectedCategory(category);
   };
 
-  const navigateToPhotoPage = () => {
-    navigate("/photopage");
-  };
-
-  const navigateToMapPage = () => {
-    navigate("/map");
-  };
-
   return (
     <main className="w-full pt-20 pb-20">
       <Navbar onUserIconClick={handleUserIconClick} />
       <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
         <UserProfile user={currentUser} />
       </Modal>
-
-      <section className="w-full overflow-hidden flex flex-col gap-3 items-center p-5">
-        <div className="w-full max-w-96 font-bold text-2xl p-2 text-center">
+      <section className="w-full overflow-hidden flex flex-col justify-between gap-6 items-center p-5">
+        <div className="w-full max-w-96 font-bold text-2xl p-4 text-center">
           <h2>{t("home_h1")}</h2>
         </div>
         <IconBar onCategoryChange={handleCategoryChange} />
         <div className="w-full p-4 flex justify-between items-center font-bold">
           <h3>{selectedCategory}</h3>
-          <Link to={`/category/${selectedCategory}`} className="see-all-link">
+          <Link to={`/category/${selectedCategory}`} className="text-blue-400">
             {t("home_see_all")}{" "}
           </Link>
         </div>
-        <div className="celebrity-list">
-          {celebrities.map((celebrity) => (
-            <Link
-              key={celebrity.id}
-              to={`/category/${selectedCategory}/${celebrity.id}`}
-              className="celebrity-card-link"
-            >
-              <div className="celebrity-card">
-                <div className="celebrity-image-container">
-                  <div className="celebrity-image-overlay">
-                    <h3 className="celebrity-name">{celebrity.title}</h3>
-                  </div>
-                  <img
-                    src={celebrity.imageUrl}
-                    alt={celebrity.title}
-                    className="celebrity-image"
-                  />
-                </div>
-                <div className="celebrity-info">
-                  <p>{celebrity.cemetery}</p>
-                </div>
-              </div>
-            </Link>
-          ))}
+        <div className="relative w-72 h-96">
+          <motion.div
+            className="flex gap-2 absolute left-0 "
+            ref={ref}
+            style={{ x: xTranslation }}
+          >
+            {celebrities &&
+              [...celebrities, ...celebrities].map((celebrity) => (
+                // <Link
+                //   key={celebrity.id}
+                //   to={`/category/${selectedCategory}/${celebrity.id}`}
+                //   className="celebrity-card-link"
+                // >
+                //   <div className="celebrity-card">
+                //     <div className="celebrity-image-container">
+                //       <div className="celebrity-image-overlay">
+                //         <h3 className="celebrity-name">{celebrity.title}</h3>
+                //       </div>
+                //       <img
+                //         src={celebrity.imageUrl}
+                //         alt={celebrity.title}
+                //         className="celebrity-image"
+                //       />
+                //     </div>
+                //     <div className="celebrity-info">
+                //       <p>{celebrity.cemetery}</p>
+                //     </div>
+                //   </div>
+                // </Link>
+
+                <Link to={`/category/${selectedCategory}/${celebrity.id}`}>
+                  <CelebCard key={celebrity.id} celebDetails={celebrity} />
+                </Link>
+              ))}
+          </motion.div>
+        </div>
+        <div className="w-full">
+          <AdBox />
         </div>
       </section>
-      <div className="icon-container">
-        <button
-          className="icon-button camera-button"
-          onClick={navigateToPhotoPage}
-        >
-          <MdAddAPhoto className="icon" />
-        </button>
-        <button className="icon-button map-button" onClick={navigateToMapPage}>
-          <FaMapMarkedAlt className="icon" />
-        </button>
-      </div>
-      <section className="w-full p-4">
-        <AdBox />
-      </section>
+      <NavButtons />
       <Footer />
     </main>
   );
