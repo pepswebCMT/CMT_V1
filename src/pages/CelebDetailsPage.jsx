@@ -93,7 +93,7 @@ const CelebrityDetailPage = () => {
           />{" "}
         </span>
         <p className="w-full p-2 text-lg text-center">
-          à {celebrity.city} en {celebrity.country}.
+          {celebrity.city}, {celebrity.country}.
         </p>
         <button
           onClick={navigateToMap}

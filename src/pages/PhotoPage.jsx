@@ -11,6 +11,7 @@ import illustration from "../assets/img/headstonesPhotoA.webp";
 import Modal from "../components/Modal";
 import Navbar from "../components/Navbar";
 import { IconContext } from "react-icons";
+import { useTranslation } from "react-i18next";
 
 const PhotoPage = () => {
   const [personality, setPersonality] = useState("");
@@ -20,6 +21,7 @@ const PhotoPage = () => {
   const [selectedFileName, setSelectedFileName] = useState("");
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handlePersonalityChange = (e) => setPersonality(e.target.value);
   const handleCemeteryChange = (e) => setCemetery(e.target.value);
@@ -49,12 +51,12 @@ const PhotoPage = () => {
     setSubmitStatus("");
 
     if (!file) {
-      alert("Veuillez prendre une photo avant de soumettre.");
+      alert(t("add_tomb_add_photo"));
       return;
     }
 
     if (!navigator.geolocation) {
-      alert("Géolocalisation non prise en charge par votre navigateur.");
+      alert(t("add_tomb_no_geo"));
       return;
     }
 
@@ -74,7 +76,7 @@ const PhotoPage = () => {
 
         try {
           await addDoc(collection(db, "PendingTombs"), tombData);
-          setSubmitStatus("Votre soumission est en attente de vérification.");
+          setSubmitStatus(t("add_tomb_submit_verify"));
           setTimeout(() => {
             setSubmitStatus("");
             setPersonality("");
@@ -104,24 +106,24 @@ const PhotoPage = () => {
             className="w-full flex justify-between items-center text-3xl text-mandarin"
           >
             <FontAwesomeIcon icon={faArrowLeft} />
-            <h1>Ajouter une tombe</h1>
+            <h1>{t("add_tomb_title")}</h1>
           </Link>
         </div>
         <div className="w-full max-w-96">
           <img src={illustration} alt="Partagez votre découverte" />
         </div>
         <div className="w-full flex flex-col justify-around items-center gap-3 text-xl">
-          <h1>Partagez avec nous votre découverte</h1>
+          <h1>{t("add_tomb_share")}</h1>
           <div className="w-full flex flex-col justify-center items-center">
             <button
               type="button"
               className="w-2/3 max-w-72 bg-mandarin rounded-3xl p-2 text-center font-bold text-xl shadow-xl"
               onClick={handleTakePhotoClick}
             >
-              Prendre une photo
+              {t("add_tomb_take_photo")}
             </button>
             <p className="w-full p-1 text-center text-sm">
-              Prenez une photo de la tombe trouvée
+              {t("add_tomb_photo")}
             </p>
           </div>
           <form
@@ -140,7 +142,7 @@ const PhotoPage = () => {
               type="text"
               value={personality}
               onChange={handlePersonalityChange}
-              placeholder="Tapez le nom de la personnalité"
+              placeholder={t("add_tomb_name")}
               className="w-full max-w-96"
               required
             />
@@ -148,7 +150,7 @@ const PhotoPage = () => {
               type="text"
               value={cemetery}
               onChange={handleCemeteryChange}
-              placeholder="Tapez le nom du cimetière"
+              placeholder={t("add_tomb_cemetery")}
               className="w-full max-w-96"
               required
             />
@@ -157,7 +159,7 @@ const PhotoPage = () => {
               type="submit"
               className="rounded-full p-5 bg-mandarin flex justify-center items-center"
             >
-              <p className="pr-4 font-bold">Envoyer</p>
+              <p className="pr-4 font-bold">{t("add_tomb_send")}</p>
               <IconContext.Provider value={{ size: "2rem", color: "white" }}>
                 <BsSendPlusFill className="text-center" />
               </IconContext.Provider>
