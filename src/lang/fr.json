@@ -12,6 +12,7 @@
   "add_tomb_cemetery": "Nom du cimetière ou lieu de la tombe",
   "add_tomb_send": "Envoyer",
   "add_tomb_add_photo": "Veuillez prendre une photo avant de soumettre.",
+  "add_tomb_file_added": "Fichier ajouté",
   "add_tomb_no_geo": "Géolocalisation non prise en charge par votre navigateur.",
   "add_tomb_submit_verify": "Votre soumission est en attente de vérification.",
   "profile_modal_title": "Connexion",

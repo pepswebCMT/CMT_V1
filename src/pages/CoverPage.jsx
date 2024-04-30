@@ -51,7 +51,7 @@ const CoverPage = () => {
   return (
     <section className="w-full pt-28">
       <Navbar />
-      <Modal />
+      <Modal></Modal>
       <div className="w-full h-96 p-5 flex flex-col justify-around items-center">
         <h1 className="w-full font-bold text-2xl text-center">
           {t("cover_welcome")}

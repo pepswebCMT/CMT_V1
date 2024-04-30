@@ -12,6 +12,7 @@
   "add_tomb_cemetery": "The cemetery or location of the tomb",
   "add_tomb_send": "Send",
   "add_tomb_add_photo": "Please take a picture before submiting",
+  "add_tomb_file_added": "Fichier ajouté",
   "add_tomb_no_geo": "Localisation not available on your device",
   "add_tomb_submit_verify": "Your contribution is waiting to be approved",
   "profile_modal_title": "Authentification",

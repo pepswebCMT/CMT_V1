@@ -154,7 +154,11 @@ const PhotoPage = () => {
               className="w-full max-w-96"
               required
             />
-            {selectedFileName && <div className="">{selectedFileName}</div>}
+            {selectedFileName && (
+              <div className="w-full text-center">
+                {t("add_tomb_file_added")}
+              </div>
+            )}
             <button
               type="submit"
               className="rounded-full p-5 bg-mandarin flex justify-center items-center"
@@ -164,7 +168,9 @@ const PhotoPage = () => {
                 <BsSendPlusFill className="text-center" />
               </IconContext.Provider>
             </button>
-            {submitStatus && <div className="">{submitStatus}</div>}
+            {submitStatus && (
+              <div className="w-full text-center">{submitStatus}</div>
+            )}
           </form>
         </div>
       </div>
