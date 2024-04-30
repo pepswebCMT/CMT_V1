@@ -5,8 +5,12 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import "./styles/PhotoPage.css";
-import illustration from "../assets/img/illustrationA.webp";
+import { BsSendPlusFill } from "react-icons/bs";
+// import "./styles/PhotoPage.css";
+import illustration from "../assets/img/headstonesPhotoA.webp";
+import Modal from "../components/Modal";
+import Navbar from "../components/Navbar";
+import { IconContext } from "react-icons";
 
 const PhotoPage = () => {
   const [personality, setPersonality] = useState("");
@@ -89,60 +93,80 @@ const PhotoPage = () => {
   };
 
   return (
-    <div className="photo-page">
-      <div className="category-header">
-        <Link to="#" onClick={() => navigate(-1)} className="back-button">
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </Link>
-      </div>
-      <div className="photo-header">
-        <img src={illustration} alt="Partagez votre découverte" />
-      </div>
-      <div className="photo-content">
-        <h1>Partagez avec nous votre découverte</h1>
-        <div className="cap-ph">
-          <button
-            type="button"
-            className="photo-button"
-            onClick={handleTakePhotoClick}
+    <section className="w-full pt-28">
+      <Navbar />
+      <Modal></Modal>
+      <div className="w-full overflow-hidden flex flex-col justify-between gap-6 items-center p-5">
+        <div className="w-full max-w-96 p-2 flex flex-col justify-center items-center gap-3">
+          <Link
+            to="#"
+            onClick={() => navigate(-1)}
+            className="w-full flex justify-between items-center text-3xl text-mandarin"
           >
-            Prendre une photo
-          </button>
-          <p className="take-ph">Prenez une photo de la tombe trouvée</p>
+            <FontAwesomeIcon icon={faArrowLeft} />
+            <h1>Ajouter une tombe</h1>
+          </Link>
         </div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="file"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            accept="image/*"
-            capture="environment"
-            onChange={handleFileChange}
-          />
-          <input
-            type="text"
-            value={personality}
-            onChange={handlePersonalityChange}
-            placeholder="Tapez le nom de la personnalité"
-            required
-          />
-          <input
-            type="text"
-            value={cemetery}
-            onChange={handleCemeteryChange}
-            placeholder="Tapez le nom du cimetière"
-            required
-          />
-          {selectedFileName && (
-            <div className="selected-file-name">{selectedFileName}</div>
-          )}
-          <button type="submit" className="submit-button">
-            <span className="arrow-icon">→</span>
-          </button>
-          {submitStatus && <div className="submit-status">{submitStatus}</div>}
-        </form>
+        <div className="w-full max-w-96">
+          <img src={illustration} alt="Partagez votre découverte" />
+        </div>
+        <div className="w-full flex flex-col justify-around items-center gap-3 text-xl">
+          <h1>Partagez avec nous votre découverte</h1>
+          <div className="w-full flex flex-col justify-center items-center">
+            <button
+              type="button"
+              className="w-2/3 max-w-72 bg-mandarin rounded-3xl p-2 text-center font-bold text-xl shadow-xl"
+              onClick={handleTakePhotoClick}
+            >
+              Prendre une photo
+            </button>
+            <p className="w-full p-1 text-center text-sm">
+              Prenez une photo de la tombe trouvée
+            </p>
+          </div>
+          <form
+            onSubmit={handleSubmit}
+            className="w-full flex flex-col justify-around items-center text-xl"
+          >
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              accept="image/*"
+              capture="environment"
+              onChange={handleFileChange}
+            />
+            <input
+              type="text"
+              value={personality}
+              onChange={handlePersonalityChange}
+              placeholder="Tapez le nom de la personnalité"
+              className="w-full max-w-96"
+              required
+            />
+            <input
+              type="text"
+              value={cemetery}
+              onChange={handleCemeteryChange}
+              placeholder="Tapez le nom du cimetière"
+              className="w-full max-w-96"
+              required
+            />
+            {selectedFileName && <div className="">{selectedFileName}</div>}
+            <button
+              type="submit"
+              className="rounded-full p-5 bg-mandarin flex justify-center items-center"
+            >
+              <p className="pr-4 font-bold">Envoyer</p>
+              <IconContext.Provider value={{ size: "2rem", color: "white" }}>
+                <BsSendPlusFill className="text-center" />
+              </IconContext.Provider>
+            </button>
+            {submitStatus && <div className="">{submitStatus}</div>}
+          </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

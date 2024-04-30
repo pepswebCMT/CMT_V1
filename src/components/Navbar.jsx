@@ -4,7 +4,7 @@ import CMT from "../assets/img/svg/CMT-logo-text.svg";
 
 const Navbar = ({ onUserIconClick }) => {
   return (
-    <nav className="w-full z-50 bg-mandarin fixed top-0 flex justify-between items-center gap-2 p-3">
+    <nav className="w-full z-50 bg-mandarin fixed top-0 flex justify-between items-center gap-2 p-3 shadow-inner">
       <div className="w-1/5 flex justify-center items-center">
         <LangManager />
       </div>

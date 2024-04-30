@@ -13,9 +13,7 @@ const CelebCard = ({ celebDetails }) => {
       </div>
 
       <div className="w-full p-3 flex flex-col justify-around text-center items-center text-lg">
-        <p>
-          {celebDetails.country}, {celebDetails.city}
-        </p>
+        <p>{celebDetails.country}</p>
         <p>{celebDetails.cemetery}</p>
       </div>
     </div>

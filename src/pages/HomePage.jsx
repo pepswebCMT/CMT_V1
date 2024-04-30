@@ -18,7 +18,7 @@ import NavButtons from "../components/NavButtons";
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Lesplusconnus");
+  const [selectedCategory, setSelectedCategory] = useState("Les plus connus");
   const displayedCelebrityCount = 8;
   const [currentUser, setCurrentUser] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -38,9 +38,10 @@ const HomePage = () => {
 
   useEffect(() => {
     let controls;
-    let finalPosition = -width / 2;
+    let startPos = -750;
+    let finalPosition = -width / 2 + -750;
 
-    controls = animate(xTranslation, [0, finalPosition], {
+    controls = animate(xTranslation, [startPos, finalPosition], {
       ease: "linear",
       duration: 30,
       repeat: Infinity,
