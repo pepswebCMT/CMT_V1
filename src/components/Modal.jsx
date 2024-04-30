@@ -16,7 +16,7 @@ const Modal = ({ children, isOpen, onClose }) => {
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            className="w-full flex justify-center items-center"
+            className="w-full max-w-96 flex justify-center items-center"
             onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
