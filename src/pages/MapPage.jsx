@@ -106,7 +106,7 @@ const MyMap = () => {
       },
       { enableHighAccuracy: true }
     );
-  }, []);
+  }, [categories]);
 
   if (loading) {
     return (
