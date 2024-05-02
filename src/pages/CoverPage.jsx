@@ -64,7 +64,7 @@ const CoverPage = () => {
         </button>
         {!isAppInstalled && (
           <button
-            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin text-white rounded-xl"
+            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin-100 dark:bg-mandarin-600 text-white rounded-xl"
             onClick={handleInstall}
           >
             {t("cover_app")}

@@ -83,7 +83,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className="w-full pt-20 pb-20">
+    <main className="w-full pt-20 pb-20 dark:bg-dark-200 dark:text-white font-aileron">
       <Navbar onUserIconClick={handleUserIconClick} />
       <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
         <UserProfile user={currentUser} />

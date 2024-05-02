@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+@font-face {
+  font-family: "aileron";
+  src: url("./assets/fonts/aileron/Aileron-Light.otf");
+}
+@font-face {
+  font-family: "josefin";
+  src: url("./assets/fonts/josefin-slab/JosefinSlab-Light.ttf");
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -117,7 +121,7 @@ section {
 body {
   line-height: 1;
   margin: 0;
-  font-family: "Montserrat", sans-serif;
+  /* font-family: "josefin"; */
 }
 ol,
 ul {

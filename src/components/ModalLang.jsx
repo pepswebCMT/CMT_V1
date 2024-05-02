@@ -21,12 +21,12 @@ const ModalLang = ({ closeModal }) => {
   };
 
   return (
-    <section className="grid grid-cols-3 gap-6 p-6 bg-white rounded-xl">
+    <section className="grid grid-cols-3 gap-6 p-6 bg-white dark:bg-dark-400 rounded-xl">
       {languages &&
         languages.map((lang) => {
           return (
             <motion.div
-              className="w-full p-1 bg-mandarin rounded-full"
+              className="w-full p-1 bg-mandarin-100 dark:bg-mandarin-600 rounded-full"
               key={lang}
               value={lang}
               onClick={handleLanguageChange}

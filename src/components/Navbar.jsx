@@ -4,7 +4,7 @@ import CMT from "../assets/img/svg/CMT-logo-text.svg";
 
 const Navbar = ({ onUserIconClick }) => {
   return (
-    <nav className="w-full z-50 bg-mandarin fixed top-0 flex justify-between items-center gap-2 p-3 shadow-inner">
+    <nav className="w-full z-50 bg-mandarin-100 dark:bg-mandarinDark fixed top-0 flex justify-between items-center gap-2 p-3 shadow-inner">
       <div className="w-1/5 flex justify-center items-center">
         <LangManager />
       </div>
@@ -12,7 +12,7 @@ const Navbar = ({ onUserIconClick }) => {
         <img src={CMT} alt="Catch my Tomb" className="w-full" />
       </div>
       <FaUserCircle
-        className="w-1/5 text-5xl text-white"
+        className="w-1/5 text-5xl text-white dark:text-dark-200"
         onClick={onUserIconClick}
       />
     </nav>

@@ -1,6 +1,6 @@
 const CelebCard = ({ celebDetails }) => {
   return (
-    <div className="w-72 h-96 rounded-2xl shadow-2xl flex flex-col gap-3 items-center">
+    <div className="w-72 h-96 rounded-2xl shadow-2xl flex flex-col gap-3 items-center dark:bg-dark-400">
       <div className="relative w-full">
         <img
           src={celebDetails.imageUrl}

@@ -66,7 +66,7 @@ const AdminPage = () => {
 
   return (
     <div className="pt-36">
-      <nav className="w-full z-50 bg-mandarin fixed top-0 flex justify-between items-center gap-2 p-3">
+      <nav className="w-full z-50 bg-mandarin-100 dark:bg-mandarin-600 fixed top-0 flex justify-between items-center gap-2 p-3">
         <div className="w-1/5 flex justify-center items-center">
           <LangManager />
         </div>

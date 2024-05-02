@@ -30,11 +30,11 @@ const CategoryPage = () => {
     category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
-    <section className="w-full flex justify-center pt-28">
+    <section className="w-full flex justify-center pt-28 dark:bg-dark-200 dark:text-white">
       <Navbar />
       <Modal />
       <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
-        <div className="w-full flex justify-between items-center text-3xl text-mandarin">
+        <div className="w-full flex justify-between items-center text-3xl text-mandarin-100 dark:text-mandarin-600">
           <Link to="/home">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>

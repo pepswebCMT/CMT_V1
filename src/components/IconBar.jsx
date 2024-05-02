@@ -7,7 +7,7 @@ const IconBar = ({ onCategoryChange }) => {
   };
 
   return (
-    <div className="w-full max-w-96 shadow-xl text-2xl p-2 flex justify-between items-center rounded-lg">
+    <div className="w-full max-w-96 shadow-xl text-2xl p-2 flex justify-between items-center rounded-lg dark:bg-dark-400">
       <div
         className="grayscale hover:grayscale-0 hover:scale-125"
         onClick={() => handleIconClick("Litteraire")}
