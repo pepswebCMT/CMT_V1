@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, doc, query, limit } from "firebase/firestore";
+import { collection, getDocs, doc, query } from "firebase/firestore";
 import { db } from "../firebase-config";
 import {
   MapContainer,
