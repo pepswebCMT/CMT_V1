@@ -55,7 +55,7 @@ const CategoryPage = () => {
                 />
                 <div className="w-full absolute bottom-0 z-20 flex justify-center items-center gap-4 p-1 text-white text-center text-lg font-bold rounded-b-2xl rounded-bl-2xl bg-opacity-50 bg-black">
                   <FaStar />
-                  <h3 className="max-w-3/4">{item.title}</h3>
+                  <h3 className="">{item.title}</h3>
                 </div>
               </Link>
             </div>
