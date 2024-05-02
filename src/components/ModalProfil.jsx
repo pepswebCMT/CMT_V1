@@ -58,7 +58,7 @@ const UserProfile = ({ user }) => {
   };
 
   return (
-    <div className="w-full text-gray-600 bg-white p-6 rounded-xl flex flex-col justify-evenly items-center">
+    <div className="w-full text-gray-600 bg-white p-6 rounded-xl flex flex-col justify-evenly items-center font-aileron">
       <p className="w-full text-2xl font-bold text-center">
         {t("profile_modal_title")}
       </p>
@@ -95,7 +95,7 @@ const UserProfile = ({ user }) => {
       </div>
       <div className="w-full p-2 flex justify-center items-center">
         <button
-          className="w-3/4 p-4 bg-blue-500 text-xl text-white rounded-xl"
+          className="w-3/4 p-4 bg-blue-500 text-xl font-aileronBold text-white rounded-xl"
           onClick={handleLogin}
         >
           {t("profile_modal_login")}

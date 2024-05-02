@@ -49,7 +49,7 @@ const CoverPage = () => {
   };
 
   return (
-    <section className="w-full pt-28">
+    <section className="w-full pt-28 dark:bg-dark-200">
       <Navbar />
       <Modal></Modal>
       <div className="w-full h-96 p-5 flex flex-col justify-around items-center">

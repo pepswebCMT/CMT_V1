@@ -2,13 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "aileron";
-  src: url("./assets/fonts/aileron/Aileron-Light.otf");
-}
-@font-face {
-  font-family: "josefin";
-  src: url("./assets/fonts/josefin-slab/JosefinSlab-Light.ttf");
+@layer base {
+  @font-face {
+    font-family: "aileron";
+    src: url("./assets/fonts/aileron/Aileron-UltraLight.otf");
+  }
+  @font-face {
+    font-family: "aileron-bold";
+    src: url("./assets/fonts/aileron/Aileron-Bold.otf");
+  }
+  @font-face {
+    font-family: "aileron-heavy";
+    src: url("./assets/fonts/aileron/Aileron-Heavy.otf");
+  }
+  @font-face {
+    font-family: "josefin";
+    src: url("./assets/fonts/josefin-slab/JosefinSlab-Thin.ttf");
+  }
+  @font-face {
+    font-family: "josefin-bold";
+    src: url("./assets/fonts/josefin-slab/JosefinSlab-Regular.ttf");
+  }
+  @font-face {
+    font-family: "josefin-heavy";
+    src: url("./assets/fonts/josefin-slab/JosefinSlab-Bold.ttf");
+  }
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 

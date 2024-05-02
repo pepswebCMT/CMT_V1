@@ -9,16 +9,19 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { FaCheck, FaTimes, FaEdit, FaSignOutAlt } from "react-icons/fa";
-import "./styles/admin.css";
-import { useNavigate } from "react-router-dom";
+// import "./styles/admin.css";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
-import LangManager from "../components/LangManager";
-import CMT from "../assets/img/svg/CMT-logo-text.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 const AdminPage = () => {
   const [submissions, setSubmissions] = useState([]);
   const [editSubmission, setEditSubmission] = useState(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -59,91 +62,84 @@ const AdminPage = () => {
     setEditSubmission(null);
   };
 
-  const handleLogout = () => {
-    navigate("/");
-    console.log("Utilisateur déconnecté");
-  };
-
   return (
-    <div className="pt-36">
-      <nav className="w-full z-50 bg-mandarin-100 dark:bg-mandarin-600 fixed top-0 flex justify-between items-center gap-2 p-3">
-        <div className="w-1/5 flex justify-center items-center">
-          <LangManager />
-        </div>
-        <div className="w-2/4 max-w-48 p-2">
-          <img src={CMT} alt="Catch my Tomb" className="w-full" />
-        </div>
-        <FaSignOutAlt
-          className="w-1/5 text-5xl text-white"
-          onClick={handleLogout}
-          title="Déconnexion"
-        />
-      </nav>
-      {submissions.length > 0 ? (
-        submissions.map((submission) => (
-          <div key={submission.id} className="submission">
-            <h2>{submission.title}</h2>
-            {submission.imageUrl && (
-              <img
-                src={submission.imageUrl}
-                alt=""
-                className="submission-image"
-              />
-            )}
-            <p>{submission.cemetery}</p>
-            {editSubmission && editSubmission.id === submission.id ? (
-              <div className="w-full flex items-center flex-col justify-around">
-                <input
-                  className="w-3/4"
-                  type="text"
-                  value={editSubmission.title}
-                  onChange={(e) => handleEditChange(e)}
-                />
-                <input
-                  className="w-3/4"
-                  type="text"
-                  value={editSubmission.cemetery}
-                  onChange={(e) => handleEditChange(e)}
-                />
-                <div className="w-full flex justify-center items-center">
-                  <button className="w-1/3 p-3" onClick={handleEditSubmit}>
-                    Sauvegarder
-                  </button>
-                  <button
-                    className="w-1/3 p-3"
-                    onClick={() => setEditSubmission(null)}
-                  >
-                    Annuler
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="submission-actions">
-                <FaCheck
-                  className="icon-a icon-accept"
-                  onClick={() => approveSubmission(submission)}
-                  title="Accepter"
-                />
-                <FaTimes
-                  className="icon-a icon-reject"
-                  onClick={() => rejectSubmission(submission.id)}
-                  title="Rejeter"
-                />
-                <FaEdit
-                  className="icon-a icon-edit"
-                  onClick={() => startEditing(submission)}
-                  title="Éditer"
-                />
-              </div>
-            )}
+    <section>
+      <div className="w-full flex justify-center font-josefin pt-28 ">
+        <Navbar />
+        <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
+          <div className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold text-3xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400">
+            <Link to="/home">
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </Link>
+            <h1>{t("admin_title")}</h1>
           </div>
-        ))
-      ) : (
-        <p className="pt-40 text-center text-2xl font-bold">
-          Pas de nouvelles découvertes, revenez plus tard.
-        </p>
-      )}
-    </div>
+          {submissions.length > 0 ? (
+            submissions.map((submission) => (
+              <div key={submission.id} className="submission">
+                <h2>{submission.title}</h2>
+                {submission.imageUrl && (
+                  <img
+                    src={submission.imageUrl}
+                    alt=""
+                    className="submission-image"
+                  />
+                )}
+                <p>{submission.cemetery}</p>
+                {editSubmission && editSubmission.id === submission.id ? (
+                  <div className="w-full flex items-center flex-col justify-around">
+                    <input
+                      className="w-3/4"
+                      type="text"
+                      value={editSubmission.title}
+                      onChange={(e) => handleEditChange(e)}
+                    />
+                    <input
+                      className="w-3/4"
+                      type="text"
+                      value={editSubmission.cemetery}
+                      onChange={(e) => handleEditChange(e)}
+                    />
+                    <div className="w-full flex justify-center items-center">
+                      <button className="w-1/3 p-3" onClick={handleEditSubmit}>
+                        {t("admin_save")}
+                      </button>
+                      <button
+                        className="w-1/3 p-3"
+                        onClick={() => setEditSubmission(null)}
+                      >
+                        {t("admin_cancel")}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="submission-actions">
+                    <FaCheck
+                      className="icon-a icon-accept"
+                      onClick={() => approveSubmission(submission)}
+                      title={t("admin_accept")}
+                    />
+                    <FaTimes
+                      className="icon-a icon-reject"
+                      onClick={() => rejectSubmission(submission.id)}
+                      title={t("admin_reject")}
+                    />
+                    <FaEdit
+                      className="icon-a icon-edit"
+                      onClick={() => startEditing(submission)}
+                      title={t("admin_edit")}
+                    />
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="pt-40 text-center text-2xl font-bold">
+              {t("admin_no_tomb")}
+            </p>
+          )}
+        </div>
+      </div>
+    </section>
   );
 };
 

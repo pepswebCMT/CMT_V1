@@ -5,8 +5,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        aileorn: ["aileron", "sans-serif"],
+        aileron: ["aileron", "sans-serif"],
+        aileronBold: ["aileron-bold", "sans-serif"],
+        aileronHeavy: ["aileron-heavy", "sans-serif"],
         josefin: ["josefin", "serif"],
+        josefinBold: ["josefin-bold", "serif"],
+        josefinHeavy: ["josefin-heavy", "serif"],
       },
     },
     colors: {
@@ -23,7 +27,6 @@ module.exports = {
       white: colors.white,
       blue: colors.blue,
     },
-    extend: {},
   },
   plugins: [],
 };
