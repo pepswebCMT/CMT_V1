@@ -23,5 +23,12 @@
   "profile_modal_login": "Se connecter",
   "cover_welcome": "Bienvenu sur CatchMyTomb, l'application qui te permet de retrouver les tombes de tes célébrités favorites!",
   "cover_browse": "Commencer",
-  "cover_app": "Installer l'application"
+  "cover_app": "Installer l'application",
+  "admin_title": "Contributions",
+  "admin_no_tomb": "Pas de nouvelles découvertes, revenez plus tard.",
+  "admin_save": "Sauvegarder",
+  "admin_cancel": "Annuler",
+  "admin_accept": "Accepter",
+  "admin_reject": "Rejeter",
+  "admin_edit": "Éditer"
 }

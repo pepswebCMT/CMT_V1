@@ -103,7 +103,7 @@ const PhotoPage = () => {
           <Link
             to="#"
             onClick={() => navigate(-1)}
-            className="w-full flex justify-between items-center text-3xl text-mandarin"
+            className="w-full flex justify-between items-center text-3xl text-mandarin-100 dark:bg-mandarin-600"
           >
             <FontAwesomeIcon icon={faArrowLeft} />
             <h1>{t("add_tomb_title")}</h1>
@@ -117,7 +117,7 @@ const PhotoPage = () => {
           <div className="w-full flex flex-col justify-center items-center">
             <button
               type="button"
-              className="w-2/3 max-w-72 bg-mandarin rounded-3xl p-2 text-center font-bold text-xl shadow-xl"
+              className="w-2/3 max-w-72 bg-mandarin-100 dark:bg-mandarin-600 rounded-3xl p-2 text-center font-bold text-xl shadow-xl"
               onClick={handleTakePhotoClick}
             >
               {t("add_tomb_take_photo")}
@@ -161,7 +161,7 @@ const PhotoPage = () => {
             )}
             <button
               type="submit"
-              className="rounded-full p-5 bg-mandarin flex justify-center items-center"
+              className="rounded-full p-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center"
             >
               <p className="pr-4 font-bold">{t("add_tomb_send")}</p>
               <IconContext.Provider value={{ size: "2rem", color: "white" }}>

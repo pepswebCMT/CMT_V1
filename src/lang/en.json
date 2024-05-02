@@ -23,5 +23,12 @@
   "profile_modal_login": "Log in",
   "cover_welcome": "Welcome to CatchMyTomb, the app that lets you find the resting place of your favourite celebrities!",
   "cover_browse": "Start browsing",
-  "cover_app": "Install App"
+  "cover_app": "Install App",
+  "admin_title": "Submissions",
+  "admin_no_tomb": "No new discoveries just yet, please come back later.",
+  "admin_save": "Save",
+  "admin_cancel": "Cancel",
+  "admin_accept": "Accept",
+  "admin_reject": "Reject",
+  "admin_edit": "Edit"
 }

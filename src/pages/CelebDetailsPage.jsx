@@ -65,25 +65,22 @@ const CelebrityDetailPage = () => {
   };
 
   return (
-    <section className="w-full flex justify-center pt-28">
+    <section className="w-full flex justify-center pt-28 font-josefin">
       <Navbar />
       <Modal></Modal>
-      <div className="w-full max-w-96 p-2 flex flex-col justify-between items-center">
-        <div className="w-full p-2 flex justify-between items-center text-3xl text-mandarin">
-          <Link to="#" onClick={() => navigate(-1)} className="">
+      <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
+        <div className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold font-josefinBold text-2xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400">
+          <Link to="/home">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>
-          <h2 className="text-3xl">{categoryName}</h2>
+          <h1>{celebrity.title}</h1>
         </div>
-        <h1 className="w-full p-2 text-center text-2xl font-bold">
-          {celebrity.title}
-        </h1>
         <img
           src={celebrity.imageUrl}
           alt={celebrity.title}
           className="w-full p-2 max-w-80 rounded-3xl"
         />
-        <h3 className="w-full p-2 text-xl font-bold text-center">
+        <h3 className="w-full p-2 text-2xl font-bold text-center">
           {celebrity.cemetery}
         </h3>
         <span className="location-icon">
@@ -92,17 +89,17 @@ const CelebrityDetailPage = () => {
             style={{ fontSize: "40px", color: "red" }}
           />{" "}
         </span>
-        <p className="w-full p-2 text-lg text-center">
+        <p className="w-full p-2 text-lg text-center font-aileron font-bold">
           {celebrity.city}, {celebrity.country}.
         </p>
         <button
           onClick={navigateToMap}
-          className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl"
+          className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold"
         >
           Visiter le lieu.
         </button>
 
-        <div className="w-full max-w-96 text-xl text-justify p-2 flex flex-col items-center justify-between">
+        <div className="w-full max-w-96 text-xl text-justify p-2 flex flex-col items-center justify-between font-aileron font-bold">
           {showFullDescription || celebrity.description.length <= maxChar ? (
             celebrity.description
           ) : (
@@ -119,7 +116,7 @@ const CelebrityDetailPage = () => {
           {showFullDescription && (
             <>
               <button
-                className="w-full p-2 text-blue-400 font-bold"
+                className="w-full p-2 text-blue-400 font-aileron font-bold"
                 onClick={toggleDescription}
               >
                 Voir moins.
@@ -129,21 +126,21 @@ const CelebrityDetailPage = () => {
         </div>
         <button
           onClick={() => window.open(celebrity.infoUrl, "_blank")}
-          className="w-1/2 max-w-80 p-2 text-xl font-bold text-gray-600 border border-gray-300 rounded-xl mt-4 hover:bg-gray-100"
+          className="w-1/2 max-w-80 p-2 text-xl font-bold text-gray-600 border border-gray-300 rounded-xl mt-4 hover:bg-gray-100 font-aileron"
         >
           Wikipedia
         </button>
         <div>
-        <div className="w-full p-2">
-          {celebrity.imageTomb && (
-          <img
-          src={celebrity.imageTomb}
-          alt={`Tombe de ${celebrity.title}`}
-          className="w-full max-w-4xl rounded-xl"
-        />
-      )}
+          <div className="w-full p-2">
+            {celebrity.imageTomb && (
+              <img
+                src={celebrity.imageTomb}
+                alt={`Tombe de ${celebrity.title}`}
+                className="w-full max-w-4xl rounded-xl"
+              />
+            )}
           </div>
-          </div>
+        </div>
       </div>
     </section>
   );

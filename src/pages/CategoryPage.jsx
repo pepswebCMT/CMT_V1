@@ -7,6 +7,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import Navbar from "../components/Navbar";
 import Modal from "../components/Modal";
+import { FaStar } from "react-icons/fa";
 
 const CategoryPage = () => {
   const { category } = useParams();
@@ -30,17 +31,17 @@ const CategoryPage = () => {
     category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
-    <section className="w-full flex justify-center pt-28">
+    <section className="w-full flex justify-center pt-28 dark:bg-dark-200 dark:text-white font-josefin">
       <Navbar />
       <Modal />
       <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
-        <div className="w-full flex justify-between items-center text-3xl text-mandarin">
+        <div className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold text-3xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400">
           <Link to="/home">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>
           <h1>{formattedCategory}</h1>
         </div>
-        <h2 className="w-full text-center text-xl font-bold">
+        <h2 className="w-full text-center text-2xl font-bold">
           {t("category_title")}
         </h2>
         <div className="w-full grid grid-cols-2 gap-4 justify-items-center place-items-center">
@@ -52,9 +53,10 @@ const CategoryPage = () => {
                   alt={item.title}
                   className="w-full h-full rounded-2xl object-cover"
                 />
-                <h3 className="w-full absolute bottom-0 z-20 text-white text-center text-lg font-bold rounded-b-2xl rounded-bl-2xl bg-opacity-50 bg-black">
-                  {item.title}
-                </h3>
+                <div className="w-full absolute bottom-0 z-20 flex justify-center items-center gap-4 p-1 text-white text-center text-lg font-bold rounded-b-2xl rounded-bl-2xl bg-opacity-50 bg-black">
+                  <FaStar />
+                  <h3 className="">{item.title}</h3>
+                </div>
               </Link>
             </div>
           ))}

@@ -24,7 +24,7 @@ const LangManager = () => {
   return (
     <>
       <div
-        className="p-1 w-12 bg-white rounded-full"
+        className="p-1 w-12 bg-white dark:bg-dark-200 rounded-full"
         onClick={() => {
           setIsLangModalOpen(true);
         }}
