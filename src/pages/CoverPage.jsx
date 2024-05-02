@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Modal from "../components/Modal";
+import { useTranslation } from "react-i18next";
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const navigate = useNavigate();
   const deferredPrompt = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Handler pour capturer l'événement beforeinstallprompt
@@ -54,24 +56,23 @@ const CoverPage = () => {
   return (
     <section className="w-full pt-28">
       <Navbar />
-      <Modal />
+      <Modal></Modal>
       <div className="w-full h-96 p-5 flex flex-col justify-around items-center">
-        <h1 className="w-full font-bold text-2xl text-justify">
-          Welcome to CatchMyTomb, the app that lets you find the resting place
-          of your favourite celebrities!
+        <h1 className="w-full font-bold text-2xl text-center">
+          {t("cover_welcome")}
         </h1>
         <button
           className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl"
           onClick={navigateToStart}
         >
-          Start browsing
+          {t("cover_browse")}
         </button>
         {!isAppInstalled && (
           <button
             className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin text-white rounded-xl"
             onClick={handleInstall}
           >
-            Install App
+            {t("cover_app")}
           </button>
         )}
       </div>

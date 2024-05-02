@@ -93,7 +93,7 @@ const CelebrityDetailPage = () => {
           />{" "}
         </span>
         <p className="w-full p-2 text-lg text-center">
-          à {celebrity.city} en {celebrity.country}.
+          {celebrity.city}, {celebrity.country}.
         </p>
         <button
           onClick={navigateToMap}
@@ -127,17 +127,23 @@ const CelebrityDetailPage = () => {
             </>
           )}
         </div>
+        <button
+          onClick={() => window.open(celebrity.infoUrl, "_blank")}
+          className="w-1/2 max-w-80 p-2 text-xl font-bold text-gray-600 border border-gray-300 rounded-xl mt-4 hover:bg-gray-100"
+        >
+          Wikipedia
+        </button>
         <div>
-<div className="w-full p-2">
-  {celebrity.imageTomb && (
-    <img
-      src={celebrity.imageTomb}
-      alt={`Tombe de ${celebrity.title}`}
-      className="w-full max-w-4xl rounded-xl"
-    />
-  )}
-</div>
-        </div>
+        <div className="w-full p-2">
+          {celebrity.imageTomb && (
+          <img
+          src={celebrity.imageTomb}
+          alt={`Tombe de ${celebrity.title}`}
+          className="w-full max-w-4xl rounded-xl"
+        />
+      )}
+          </div>
+          </div>
       </div>
     </section>
   );

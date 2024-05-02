@@ -18,10 +18,13 @@
       "sizes": "512x512"
     }
   ],
+<<<<<<< HEAD
   "start_url": "/",
+=======
+  "start_url": ".",
+>>>>>>> 05b4f5e2c612b47b739f2df752b610fe12f823af
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
-  "scope": "/",
   "orientation": "portrait"
 }
