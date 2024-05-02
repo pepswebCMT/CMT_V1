@@ -59,17 +59,18 @@ const MyMap = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const categories = [
-    "HommesHistoire",
-    "Les plus connus",
-    "sport",
-    "Acteurs",
-    "Chanteur",
-    "Hommes politique",
-    "Litteraire",
-  ];
 
   useEffect(() => {
+    const categories = [
+      "HommesHistoire",
+      "Les plus connus",
+      "sport",
+      "Acteurs",
+      "Chanteur",
+      "Hommes politique",
+      "Litteraire",
+    ];
+
     setLoading(true);
     const fetchAllItems = async () => {
       try {
@@ -106,7 +107,7 @@ const MyMap = () => {
       },
       { enableHighAccuracy: true }
     );
-  }, [categories]);
+  }, []);
 
   if (loading) {
     return (

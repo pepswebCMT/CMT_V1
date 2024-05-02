@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,6 @@ const CelebrityDetailPage = () => {
   const [celebrity, setCelebrity] = useState(null);
   const { categoryName, celebrityId } = useParams();
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCelebrity = async () => {
