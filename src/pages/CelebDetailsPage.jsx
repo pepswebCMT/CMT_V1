@@ -127,6 +127,17 @@ const CelebrityDetailPage = () => {
             </>
           )}
         </div>
+        <div>
+<div className="w-full p-2">
+  {celebrity.imageTomb && (
+    <img
+      src={celebrity.imageTomb}
+      alt={`Tombe de ${celebrity.title}`}
+      className="w-full max-w-4xl rounded-xl"
+    />
+  )}
+</div>
+        </div>
       </div>
     </section>
   );
