@@ -11,27 +11,32 @@ const CoverPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    // Handler pour capturer l'événement beforeinstallprompt
+    const handleBeforeInstallPrompt = (event) => {
+      event.preventDefault(); // Empêcher le prompt automatique
+      deferredPrompt.current = event; // Stocker l'événement pour un usage ultérieur
+      setIsAppInstalled(false); // Mettre à jour l'état pour afficher le bouton d'installation
+    };
+
+    // Vérifier si l'application est lancée en mode standalone
     const mediaQueryList = window.matchMedia("(display-mode: standalone)");
     if (mediaQueryList.matches) {
       setIsAppInstalled(true);
     } else {
-      window.addEventListener("beforeinstallprompt", (event) => {
-        event.preventDefault();
-        deferredPrompt.current = event;
-        setIsAppInstalled(false); // L'application n'est pas encore installée
-      });
-
-      return () => {
-        window.removeEventListener("beforeinstallprompt", (event) => {
-          deferredPrompt.current = null;
-        });
-      };
+      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     }
+
+    // Fonction de nettoyage pour retirer l'écouteur
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    };
   }, []);
 
   const handleInstall = () => {
+    // Afficher le prompt d'installation stocké
     if (deferredPrompt.current) {
       deferredPrompt.current.prompt();
+      // Gérer la décision de l'utilisateur
       deferredPrompt.current.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("L'application a été installée");
@@ -39,13 +44,13 @@ const CoverPage = () => {
         } else {
           console.log("L'utilisateur a annulé l'installation");
         }
-        deferredPrompt.current = null;
+        deferredPrompt.current = null; // Réinitialiser la référence après utilisation
       });
     }
   };
 
   const navigateToStart = () => {
-    navigate("/home");
+    navigate("/home"); 
   };
 
   return (
