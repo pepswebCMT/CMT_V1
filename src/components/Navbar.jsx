@@ -1,6 +1,5 @@
 import { FaUserCircle } from "react-icons/fa";
 import LangManager from "./LangManager";
-import CMT from "../assets/img/svg/CMT-logo-text.svg";
 import CMT2 from "../assets/img/CMT-logo-02.svg";
 import { Link } from "react-router-dom";
 
