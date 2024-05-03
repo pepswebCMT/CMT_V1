@@ -126,9 +126,9 @@ return (
   >
     <TileLayer
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+      
     />
-    {items.map((item) => (
+    {items.map((item) => ( 
       <Marker
         key={item.id}
         position={[item.location._lat, item.location._long]}
