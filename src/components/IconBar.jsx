@@ -6,7 +6,7 @@ const IconBar = ({ onCategoryChange }) => {
     { name: "Personnalités Historiques", icon: "🏛️" },
     { name: "Les plus connus", icon: "🌟" },
     { name: "Sport", icon: "🏀" },
-    { name: "Acteurs", icon: "🎭" },
+    // { name: "Acteurs", icon: "🎭" },
     { name: "Chanteurs", icon: "🎤" },
     { name: "Hommes Politiques", icon: "🎩" },
     { name: "Litterature", icon: "📚" },
