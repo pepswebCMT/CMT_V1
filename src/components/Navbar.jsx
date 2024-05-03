@@ -1,7 +1,8 @@
 import { FaUserCircle } from "react-icons/fa";
+import { IoIosLogOut } from "react-icons/io";
 import LangManager from "./LangManager";
 import CMT2 from "../assets/img/CMT-logo-02.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Modal from "./Modal";
 import UserProfile from "./ModalProfil";
@@ -12,6 +13,7 @@ import { onAuthStateChanged } from "firebase/auth";
 const Navbar = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const nav = useNavigate();
 
   const handleUserIconClick = () => {
     setIsProfileModalOpen(true);
@@ -20,6 +22,12 @@ const Navbar = () => {
   const handleCloseModal = () => {
     setIsProfileModalOpen(false);
   };
+
+  const handleSignOut = () => {
+    Auth.signOut();
+    nav("/home");
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(Auth, (user) => {
       if (user) {
@@ -55,10 +63,17 @@ const Navbar = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 1.2 }}
         >
-          <FaUserCircle
-            className="w-full text-5xl text-white dark:text-dark-200"
-            onClick={handleUserIconClick}
-          />
+          {currentUser ? (
+            <IoIosLogOut
+              className="w-full text-5xl text-white dark:text-dark-200"
+              onClick={handleSignOut}
+            />
+          ) : (
+            <FaUserCircle
+              className="w-full text-5xl text-white dark:text-dark-200"
+              onClick={handleUserIconClick}
+            />
+          )}
         </motion.div>
       </nav>
       <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>

@@ -78,7 +78,7 @@ const HomePage = () => {
             style={{ x: xTranslation }}
           >
             {celebrities &&
-              [...celebrities, ...celebrities].map((celebrity) => (
+              [...celebrities, ...celebrities].map((celebrity, index) => (
                 // <Link
                 //   key={celebrity.id}
                 //   to={`/category/${selectedCategory}/${celebrity.id}`}
@@ -101,7 +101,10 @@ const HomePage = () => {
                 //   </div>
                 // </Link>
 
-                <Link to={`/category/${selectedCategory}/${celebrity.id}`}>
+                <Link
+                  key={index}
+                  to={`/category/${selectedCategory}/${celebrity.id}`}
+                >
                   <CelebCard key={celebrity.id} celebDetails={celebrity} />
                 </Link>
               ))}
