@@ -8,7 +8,6 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { BsSendPlusFill } from "react-icons/bs";
 import { MdAddAPhoto } from "react-icons/md";
 import illustration from "../assets/img/headstonesPhotoA.webp";
-import Modal from "../components/Modal";
 import Navbar from "../components/Navbar";
 import { IconContext } from "react-icons";
 import { useTranslation } from "react-i18next";

@@ -9,7 +9,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { FaCheck, FaTimes, FaEdit } from "react-icons/fa";
-// import "./styles/admin.css";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 

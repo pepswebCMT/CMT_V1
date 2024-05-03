@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import Navbar from "../components/Navbar";
-import Modal from "../components/Modal";
 import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
 
