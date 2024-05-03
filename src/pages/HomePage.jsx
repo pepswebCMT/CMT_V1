@@ -84,10 +84,7 @@ const HomePage = () => {
 
   return (
     <main className="w-full pt-20 pb-20 dark:bg-dark-200 dark:text-white font-josefin">
-      <Navbar onUserIconClick={handleUserIconClick} />
-      <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
-        <UserProfile user={currentUser} />
-      </Modal>
+      <Navbar />
       <section className="w-full overflow-hidden flex flex-col justify-between gap-4 items-center p-5">
         <div className="w-full max-w-96 font-bold text-4xl p-2 text-center">
           <h2>{t("home_h1")}</h2>

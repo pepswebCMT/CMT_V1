@@ -110,7 +110,7 @@ const MyMap = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen font-aileronBold">
         <div className="text-xl font-semibold">REST IN PEACE...</div>
       </div>
     );
@@ -118,7 +118,7 @@ const MyMap = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen font-aileronBold">
         <div className="text-red-500 text-xl font-semibold">Error: {error}</div>
       </div>
     );

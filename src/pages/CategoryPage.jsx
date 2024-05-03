@@ -35,7 +35,6 @@ const CategoryPage = () => {
   return (
     <section className="w-full flex justify-center pt-28 dark:bg-dark-200 dark:text-white font-josefin">
       <Navbar />
-      <Modal />
       <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
         <motion.div
           className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold text-3xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400"

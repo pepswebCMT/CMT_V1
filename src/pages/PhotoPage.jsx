@@ -6,11 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { BsSendPlusFill } from "react-icons/bs";
+import { MdAddAPhoto } from "react-icons/md";
 import illustration from "../assets/img/headstonesPhotoA.webp";
 import Modal from "../components/Modal";
 import Navbar from "../components/Navbar";
 import { IconContext } from "react-icons";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 
 const PhotoPage = () => {
   const [personality, setPersonality] = useState("");
@@ -94,11 +96,10 @@ const PhotoPage = () => {
   };
 
   return (
-    <section className="w-full pt-28 font-josefin">
+    <section className="w-full flex justify-center items-center pt-28 font-josefin">
       <Navbar />
-      <Modal></Modal>
-      <div className="w-full overflow-hidden flex flex-col justify-between gap-6 items-center p-5">
-        <div className="w-full max-w-96 p-2 flex flex-col justify-center items-center gap-3 font-josefinBold font-bold shadow-inner">
+      <div className="w-full max-w-96 flex flex-col justify-between gap-6 items-center p-2">
+        <motion.div className="w-full sticky top-28 z-40 bg-white p-2 flex flex-col justify-center items-center gap-3 font-josefinBold font-bold rounded-xl shadow-inner">
           <Link
             to="#"
             onClick={() => navigate(-1)}
@@ -107,7 +108,7 @@ const PhotoPage = () => {
             <FontAwesomeIcon icon={faArrowLeft} />
             <h1>{t("add_tomb_title")}</h1>
           </Link>
-        </div>
+        </motion.div>
         <div className="w-full max-w-96">
           <img src={illustration} alt="Partagez votre découverte" />
         </div>
@@ -116,10 +117,12 @@ const PhotoPage = () => {
           <div className="w-full flex flex-col justify-center items-center">
             <button
               type="button"
-              className="w-2/3 max-w-72 bg-mandarin-100 dark:bg-mandarin-600 rounded-3xl p-2 text-center font-aileron text-xl shadow-xl"
+              className="max-w-72 bg-mandarin-100 dark:bg-mandarin-600 rounded-3xl p-6 text-center font-aileron text-xl shadow-xl flex flex-col justify-center items-center"
               onClick={handleTakePhotoClick}
             >
-              {t("add_tomb_take_photo")}
+              <IconContext.Provider value={{ size: "3em", color: "white" }}>
+                <MdAddAPhoto />
+              </IconContext.Provider>
             </button>
             <p className="w-full p-1 text-center text-lg">
               {t("add_tomb_photo")}
@@ -160,9 +163,11 @@ const PhotoPage = () => {
             )}
             <button
               type="submit"
-              className="rounded-full p-3 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron"
+              className="rounded-full py-3 px-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron"
             >
-              <p className="pr-4 font-bold">{t("add_tomb_send")}</p>
+              <p className="pr-2 font-aileronBold text-white">
+                {t("add_tomb_send")}
+              </p>
               <IconContext.Provider value={{ size: "2rem", color: "white" }}>
                 <BsSendPlusFill className="text-center" />
               </IconContext.Provider>
