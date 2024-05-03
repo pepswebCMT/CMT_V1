@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,7 @@ const CategoryPage = () => {
   const { category } = useParams();
   const [items, setItems] = useState([]);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -39,6 +40,9 @@ const CategoryPage = () => {
         <motion.div
           className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold text-3xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400"
           whileHover={{ scale: 1.1 }}
+          onClick={() => {
+            navigate("/home");
+          }}
         >
           <Link to="/home">
             <FontAwesomeIcon icon={faArrowLeft} />

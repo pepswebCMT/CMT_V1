@@ -13,7 +13,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { FaMapMarker } from "react-icons/fa";
-import tombstoneImage from "./styles/tombstone_1.png";
+import tombstoneImage from "../assets/img/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
 
@@ -21,9 +21,7 @@ const customMarkerHtml = renderToStaticMarkup(
   <div
     style={{
       position: "relative",
-      width: "60px",
-      height: "20px",
-      fontSize: "37px",
+      fontSize: "50px",
     }}
   >
     <FaMapMarker style={{ color: "#FFC300" }} />
@@ -32,11 +30,10 @@ const customMarkerHtml = renderToStaticMarkup(
       alt="Tombstone"
       style={{
         position: "absolute",
-        width: "20px",
+        width: "30px",
         height: "auto",
-        left: "32%",
-        top: "90%",
-        transform: "translate(-50%, -50%)",
+        top: "5px",
+        left: "10px",
       }}
     />
   </div>
@@ -68,9 +65,9 @@ const MyMap = () => {
       "Les plus connus",
       "sport",
       "Acteurs",
-      "Chanteur",
-      "Hommes politique",
-      "Litteraire",
+      "Chanteurs",
+      "Hommes Politiques",
+      "Litterature",
     ];
 
     setLoading(true);

@@ -7,9 +7,9 @@ const IconBar = ({ onCategoryChange }) => {
     { name: "Les plus connus", icon: "🌟" },
     { name: "Sport", icon: "🏀" },
     { name: "Acteurs", icon: "🎭" },
-    { name: "Chanteur", icon: "🎤" },
-    { name: "Hommes politique", icon: "🎩" },
-    { name: "Litteraire", icon: "📚" },
+    { name: "Chanteurs", icon: "🎤" },
+    { name: "Hommes Politiques", icon: "🎩" },
+    { name: "Litterature", icon: "📚" },
   ];
   const handleIconClick = (category) => {
     onCategoryChange(category);

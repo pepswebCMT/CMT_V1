@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,7 @@ const CelebrityDetailPage = () => {
   const [celebrity, setCelebrity] = useState(null);
   const { categoryName, celebrityId } = useParams();
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCelebrity = async () => {
@@ -72,10 +73,11 @@ const CelebrityDetailPage = () => {
         <motion.div
           className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold font-josefinBold text-2xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400"
           whileHover={{ scale: 1.1 }}
+          onClick={() => {
+            navigate(-1);
+          }}
         >
-          <Link to="/home">
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </Link>
+          <FontAwesomeIcon icon={faArrowLeft} />
           <h1>{celebrity.title}</h1>
         </motion.div>
         <img

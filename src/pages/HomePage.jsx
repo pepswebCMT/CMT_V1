@@ -93,7 +93,7 @@ const HomePage = () => {
           <h2>{t("home_h1")}</h2>
         </div>
         <IconBar onCategoryChange={handleCategoryChange} />
-        <div className="w-full p-2 flex justify-between items-center text-xl font-josefinBold font-bold">
+        <div className="w-full p-2 flex justify-between items-center text-xl font-josefinBold font-bold text-mandarin-100">
           <h3>{selectedCategory}</h3>
           <Link to={`/category/${selectedCategory}`} className="text-blue-400">
             {t("home_see_all")}{" "}
