@@ -84,16 +84,13 @@ const HomePage = () => {
 
   return (
     <main className="w-full pt-20 pb-20 dark:bg-dark-200 dark:text-white font-josefin">
-      <Navbar onUserIconClick={handleUserIconClick} />
-      <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
-        <UserProfile user={currentUser} />
-      </Modal>
+      <Navbar />
       <section className="w-full overflow-hidden flex flex-col justify-between gap-4 items-center p-5">
         <div className="w-full max-w-96 font-bold text-4xl p-2 text-center">
           <h2>{t("home_h1")}</h2>
         </div>
         <IconBar onCategoryChange={handleCategoryChange} />
-        <div className="w-full p-2 flex justify-between items-center text-xl font-josefinBold font-bold">
+        <div className="w-full p-2 flex justify-between items-center text-xl font-josefinBold font-bold text-mandarin-100">
           <h3>{selectedCategory}</h3>
           <Link to={`/category/${selectedCategory}`} className="text-blue-400">
             {t("home_see_all")}{" "}
