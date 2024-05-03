@@ -15,6 +15,7 @@ import "leaflet/dist/leaflet.css";
 import { FaMapMarker } from "react-icons/fa";
 import tombstoneImage from "./styles/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import { useTranslation } from "react-i18next";
 
 const customMarkerHtml = renderToStaticMarkup(
   <div
@@ -59,10 +60,11 @@ const MyMap = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const categories = [
-      "HommesHistoire",
+      "Personnalités Historiques",
       "Les plus connus",
       "sport",
       "Acteurs",
@@ -143,16 +145,15 @@ const MyMap = () => {
             icon={customMarkerIcon}
           >
             <Popup>
-              <div className="text-center">
-                <strong>{item.title}</strong>
-                <div className="flex justify-center mt-2">
+              <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
+                <h3>{item.title}</h3>
+                <div className="w-full flex justify-center items-center rounded-2xl m-1">
                   <img
                     src={item.imageUrl}
                     alt={item.title}
-                    className="w-16 h-16 rounded-full object-cover"
+                    className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover"
                   />
                 </div>
-                <br />
                 <button
                   onClick={() => {
                     window.open(
@@ -160,9 +161,9 @@ const MyMap = () => {
                       "_blank"
                     );
                   }}
-                  className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-block"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 m-1 rounded-2xl"
                 >
-                  Y aller
+                  {t("map_go")}
                 </button>
               </div>
             </Popup>

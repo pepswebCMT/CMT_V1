@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/Navbar";
 import Modal from "../components/Modal";
+import { motion } from "framer-motion";
 
 const CelebrityDetailPage = () => {
   const [celebrity, setCelebrity] = useState(null);
@@ -68,12 +69,15 @@ const CelebrityDetailPage = () => {
       <Navbar />
       <Modal></Modal>
       <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
-        <div className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold font-josefinBold text-2xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400">
+        <motion.div
+          className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold font-josefinBold text-2xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400"
+          whileHover={{ scale: 1.1 }}
+        >
           <Link to="/home">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>
           <h1>{celebrity.title}</h1>
-        </div>
+        </motion.div>
         <img
           src={celebrity.imageUrl}
           alt={celebrity.title}
