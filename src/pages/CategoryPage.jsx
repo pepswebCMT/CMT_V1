@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import Navbar from "../components/Navbar";
 import Modal from "../components/Modal";
 import { FaStar } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const CategoryPage = () => {
   const { category } = useParams();
@@ -35,18 +36,27 @@ const CategoryPage = () => {
       <Navbar />
       <Modal />
       <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
-        <div className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold text-3xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400">
+        <motion.div
+          className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold text-3xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400"
+          whileHover={{ scale: 1.1 }}
+        >
           <Link to="/home">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>
           <h1>{formattedCategory}</h1>
-        </div>
+        </motion.div>
         <h2 className="w-full text-center text-2xl font-bold">
           {t("category_title")}
         </h2>
         <div className="w-full grid grid-cols-2 gap-4 justify-items-center place-items-center">
           {items.map((item) => (
-            <div className="w-44 h-60 rounded-2xl bg-slate-50 shadow-2xl relative">
+            <motion.div
+              className="w-44 h-60 rounded-2xl bg-slate-50 shadow-2xl relative"
+              initial={{ opacity: 0, translateY: 50 }}
+              whileHover={{ scale: 1.1 }}
+              whileInView={{ opacity: 1, translateY: 0 }}
+              transition={{ duration: 0.2 }}
+            >
               <Link key={item.id} to={`/category/${category}/${item.id}`}>
                 <img
                   src={item.imageUrl}
@@ -58,7 +68,7 @@ const CategoryPage = () => {
                   <h3 className="">{item.title}</h3>
                 </div>
               </Link>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

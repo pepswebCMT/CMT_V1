@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { BsSendPlusFill } from "react-icons/bs";
-// import "./styles/PhotoPage.css";
 import illustration from "../assets/img/headstonesPhotoA.webp";
 import Modal from "../components/Modal";
 import Navbar from "../components/Navbar";
@@ -95,11 +94,11 @@ const PhotoPage = () => {
   };
 
   return (
-    <section className="w-full pt-28">
+    <section className="w-full pt-28 font-josefin">
       <Navbar />
       <Modal></Modal>
       <div className="w-full overflow-hidden flex flex-col justify-between gap-6 items-center p-5">
-        <div className="w-full max-w-96 p-2 flex flex-col justify-center items-center gap-3">
+        <div className="w-full max-w-96 p-2 flex flex-col justify-center items-center gap-3 font-josefinBold font-bold shadow-inner">
           <Link
             to="#"
             onClick={() => navigate(-1)}
@@ -112,23 +111,23 @@ const PhotoPage = () => {
         <div className="w-full max-w-96">
           <img src={illustration} alt="Partagez votre découverte" />
         </div>
-        <div className="w-full flex flex-col justify-around items-center gap-3 text-xl">
+        <div className="w-full flex flex-col justify-around items-center gap-3 text-2xl font-bold">
           <h1>{t("add_tomb_share")}</h1>
           <div className="w-full flex flex-col justify-center items-center">
             <button
               type="button"
-              className="w-2/3 max-w-72 bg-mandarin-100 dark:bg-mandarin-600 rounded-3xl p-2 text-center font-bold text-xl shadow-xl"
+              className="w-2/3 max-w-72 bg-mandarin-100 dark:bg-mandarin-600 rounded-3xl p-2 text-center font-aileron text-xl shadow-xl"
               onClick={handleTakePhotoClick}
             >
               {t("add_tomb_take_photo")}
             </button>
-            <p className="w-full p-1 text-center text-sm">
+            <p className="w-full p-1 text-center text-lg">
               {t("add_tomb_photo")}
             </p>
           </div>
           <form
             onSubmit={handleSubmit}
-            className="w-full flex flex-col justify-around items-center text-xl"
+            className="w-full flex flex-col justify-around items-center gap-4 text-xl font-aileron"
           >
             <input
               type="file"
@@ -143,7 +142,7 @@ const PhotoPage = () => {
               value={personality}
               onChange={handlePersonalityChange}
               placeholder={t("add_tomb_name")}
-              className="w-full max-w-96"
+              className="w-full max-w-96 border-2 p-2 rounded-xl"
               required
             />
             <input
@@ -151,7 +150,7 @@ const PhotoPage = () => {
               value={cemetery}
               onChange={handleCemeteryChange}
               placeholder={t("add_tomb_cemetery")}
-              className="w-full max-w-96"
+              className="w-full max-w-96 border-2 p-2 rounded-xl"
               required
             />
             {selectedFileName && (
@@ -161,7 +160,7 @@ const PhotoPage = () => {
             )}
             <button
               type="submit"
-              className="rounded-full p-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center"
+              className="rounded-full p-3 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron"
             >
               <p className="pr-4 font-bold">{t("add_tomb_send")}</p>
               <IconContext.Provider value={{ size: "2rem", color: "white" }}>
