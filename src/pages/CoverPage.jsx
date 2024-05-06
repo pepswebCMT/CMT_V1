@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 
 const CoverPage = () => {

@@ -3,11 +3,7 @@ import { db } from "../firebase-config";
 import { collection, getDocs, doc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import IconBar from "../components/IconBar";
-import { Auth } from "../firebase-config";
-import UserProfile from "../components/ModalProfil";
 import Navbar from "../components/Navbar";
-import { onAuthStateChanged } from "firebase/auth";
-import Modal from "../components/Modal";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import AdBox from "../components/AdBox";
@@ -20,21 +16,11 @@ const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Les plus connus");
   const displayedCelebrityCount = 8;
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const { t } = useTranslation();
 
   let [ref, { width }] = useMeasure();
 
   const xTranslation = useMotionValue(0);
-
-  const handleUserIconClick = () => {
-    setIsProfileModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsProfileModalOpen(false);
-  };
 
   useEffect(() => {
     let controls;
@@ -51,17 +37,6 @@ const HomePage = () => {
 
     return controls.stop;
   }, [xTranslation, width]);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(Auth, (user) => {
-      if (user) {
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
-      }
-    });
-    return unsubscribe;
-  }, []);
 
   useEffect(() => {
     const fetchCelebrities = async (category) => {
@@ -103,7 +78,7 @@ const HomePage = () => {
             style={{ x: xTranslation }}
           >
             {celebrities &&
-              [...celebrities, ...celebrities].map((celebrity) => (
+              [...celebrities, ...celebrities].map((celebrity, index) => (
                 // <Link
                 //   key={celebrity.id}
                 //   to={`/category/${selectedCategory}/${celebrity.id}`}
@@ -126,7 +101,10 @@ const HomePage = () => {
                 //   </div>
                 // </Link>
 
-                <Link to={`/category/${selectedCategory}/${celebrity.id}`}>
+                <Link
+                  key={index}
+                  to={`/category/${selectedCategory}/${celebrity.id}`}
+                >
                   <CelebCard key={celebrity.id} celebDetails={celebrity} />
                 </Link>
               ))}

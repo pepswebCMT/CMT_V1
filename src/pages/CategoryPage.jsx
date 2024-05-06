@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import Navbar from "../components/Navbar";
-import Modal from "../components/Modal";
 import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -53,13 +52,7 @@ const CategoryPage = () => {
         </h2>
         <div className="w-full grid grid-cols-2 gap-4 justify-items-center place-items-center">
           {items.map((item) => (
-            <motion.div
-              className="w-44 h-60 rounded-2xl bg-slate-50 shadow-2xl relative"
-              initial={{ opacity: 0, translateY: 50 }}
-              whileHover={{ scale: 1.1 }}
-              whileInView={{ opacity: 1, translateY: 0 }}
-              transition={{ duration: 0.2 }}
-            >
+            <div className="w-44 h-60 rounded-2xl bg-slate-50 shadow-2xl relative">
               <Link key={item.id} to={`/category/${category}/${item.id}`}>
                 <img
                   src={item.imageUrl}
