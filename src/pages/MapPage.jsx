@@ -17,7 +17,6 @@ import tombstoneImage from "../assets/img/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
 import "../assets/leaflet/clusterMarker.css";
-import cmtMarker from "../assets/img/svg/CMT-marker-05.svg";
 
 const customMarkerHtml = renderToStaticMarkup(
   <div
