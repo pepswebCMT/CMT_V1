@@ -7,7 +7,7 @@ const CelebCard = ({ celebDetails }) => {
         <img
           src={celebDetails.imageUrl}
           alt={celebDetails.title}
-          className="w-full h-64 rounded-2xl object-cover"
+          className="w-full h-64 rounded-2xl object-cover object-top"
         />
         <div className="w-full p-1 absolute flex justify-center gap-4 items-center bottom-0 z-20 text-white text-center text-xl font-bold rounded-b-2xl rounded-bl-2xl bg-opacity-50 bg-black">
           <FaStar />

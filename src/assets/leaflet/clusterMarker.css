@@ -1,0 +1,21 @@
+.custom_marker {
+  /* background-color: #ffc300; */
+  padding: 1.8rem;
+  /* border-radius: 50%; */
+  /* width: 80px !important; */
+  /* height: 100px !important; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../img/svg/CMT-marker-05.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  /* background-size: contain; */
+  /* transform: translateX(200px); */
+}
+
+.custom_marker > span {
+  font-family: "aileron-bold";
+  font-size: 1.2rem;
+  padding-bottom: 10px;
+}
