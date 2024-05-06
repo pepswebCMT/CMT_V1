@@ -16,6 +16,8 @@ import { FaMapMarker } from "react-icons/fa";
 import tombstoneImage from "../assets/img/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
+import "../assets/leaflet/clusterMarker.css";
+import cmtMarker from "../assets/img/svg/CMT-marker-05.svg";
 
 const customMarkerHtml = renderToStaticMarkup(
   <div
@@ -51,6 +53,14 @@ function SetViewOnClick({ coords }) {
   map.flyTo(coords, map.getZoom());
   return null;
 }
+
+const createClusterCustomIcon = function (cluster) {
+  return L.divIcon({
+    html: `<span>${cluster.getChildCount()}</span>`,
+    className: "custom_marker",
+    iconSize: L.point(33, 33, true),
+  });
+};
 
 const MyMap = () => {
   const [items, setItems] = useState([]);
@@ -134,7 +144,10 @@ const MyMap = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
       />
-      <MarkerClusterGroup chunkedLoading>
+      <MarkerClusterGroup
+        chunkedLoading
+        iconCreateFunction={createClusterCustomIcon}
+      >
         {items.map((item) => (
           <Marker
             key={item.id}
