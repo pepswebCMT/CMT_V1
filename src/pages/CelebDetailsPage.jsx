@@ -5,7 +5,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/Navbar";
-import Modal from "../components/Modal";
 import { motion } from "framer-motion";
 
 const CelebrityDetailPage = () => {

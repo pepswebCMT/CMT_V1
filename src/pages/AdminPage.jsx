@@ -8,9 +8,8 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
-import { FaCheck, FaTimes, FaEdit, FaSignOutAlt } from "react-icons/fa";
-// import "./styles/admin.css";
-import { Link, useNavigate } from "react-router-dom";
+import { FaCheck, FaTimes, FaEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -75,7 +74,7 @@ const AdminPage = () => {
           {submissions.length > 0 ? (
             submissions.map((submission) => (
               <div key={submission.id} className="submission">
-                <h2>{submission.title}</h2>
+                <h2 className="text-lg font-semibold text-center">{submission.title}</h2>
                 {submission.imageUrl && (
                   <img
                     src={submission.imageUrl}
@@ -83,20 +82,23 @@ const AdminPage = () => {
                     className="submission-image"
                   />
                 )}
-                <p>{submission.cemetery}</p>
+              
+                <h3 className="text-lg font-semibold text-center">{submission.cemetery}</h3>
                 {editSubmission && editSubmission.id === submission.id ? (
-                  <div className="w-full flex items-center flex-col justify-around">
+                  <div className="w-full flex flex-col justify-around items-center gap-4 text-xl font-aileron">
                     <input
-                      className="w-3/4"
                       type="text"
+                      name="title"
                       value={editSubmission.title}
                       onChange={(e) => handleEditChange(e)}
+                      className="w-full max-w-96 border-2 p-2 rounded-xl"
                     />
                     <input
-                      className="w-3/4"
                       type="text"
+                      name="cemetery"
                       value={editSubmission.cemetery}
                       onChange={(e) => handleEditChange(e)}
+                      className="w-full max-w-96 border-2 p-2 rounded-xl"
                     />
                     <div className="w-full flex justify-center items-center">
                       <button className="w-1/3 p-3" onClick={handleEditSubmit}>
@@ -111,23 +113,32 @@ const AdminPage = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="submission-actions">
-                    <FaCheck
-                      className="icon-a icon-accept"
-                      onClick={() => approveSubmission(submission)}
-                      title={t("admin_accept")}
-                    />
-                    <FaTimes
-                      className="icon-a icon-reject"
-                      onClick={() => rejectSubmission(submission.id)}
-                      title={t("admin_reject")}
-                    />
-                    <FaEdit
-                      className="icon-a icon-edit"
-                      onClick={() => startEditing(submission)}
-                      title={t("admin_edit")}
-                    />
-                  </div>
+<div className="submission-actions flex justify-between">
+  <div>
+    <FaCheck
+      className="icon-a icon-accept cursor-pointer text-green-500"
+      onClick={() => approveSubmission(submission)}
+      title={t("admin_accept")}
+      size={24}
+    />
+  </div>
+  <div>
+    <FaTimes
+      className="icon-a icon-reject cursor-pointer text-red-500"
+      onClick={() => rejectSubmission(submission.id)}
+      title={t("admin_reject")}
+      size={24}
+    />
+  </div>
+  <div>
+    <FaEdit
+      className="icon-a icon-edit cursor-pointer text-blue-500"
+      onClick={() => startEditing(submission)}
+      title={t("admin_edit")}
+      size={24}
+    />
+  </div>
+</div>
                 )}
               </div>
             ))

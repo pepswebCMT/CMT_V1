@@ -51,8 +51,15 @@ const CategoryPage = () => {
           {t("category_title")}
         </h2>
         <div className="w-full grid grid-cols-2 gap-4 justify-items-center place-items-center">
-          {items.map((item) => (
-            <div className="w-44 h-60 rounded-2xl bg-slate-50 shadow-2xl relative">
+          {items.map((item, index) => (
+            <motion.div
+              key={index}
+              className="w-44 h-60 rounded-2xl bg-slate-50 shadow-2xl relative"
+              initial={{ opacity: 0, translateY: 50 }}
+              whileHover={{ scale: 1.1 }}
+              whileInView={{ opacity: 1, translateY: 0 }}
+              transition={{ duration: 0.2 }}
+            >
               <Link key={item.id} to={`/category/${category}/${item.id}`}>
                 <img
                   src={item.imageUrl}
