@@ -8,9 +8,9 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
-import { FaCheck, FaTimes, FaEdit, FaSignOutAlt } from "react-icons/fa";
+import { FaCheck, FaTimes, FaEdit } from "react-icons/fa";
 // import "./styles/admin.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +20,6 @@ import { useTranslation } from "react-i18next";
 const AdminPage = () => {
   const [submissions, setSubmissions] = useState([]);
   const [editSubmission, setEditSubmission] = useState(null);
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   useEffect(() => {

@@ -28,7 +28,10 @@ const CoverPage = () => {
 
     // Fonction de nettoyage pour retirer l'écouteur
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
     };
   }, []);
 
@@ -50,15 +53,14 @@ const CoverPage = () => {
   };
 
   const navigateToStart = () => {
-    navigate("/home"); 
+    navigate("/home");
   };
 
   return (
-    <section className="w-full pt-28 dark:bg-dark-200">
+    <section className="w-full pt-28 dark:bg-dark-200 font-josefin">
       <Navbar />
-      <Modal></Modal>
       <div className="w-full h-96 p-5 flex flex-col justify-around items-center">
-        <h1 className="w-full font-bold text-2xl text-center">
+        <h1 className="w-full font-josefinBold font-bold text-2xl text-center">
           {t("cover_welcome")}
         </h1>
         <button
