@@ -17,6 +17,7 @@ import tombstoneImage from "../assets/img/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
 import "../assets/leaflet/clusterMarker.css";
+import { useParams } from "react-router-dom";
 
 const customMarkerHtml = renderToStaticMarkup(
   <div
@@ -67,6 +68,7 @@ const MyMap = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { t } = useTranslation();
+  const { place } = useParams();
 
   useEffect(() => {
     const categories = [
@@ -182,6 +184,16 @@ const MyMap = () => {
 
       {userLocation && (
         <>
+          {place ? (
+            <SetViewOnClick
+              coords={[
+                Number(place.split(",")[0]),
+                Number(place.split(",")[1]),
+              ]}
+            />
+          ) : (
+            <SetViewOnClick coords={userLocation} />
+          )}
           <CircleMarker
             center={userLocation}
             color="blue"
@@ -191,7 +203,6 @@ const MyMap = () => {
           >
             <Popup>Vous êtes ici</Popup>
           </CircleMarker>
-          <SetViewOnClick coords={userLocation} />
         </>
       )}
     </MapContainer>

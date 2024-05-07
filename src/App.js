@@ -25,7 +25,8 @@ const App = () => {
         />
         <Route path="/photopage" element={<PhotoPage />} />
         <Route path="/map" element={<MyMap />} />
-        <Route path="/admin" element={<AdminPage />}></Route>
+        <Route path="/map/:place" element={<MyMap />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </Router>
   );

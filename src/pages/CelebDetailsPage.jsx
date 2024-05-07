@@ -46,24 +46,6 @@ const CelebrityDetailPage = () => {
   };
   const maxChar = 200;
 
-  const navigateToMap = () => {
-    if (celebrity && celebrity.location) {
-      const latitude = celebrity.location._lat;
-      const longitude = celebrity.location._long;
-      if (!isNaN(latitude) && !isNaN(longitude)) {
-        const coordinates = `${latitude},${longitude}`;
-        const url = `https://www.google.com/maps/dir/?api=1&destination=${coordinates}`;
-        window.open(url, "_blank");
-      } else {
-        console.error(
-          "Les coordonnées de localisation de la célébrité ne sont pas valides"
-        );
-      }
-    } else {
-      console.log("Les coordonnées de la célébrité ne sont pas disponibles");
-    }
-  };
-
   return (
     <section className="w-full flex justify-center pt-28 font-josefin">
       <Navbar />
@@ -96,7 +78,11 @@ const CelebrityDetailPage = () => {
           {celebrity.city}, {celebrity.country}.
         </p>
         <button
-          onClick={navigateToMap}
+          onClick={() => {
+            navigate(
+              `/map/${`${celebrity.location._lat},${celebrity.location._long}`}`
+            );
+          }}
           className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold"
         >
           Visiter le lieu.
