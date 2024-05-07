@@ -79,28 +79,6 @@ const HomePage = () => {
           >
             {celebrities &&
               [...celebrities, ...celebrities].map((celebrity, index) => (
-                // <Link
-                //   key={celebrity.id}
-                //   to={`/category/${selectedCategory}/${celebrity.id}`}
-                //   className="celebrity-card-link"
-                // >
-                //   <div className="celebrity-card">
-                //     <div className="celebrity-image-container">
-                //       <div className="celebrity-image-overlay">
-                //         <h3 className="celebrity-name">{celebrity.title}</h3>
-                //       </div>
-                //       <img
-                //         src={celebrity.imageUrl}
-                //         alt={celebrity.title}
-                //         className="celebrity-image"
-                //       />
-                //     </div>
-                //     <div className="celebrity-info">
-                //       <p>{celebrity.cemetery}</p>
-                //     </div>
-                //   </div>
-                // </Link>
-
                 <Link
                   key={index}
                   to={`/category/${selectedCategory}/${celebrity.id}`}
