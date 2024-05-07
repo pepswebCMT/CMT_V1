@@ -182,18 +182,14 @@ const MyMap = () => {
         ))}
       </MarkerClusterGroup>
 
+      {place && (
+        <SetViewOnClick
+          coords={[Number(place.split(",")[0]), Number(place.split(",")[1])]}
+        />
+      )}
+
       {userLocation && (
         <>
-          {place ? (
-            <SetViewOnClick
-              coords={[
-                Number(place.split(",")[0]),
-                Number(place.split(",")[1]),
-              ]}
-            />
-          ) : (
-            <SetViewOnClick coords={userLocation} />
-          )}
           <CircleMarker
             center={userLocation}
             color="blue"
@@ -203,6 +199,7 @@ const MyMap = () => {
           >
             <Popup>Vous êtes ici</Popup>
           </CircleMarker>
+          {!place && <SetViewOnClick coords={userLocation} />}
         </>
       )}
     </MapContainer>
