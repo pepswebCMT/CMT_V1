@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 const IconBar = ({ onCategoryChange }) => {
   const categories = [
     { name: "Personnalités Historiques", icon: "🏛️" },
-    { name: "Les plus connus", icon: "🌟" },
+    // { name: "Les plus connus", icon: "🌟" },
+    { name: "Scientifiques", icon: "💡" },
     { name: "Sport", icon: "🏀" },
     { name: "Acteurs", icon: "🎭" },
     { name: "Chanteurs", icon: "🎤" },
