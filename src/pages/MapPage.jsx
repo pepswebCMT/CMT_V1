@@ -73,7 +73,7 @@ const MyMap = () => {
   useEffect(() => {
     const categories = [
       "Personnalités Historiques",
-      "Les plus connus",
+      "Scientifiques",
       "sport",
       "Acteurs",
       "Chanteurs",
