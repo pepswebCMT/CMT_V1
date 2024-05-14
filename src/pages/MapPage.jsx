@@ -79,6 +79,7 @@ const MyMap = () => {
       "Chanteurs",
       "Hommes Politiques",
       "Litterature",
+      "Arts audiovisuels",
     ];
 
     setLoading(true);
@@ -165,7 +166,7 @@ const MyMap = () => {
                       <img
                         src={item.imageUrl}
                         alt={item.title}
-                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover"
+                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover object-top"
                       />
                     </div>
                     <button
