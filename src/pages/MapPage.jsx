@@ -72,14 +72,13 @@ const MyMap = () => {
 
   useEffect(() => {
     const categories = [
-      "Personnalités Historiques",
+      "Histoire et Politique",
       "Scientifiques",
-      "sport",
-      "Acteurs",
-      "Chanteurs",
-      "Hommes Politiques",
-      "Litterature",
-      "Arts audiovisuels",
+      "Litterature et Philosophie",
+      "Sport",
+      "Arts visuels",
+      "Arts musicaux",
+      "Arts vivants",
     ];
 
     setLoading(true);

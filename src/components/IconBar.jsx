@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 
 const IconBar = ({ onCategoryChange }) => {
   const categories = [
-    { name: "Personnalités Historiques", icon: "🏛️" },
+    { name: "Histoire et Politique", icon: "🏛️" },
     // { name: "Les plus connus", icon: "🌟" },
     { name: "Scientifiques", icon: "💡" },
+    { name: "Litterature et Philosophie", icon: "📚" },
     { name: "Sport", icon: "🏀" },
-    { name: "Acteurs", icon: "🎭" },
-    { name: "Chanteurs", icon: "🎤" },
-    { name: "Hommes Politiques", icon: "🎩" },
-    { name: "Litterature", icon: "📚" },
+    { name: "Arts visuels", icon: "🎨" },
+    { name: "Arts musicaux", icon: "🎤" },
+    { name: "Arts vivants", icon: "🎭" },
   ];
   const handleIconClick = (category) => {
     onCategoryChange(category);

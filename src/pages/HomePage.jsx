@@ -14,7 +14,7 @@ import NavButtons from "../components/NavButtons";
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Scientifiques");
+  const [selectedCategory, setSelectedCategory] = useState("Histoire et Politique");
   const displayedCelebrityCount = 8;
   const { t } = useTranslation();
 
