@@ -9,7 +9,7 @@ const IconBar = ({ onCategoryChange }) => {
     { name: "Litterature et Philosophie", icon: "📚" },
     { name: "Sport", icon: "🏀" },
     { name: "Arts visuels", icon: "🎨" },
-    { name: "Arts musicaux", icon: "🎤" },
+    { name: "Arts musicaux", icon: "🎶" },
     { name: "Arts vivants", icon: "🎭" },
   ];
   const handleIconClick = (category) => {
