@@ -72,13 +72,13 @@ const MyMap = () => {
 
   useEffect(() => {
     const categories = [
-      "Personnalités Historiques",
+      "Histoire et Politique",
       "Scientifiques",
-      "sport",
-      "Acteurs",
-      "Chanteurs",
-      "Hommes Politiques",
-      "Litterature",
+      "Litterature et Philosophie",
+      "Sport",
+      "Arts visuels",
+      "Arts musicaux",
+      "Arts vivants",
     ];
 
     setLoading(true);
@@ -140,6 +140,7 @@ const MyMap = () => {
       center={[51.505, -0.09]}
       zoom={13}
       style={{ height: "100vh", width: "100%" }}
+      attributionControl={false}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -164,7 +165,7 @@ const MyMap = () => {
                       <img
                         src={item.imageUrl}
                         alt={item.title}
-                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover"
+                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover object-top"
                       />
                     </div>
                     <button
