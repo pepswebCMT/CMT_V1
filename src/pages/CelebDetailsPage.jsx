@@ -66,27 +66,33 @@ const CelebrityDetailPage = () => {
           className="w-full p-2 max-w-80 rounded-3xl"
         />
         <h3 className="w-full p-2 text-2xl font-bold text-center">
-          {celebrity.cemetery}
+          {celebrity.cemetery ? celebrity.cemetery : ""}
         </h3>
-        <span className="location-icon">
-          <FontAwesomeIcon
-            icon={faMapMarkerAlt}
-            style={{ fontSize: "40px", color: "red" }}
-          />{" "}
-        </span>
-        <p className="w-full p-2 text-lg text-center font-aileron font-bold">
-          {celebrity.city}, {celebrity.country}.
-        </p>
-        <button
-          onClick={() => {
-            navigate(
-              `/map/${`${celebrity.location._lat},${celebrity.location._long}`}`
-            );
-          }}
-          className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold"
-        >
-          Visiter le lieu.
-        </button>
+        {celebrity.country ? (
+          <>
+            <span className="location-icon">
+              <FontAwesomeIcon
+                icon={faMapMarkerAlt}
+                style={{ fontSize: "40px", color: "red" }}
+              />{" "}
+            </span>
+            <p className="w-full p-2 text-lg text-center font-aileron font-bold">
+              {celebrity.city}, {celebrity.country}.
+            </p>
+          </>
+        ) : null}
+        {celebrity.location ? (
+          <button
+            onClick={() => {
+              navigate(
+                `/map/${`${celebrity.location._lat},${celebrity.location._long}`}`
+              );
+            }}
+            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold"
+          >
+            Visiter le lieu.
+          </button>
+        ) : null}
 
         <div className="w-full max-w-96 text-xl text-justify p-2 flex flex-col items-center justify-between font-aileron font-bold">
           {showFullDescription || celebrity.description.length <= maxChar ? (
