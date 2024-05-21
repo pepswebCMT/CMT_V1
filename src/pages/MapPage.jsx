@@ -17,7 +17,7 @@ import tombstoneImage from "../assets/img/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
 import "../assets/leaflet/clusterMarker.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const customMarkerHtml = renderToStaticMarkup(
   <div
@@ -69,6 +69,7 @@ const MyMap = () => {
   const [error, setError] = useState(null);
   const { t } = useTranslation();
   const { place } = useParams();
+  const goTo = useNavigate();
 
   useEffect(() => {
     const categories = [
@@ -88,14 +89,17 @@ const MyMap = () => {
         const promises = categories.map((category) => {
           const colRef = collection(docRef, category);
           const q = query(colRef);
+
           return getDocs(q);
         });
-
         const snapshots = await Promise.all(promises);
-        const allItems = snapshots.flatMap((snapshot) =>
-          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        const allItems = snapshots.flatMap((snapshot, index) =>
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            category: categories[index],
+            ...doc.data(),
+          }))
         );
-
         setItems(allItems);
       } catch (e) {
         setError("Failed to fetch data");
@@ -161,7 +165,12 @@ const MyMap = () => {
                 <Popup>
                   <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
                     <h3>{item.title}</h3>
-                    <div className="w-full flex justify-center items-center rounded-2xl m-1">
+                    <div
+                      className="w-full flex justify-center items-center rounded-2xl m-1"
+                      onClick={() => {
+                        goTo(`/category/${item.category}/${item.id}`);
+                      }}
+                    >
                       <img
                         src={item.imageUrl}
                         alt={item.title}
