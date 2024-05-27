@@ -139,6 +139,7 @@ const MyMap = () => {
     );
   }
 
+console.log(items);
   return (
     <MapContainer
       center={[51.505, -0.09]}
