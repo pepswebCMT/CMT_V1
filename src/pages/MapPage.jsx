@@ -17,7 +17,7 @@ import tombstoneImage from "../assets/img/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
 import "../assets/leaflet/clusterMarker.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link  } from "react-router-dom";
 
 const customMarkerHtml = renderToStaticMarkup(
   <div
@@ -135,6 +135,7 @@ const MyMap = () => {
     );
   }
 
+console.log(items);
   return (
     <MapContainer
       center={[51.505, -0.09]}
@@ -161,11 +162,13 @@ const MyMap = () => {
                   <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
                     <h3>{item.title}</h3>
                     <div className="w-full flex justify-center items-center rounded-2xl m-1">
-                      <img
-                        src={item.imageUrl}
-                        alt={item.title}
-                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover"
-                      />
+                      <Link to={`/category/${item.category}/${item.id}`}>
+                        <img
+                          src={item.imageUrl}
+                          alt={item.title}
+                          className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover"
+                        />
+                      </Link>
                     </div>
                     <button
                       onClick={() => {
