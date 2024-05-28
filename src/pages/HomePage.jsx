@@ -14,7 +14,7 @@ import NavButtons from "../components/NavButtons";
 
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Histoire et Politique");
+  const [selectedCategory, setSelectedCategory] = useState("Les plus connus");
   const displayedCelebrityCount = 8;
   const { t } = useTranslation();
 
@@ -40,7 +40,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchCelebrities = async (category) => {
-      const docRef = doc(db, "Tombs", "OccpEQD19eoOmrLfPaP0");
+      const docRef = doc(db, "Tombs", "Categories");
       const colRef = collection(docRef, category);
       const querySnapshot = await getDocs(colRef);
       const fetchedCelebrities = querySnapshot.docs.map((doc) => ({
