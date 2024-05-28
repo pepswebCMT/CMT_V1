@@ -12,7 +12,6 @@ import Navbar from "../components/Navbar";
 import { IconContext } from "react-icons";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { resizer } from 'react-image-file-resizer';
 
 const PhotoPage = () => {
   const [personality, setPersonality] = useState("");
