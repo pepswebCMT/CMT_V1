@@ -76,16 +76,17 @@ const MyMap = () => {
       "Histoire et Politique",
       "Scientifiques",
       "Litterature et Philosophie",
-      "Sport",
+      "Sports",
       "Arts visuels",
       "Arts musicaux",
       "Arts vivants",
+      "Les plus connus"
     ];
 
     setLoading(true);
     const fetchAllItems = async () => {
       try {
-        const docRef = doc(db, "Tombs", "OccpEQD19eoOmrLfPaP0");
+        const docRef = doc(db, "Tombs", "Categories");
         const promises = categories.map((category) => {
           const colRef = collection(docRef, category);
           const q = query(colRef);

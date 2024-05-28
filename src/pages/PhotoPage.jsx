@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db, storage } from "../firebase-config";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,7 @@ import Navbar from "../components/Navbar";
 import { IconContext } from "react-icons";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { resizer } from 'react-image-file-resizer';
 
 const PhotoPage = () => {
   const [personality, setPersonality] = useState("");
@@ -26,7 +27,7 @@ const PhotoPage = () => {
   const handlePersonalityChange = (e) => setPersonality(e.target.value);
   const handleCemeteryChange = (e) => setCemetery(e.target.value);
 
-  const handleFileChange = (event) => {
+ const handleFileChange = (event) => {
     const newFile = event.target.files[0];
     if (newFile) {
       setFile(newFile);
@@ -60,22 +61,31 @@ const PhotoPage = () => {
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const storageRef = ref(storage, `images/${file.name}`);
-        const uploadTask = await uploadBytes(storageRef, file);
-        const imageUrl = await getDownloadURL(uploadTask.ref);
+    try {
+      // Récupérer tous les documents de la collection
+      const querySnapshot = await getDocs(collection(db, "PendingTombs"));
+      // Compter le nombre de documents
+      const count = querySnapshot.size;
+      // Nouveau nom pour le prochain document
+      const newTombName = (count + 1).toString();
+      
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const storageRef = ref(storage, `images/${newTombName}`);
+          const uploadTask = await uploadBytes(storageRef, file);
+          const imageUrl = await getDownloadURL(uploadTask.ref);
 
-        const tombData = {
-          title: personality,
-          cemetery: cemetery,
-          imageUrl: imageUrl,
-          location: `${position.coords.latitude},${position.coords.longitude}`,
-          status: "en attente",
-        };
+          const tombData = {
+            title: personality,
+            cemetery: cemetery,
+            imageUrl: imageUrl,
+            location: `${position.coords.latitude},${position.coords.longitude}`,
+            status: "en attente",
+          };
 
-        try {
-          await addDoc(collection(db, "PendingTombs"), tombData);
+          // Ajouter le nouveau document avec le nouveau nom
+          await setDoc(doc(db, "PendingTombs", newTombName), tombData);
+
           setSubmitStatus(t("add_tomb_submit_verify"));
           setTimeout(() => {
             setSubmitStatus("");
@@ -84,14 +94,15 @@ const PhotoPage = () => {
             setFile(null);
             setSelectedFileName("");
           }, 4000);
-        } catch (error) {
-          setSubmitStatus(`Oops : ${error.message}`);
+        },
+        (error) => {
+          console.error("Erreur de géolocalisation: ", error);
         }
-      },
-      (error) => {
-        console.error("Erreur de géolocalisation: ", error);
-      }
-    );
+      );
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données: ", error);
+      setSubmitStatus(`Oops : ${error.message}`);
+    }
   };
 
   return (

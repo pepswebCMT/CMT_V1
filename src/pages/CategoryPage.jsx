@@ -21,7 +21,7 @@ const CategoryPage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const colRef = collection(db, "Tombs", "OccpEQD19eoOmrLfPaP0", category);
+        const colRef = collection(db, "Tombs", "Categories", category);
         const querySnapshot = await getDocs(colRef);
         const data = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -65,7 +65,7 @@ const CategoryPage = () => {
           {t("category_title")}
         </h2>
 
-        <div className="relative w-full mb-4">
+        <div className="relative w-full mb-4 text-xl">
           <input
             type="text"
             placeholder={t("Rechercher")}

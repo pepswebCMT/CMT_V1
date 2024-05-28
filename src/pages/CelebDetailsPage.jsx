@@ -18,7 +18,7 @@ const CelebrityDetailPage = () => {
       const docRef = doc(
         db,
         "Tombs",
-        "OccpEQD19eoOmrLfPaP0",
+        "Categories",
         categoryName,
         celebrityId
       );

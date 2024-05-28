@@ -7,7 +7,7 @@ const IconBar = ({ onCategoryChange }) => {
     { name: "Les plus connus", icon: "🌟" },
     { name: "Scientifiques", icon: "💡" },
     { name: "Litterature et Philosophie", icon: "📚" },
-    { name: "Sport", icon: "🏀" },
+    { name: "Sports", icon: "🏀" },
     { name: "Arts visuels", icon: "🎨" },
     { name: "Arts musicaux", icon: "🎶" },
     { name: "Arts vivants", icon: "🎭" },
