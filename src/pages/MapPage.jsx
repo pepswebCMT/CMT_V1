@@ -60,12 +60,12 @@ const famousMarkerHtml = renderToStaticMarkup(
       {`
         @keyframes shine {
           0%, 100% {
-            box-shadow: 0 0 20px 2px rgba(255, 215, 0, 0.5);
+            
             transform: scale(1);
             filter: brightness(1);
           }
           50% {
-            box-shadow: 0 0 60px 15px rgba(255, 215, 0, 0.9);
+            
             transform: scale(1.2);
             filter: brightness(1.5);
           }
