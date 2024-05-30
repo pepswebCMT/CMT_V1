@@ -112,18 +112,40 @@ const MyMap = () => {
 
     fetchAllItems();
 
-    const handleLocationPermission = () => {
-      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-        if (result.state === 'granted') {
+    const handleLocationPermission = async () => {
+      try {
+        const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+
+        if (permissionStatus.state === 'granted') {
           // Si l'autorisation est déjà accordée, obtenir la position
           getUserLocation();
-        } else if (result.state === 'prompt') {
-          // Si l'autorisation doit être demandée, demander directement
-          getUserLocation();
-        } else {
-          console.error("Permission denied or error retrieving location");
+        } else if (permissionStatus.state === 'prompt' || permissionStatus.state === 'denied') {
+          // Si l'autorisation doit être demandée ou est refusée, demander directement
+          requestUserLocation();
         }
-      });
+
+        // Surveiller les changements d'état de la permission
+        permissionStatus.onchange = () => {
+          if (permissionStatus.state === 'granted') {
+            window.location.reload(); // Rafraîchir la page lorsque la permission est accordée
+          }
+        };
+      } catch (error) {
+        console.error("Error checking geolocation permission:", error);
+      }
+    };
+
+    const requestUserLocation = () => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newPos = [position.coords.latitude, position.coords.longitude];
+          setUserLocation(newPos);
+        },
+        (error) => {
+          console.error("Error retrieving location:", error);
+        },
+        { enableHighAccuracy: true }
+      );
     };
 
     const getUserLocation = () => {
