@@ -65,6 +65,9 @@ const CelebrityDetailPage = () => {
           alt={celebrity.title}
           className="w-full p-2 max-w-80 rounded-3xl"
         />
+        <p className="w-full  text-lg text-center font-aileron">
+          {celebrity.birth_date}  -  {celebrity.death_date}.
+        </p>
         <h3 className="w-full p-2 text-2xl font-bold text-center">
           {celebrity.cemetery ? celebrity.cemetery : ""}
         </h3>
