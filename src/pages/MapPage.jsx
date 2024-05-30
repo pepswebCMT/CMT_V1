@@ -112,16 +112,34 @@ const MyMap = () => {
 
     fetchAllItems();
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const newPos = [position.coords.latitude, position.coords.longitude];
-        setUserLocation(newPos);
-      },
-      () => {
-        console.error("Permission denied or error retrieving location");
-      },
-      { enableHighAccuracy: true }
-    );
+    const handleLocationPermission = () => {
+      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+        if (result.state === 'granted') {
+          // Si l'autorisation est déjà accordée, obtenir la position
+          getUserLocation();
+        } else if (result.state === 'prompt') {
+          // Si l'autorisation doit être demandée, demander directement
+          getUserLocation();
+        } else {
+          console.error("Permission denied or error retrieving location");
+        }
+      });
+    };
+
+    const getUserLocation = () => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newPos = [position.coords.latitude, position.coords.longitude];
+          setUserLocation(newPos);
+        },
+        (error) => {
+          console.error("Error retrieving location:", error);
+        },
+        { enableHighAccuracy: true }
+      );
+    };
+
+    handleLocationPermission();
   }, []);
 
   if (loading) {
@@ -140,7 +158,6 @@ const MyMap = () => {
     );
   }
 
-console.log(items);
   return (
     <MapContainer
       center={[51.505, -0.09]}
