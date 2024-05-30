@@ -12,9 +12,9 @@ const CelebCard = ({ celebDetails }) => {
         <div className="w-full p-1 absolute flex justify-center gap-4 items-center bottom-0 z-20 text-white text-center text-xl font-bold rounded-b-2xl rounded-bl-2xl bg-opacity-50 bg-black">
           <FaStar />
           <h3>{celebDetails.title}</h3>
+          
         </div>
       </div>
-
       <div className="w-full p-1 flex flex-col justify-around text-center items-center font-aileron text-2xl font-bold">
         <p>{celebDetails.country}</p>
         <p>{celebDetails.cemetery}</p>

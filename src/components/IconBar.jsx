@@ -1,5 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
+//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
+
+
 
 const IconBar = ({ onCategoryChange }) => {
   const categories = [
@@ -11,6 +15,7 @@ const IconBar = ({ onCategoryChange }) => {
     { name: "Arts visuels", icon: "🎨" },
     { name: "Arts musicaux", icon: "🎶" },
     { name: "Arts vivants", icon: "🎭" },
+    //{ name: "Criminels", icon: <FontAwesomeIcon icon={faUserSecret} /> }
   ];
   const handleIconClick = (category) => {
     onCategoryChange(category);
