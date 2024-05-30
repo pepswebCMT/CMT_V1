@@ -67,7 +67,6 @@ const MyMap = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [showLocationPopup, setShowLocationPopup] = useState(false);
   const { t } = useTranslation();
   const { place } = useParams();
   const goTo = useNavigate();
@@ -119,8 +118,8 @@ const MyMap = () => {
           // Si l'autorisation est déjà accordée, obtenir la position
           getUserLocation();
         } else if (result.state === 'prompt') {
-          // Si l'autorisation doit être demandée, afficher le popup
-          setShowLocationPopup(true);
+          // Si l'autorisation doit être demandée, demander directement
+          getUserLocation();
         } else {
           console.error("Permission denied or error retrieving location");
         }
@@ -133,8 +132,8 @@ const MyMap = () => {
           const newPos = [position.coords.latitude, position.coords.longitude];
           setUserLocation(newPos);
         },
-        () => {
-          console.error("Permission denied or error retrieving location");
+        (error) => {
+          console.error("Error retrieving location:", error);
         },
         { enableHighAccuracy: true }
       );
@@ -142,20 +141,6 @@ const MyMap = () => {
 
     handleLocationPermission();
   }, []);
-
-  const handleLocationAccept = () => {
-    setShowLocationPopup(false);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const newPos = [position.coords.latitude, position.coords.longitude];
-        setUserLocation(newPos);
-      },
-      () => {
-        console.error("Permission denied or error retrieving location");
-      },
-      { enableHighAccuracy: true }
-    );
-  };
 
   if (loading) {
     return (
@@ -174,93 +159,82 @@ const MyMap = () => {
   }
 
   return (
-    <div>
-      {showLocationPopup && (
-        <div className="popup">
-          <div className="popup-inner">
-            <h2>Autoriser la localisation</h2>
-            <p>Nous avons besoin de votre autorisation pour accéder à votre localisation.</p>
-            <button onClick={handleLocationAccept}>Accepter</button>
-          </div>
-        </div>
-      )}
-      <MapContainer
-        center={[51.505, -0.09]}
-        zoom={13}
-        style={{ height: "100vh", width: "100%" }}
-        attributionControl={false}
+    <MapContainer
+      center={[51.505, -0.09]}
+      zoom={13}
+      style={{ height: "100vh", width: "100%" }}
+      attributionControl={false}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+      />
+      <MarkerClusterGroup
+        chunkedLoading
+        iconCreateFunction={createClusterCustomIcon}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-        />
-        <MarkerClusterGroup
-          chunkedLoading
-          iconCreateFunction={createClusterCustomIcon}
-        >
-          {items.map(
-            (item) =>
-              item.location && (
-                <Marker
-                  key={item.id}
-                  position={[item.location._lat, item.location._long]}
-                  icon={customMarkerIcon}
-                >
-                  <Popup>
-                    <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
-                      <h3>{item.title}</h3>
-                      <div
-                        className="w-full flex justify-center items-center rounded-2xl m-1"
-                        onClick={() => {
-                          goTo(`/category/${item.category}/${item.id}`);
-                        }}
-                      >
-                        <img
-                          src={item.imageUrl}
-                          alt={item.title}
-                          className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover object-top"
-                        />
-                      </div>
-                      <button
-                        onClick={() => {
-                          window.open(
-                            `https://www.google.com/maps/search/?api=1&query=${item.location._lat},${item.location._long}`,
-                            "_blank"
-                          );
-                        }}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 m-1 rounded-2xl"
-                      >
-                        {t("map_go")}
-                      </button>
+        {items.map(
+          (item) =>
+            item.location && (
+              <Marker
+                key={item.id}
+                position={[item.location._lat, item.location._long]}
+                icon={customMarkerIcon}
+              >
+                <Popup>
+                  <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
+                    <h3>{item.title}</h3>
+                    <div
+                      className="w-full flex justify-center items-center rounded-2xl m-1"
+                      onClick={() => {
+                        goTo(`/category/${item.category}/${item.id}`);
+                      }}
+                    >
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover object-top"
+                      />
                     </div>
-                  </Popup>
-                </Marker>
-              )
-          )}
-        </MarkerClusterGroup>
-
-        {place && (
-          <SetViewOnClick
-            coords={[Number(place.split(",")[0]), Number(place.split(",")[1])]}
-          />
+                    <button
+                      onClick={() => {
+                        window.open(
+                          `https://www.google.com/maps/search/?api=1&query=${item.location._lat},${item.location._long}`,
+                          "_blank"
+                        );
+                      }}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 m-1 rounded-2xl"
+                    >
+                      {t("map_go")}
+                    </button>
+                  </div>
+                </Popup>
+              </Marker>
+            )
         )}
+      </MarkerClusterGroup>
 
-        {userLocation && (
-          <>
-            <CircleMarker
-              center={userLocation}
-              color="blue"
-              radius={2}
-              fillColor="#0000FF"
-              fillOpacity={1}
-            >
-              <Popup>Vous êtes ici</Popup>
-            </CircleMarker>
-            {!place && <SetViewOnClick coords={userLocation} />}
-          </>
-        )}
-      </MapContainer>
-    </div>
+      {place && (
+        <SetViewOnClick
+          coords={[Number(place.split(",")[0]), Number(place.split(",")[1])]}
+        />
+      )}
+
+      {userLocation && (
+        <>
+          <CircleMarker
+            center={userLocation}
+            color="blue"
+            radius={2}
+            fillColor="#0000FF"
+            fillOpacity={1}
+          >
+            <Popup>Vous êtes ici</Popup>
+          </CircleMarker>
+          {!place && <SetViewOnClick coords={userLocation} />}
+        </>
+      )}
+    </MapContainer>
   );
 };
 
