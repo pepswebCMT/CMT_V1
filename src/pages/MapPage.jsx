@@ -48,6 +48,77 @@ const customMarkerIcon = new L.divIcon({
   iconAnchor: [15, 50],
 });
 
+const famousMarkerHtml = renderToStaticMarkup(
+  <div
+    style={{
+      position: "relative",
+      fontSize: "50px",
+      display: "inline-block"
+    }}
+  >
+    <style>
+      {`
+        @keyframes shine {
+          0%, 100% {
+            box-shadow: 0 0 20px 2px rgba(255, 215, 0, 0.5);
+            transform: scale(1);
+            filter: brightness(1);
+          }
+          50% {
+            box-shadow: 0 0 60px 15px rgba(255, 215, 0, 0.9);
+            transform: scale(1.2);
+            filter: brightness(1.5);
+          }
+        }
+        @keyframes raySpread {
+          0%, 100% {
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+        }
+        .shine-animation {
+          position: relative;
+          animation: shine 2s infinite;
+          color: #FFC300;
+        }
+        .shine-animation::after {
+          content: '';
+          position: absolute;
+          top: -20px;
+          left: -20px;
+          right: -20px;
+          bottom: -20px;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 215, 0, 1);
+          animation: raySpread 3s infinite;
+        }
+      `}
+    </style>
+    <FaMapMarker className="shine-animation" style={{ zIndex: 2 }} />
+    <img
+      src={tombstoneImage}
+      alt="Tombstone"
+      style={{
+        position: "absolute",
+        width: "30px",
+        height: "auto",
+        top: "5px",
+        left: "10px",
+        zIndex: 3 
+      }}
+    />
+  </div>
+);
+
+const famousMarkerIcon = new L.divIcon({
+  html: famousMarkerHtml,
+  className: "my-custom-class",
+  iconSize: L.point(30, 50),
+  iconAnchor: [15, 50],
+});
+
 function SetViewOnClick({ coords }) {
   const map = useMap();
   map.flyTo(coords, map.getZoom());
@@ -117,17 +188,13 @@ const MyMap = () => {
         const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
 
         if (permissionStatus.state === 'granted') {
-          // Si l'autorisation est déjà accordée, obtenir la position
           getUserLocation();
         } else if (permissionStatus.state === 'prompt' || permissionStatus.state === 'denied') {
-          // Si l'autorisation doit être demandée ou est refusée, demander directement
           requestUserLocation();
         }
-
-        // Surveiller les changements d'état de la permission
         permissionStatus.onchange = () => {
           if (permissionStatus.state === 'granted') {
-            window.location.reload(); // Rafraîchir la page lorsque la permission est accordée
+            window.location.reload();
           }
         };
       } catch (error) {
@@ -201,7 +268,7 @@ const MyMap = () => {
               <Marker
                 key={item.id}
                 position={[item.location._lat, item.location._long]}
-                icon={customMarkerIcon}
+                icon={item.category === "Les plus connus" ? famousMarkerIcon : customMarkerIcon}
               >
                 <Popup>
                   <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
