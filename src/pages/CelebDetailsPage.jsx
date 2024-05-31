@@ -15,13 +15,7 @@ const CelebrityDetailPage = () => {
 
   useEffect(() => {
     const fetchCelebrity = async () => {
-      const docRef = doc(
-        db,
-        "Tombs",
-        "Categories",
-        categoryName,
-        celebrityId
-      );
+      const docRef = doc(db, "Tombs", "Categories", categoryName, celebrityId);
       try {
         const docSnap = await getDoc(docRef);
 
@@ -46,6 +40,15 @@ const CelebrityDetailPage = () => {
   };
   const maxChar = 200;
 
+  const locationType = (location) => {
+    if (typeof location === "string") {
+      let split = location.split(",");
+      navigate(`/map/${`${split[0]},${split[1]}`}`);
+    } else {
+      navigate(`/map/${`${location._lat},${location._long}`}`);
+    }
+  };
+
   return (
     <section className="w-full flex justify-center pt-28 font-josefin">
       <Navbar />
@@ -66,7 +69,7 @@ const CelebrityDetailPage = () => {
           className="w-full p-2 max-w-80 rounded-3xl"
         />
         <p className="w-full  text-lg text-center font-aileron">
-          {celebrity.birth_date}  -  {celebrity.death_date}.
+          {celebrity.birth_date} - {celebrity.death_date}.
         </p>
         <h3 className="w-full p-2 text-2xl font-bold text-center">
           {celebrity.cemetery ? celebrity.cemetery : ""}
@@ -86,11 +89,7 @@ const CelebrityDetailPage = () => {
         ) : null}
         {celebrity.location ? (
           <button
-            onClick={() => {
-              navigate(
-                `/map/${`${celebrity.location._lat},${celebrity.location._long}`}`
-              );
-            }}
+            onClick={locationType(celebrity.location)}
             className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold"
           >
             Visiter le lieu.
