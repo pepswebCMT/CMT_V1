@@ -40,12 +40,14 @@ const CelebrityDetailPage = () => {
   };
   const maxChar = 200;
 
-  const locationType = (location) => {
-    if (typeof location === "string") {
-      let split = location.split(",");
+  const locationType = () => {
+    if (typeof celebrity.location === "string") {
+      let split = celebrity.location.split(",");
       navigate(`/map/${`${split[0]},${split[1]}`}`);
     } else {
-      navigate(`/map/${`${location._lat},${location._long}`}`);
+      navigate(
+        `/map/${`${celebrity.location._lat},${celebrity.location._long}`}`
+      );
     }
   };
 
@@ -89,7 +91,7 @@ const CelebrityDetailPage = () => {
         ) : null}
         {celebrity.location ? (
           <button
-            onClick={locationType(celebrity.location)}
+            onClick={locationType}
             className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold"
           >
             Visiter le lieu.
