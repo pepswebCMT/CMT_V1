@@ -53,7 +53,7 @@ const famousMarkerHtml = renderToStaticMarkup(
     style={{
       position: "relative",
       fontSize: "50px",
-      display: "inline-block"
+      display: "inline-block",
     }}
   >
     <style>
@@ -106,7 +106,7 @@ const famousMarkerHtml = renderToStaticMarkup(
         height: "auto",
         top: "5px",
         left: "10px",
-        zIndex: 3 
+        zIndex: 3,
       }}
     />
   </div>
@@ -151,7 +151,7 @@ const MyMap = () => {
       "Arts visuels",
       "Arts musicaux",
       "Arts vivants",
-      "Les plus connus"
+      "Les plus connus",
     ];
 
     setLoading(true);
@@ -185,15 +185,20 @@ const MyMap = () => {
 
     const handleLocationPermission = async () => {
       try {
-        const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+        const permissionStatus = await navigator.permissions.query({
+          name: "geolocation",
+        });
 
-        if (permissionStatus.state === 'granted') {
+        if (permissionStatus.state === "granted") {
           getUserLocation();
-        } else if (permissionStatus.state === 'prompt' || permissionStatus.state === 'denied') {
+        } else if (
+          permissionStatus.state === "prompt" ||
+          permissionStatus.state === "denied"
+        ) {
           requestUserLocation();
         }
         permissionStatus.onchange = () => {
-          if (permissionStatus.state === 'granted') {
+          if (permissionStatus.state === "granted") {
             window.location.reload();
           }
         };
@@ -247,6 +252,15 @@ const MyMap = () => {
     );
   }
 
+  const getLocation = (location) => {
+    if (typeof location === "string") {
+      let split = location.split(",");
+      return [split[0], split[1]];
+    } else {
+      return [location._lat, location._long];
+    }
+  };
+
   return (
     <MapContainer
       center={[51.505, -0.09]}
@@ -267,8 +281,12 @@ const MyMap = () => {
             item.location && (
               <Marker
                 key={item.id}
-                position={[item.location._lat, item.location._long]}
-                icon={item.category === "Les plus connus" ? famousMarkerIcon : customMarkerIcon}
+                position={getLocation(item.location)}
+                icon={
+                  item.category === "Les plus connus"
+                    ? famousMarkerIcon
+                    : customMarkerIcon
+                }
               >
                 <Popup>
                   <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
