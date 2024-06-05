@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="w-full fixed p-4 bg-white dark:bg-dark-400 shadow-inner bottom-0 flex flex-col justify-center items-center">
       <div className="flex space-x-4 mt-2">
-        <a href="https://www.facebook.com/Catchmytomb" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <a href="https://www.facebook.com/profile.php?id=61560117504772" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <FaFacebook className="text-blue-600 hover:text-blue-800" size={24} />
         </a>
         <a href="https://www.instagram.com/catchmytombfrance/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
