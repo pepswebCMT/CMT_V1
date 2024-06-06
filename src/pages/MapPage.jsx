@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, doc, query } from "firebase/firestore";
-import { db } from "../firebase-config";
 import {
   MapContainer,
   TileLayer,
@@ -16,8 +14,10 @@ import { FaMapMarker } from "react-icons/fa";
 import tombstoneImage from "../assets/img/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
-import "../assets/leaflet/clusterMarker.css";
 import { useParams, useNavigate } from "react-router-dom";
+import { collection, getDocs, doc, query } from "firebase/firestore";
+import { db } from "../firebase-config";
+import "../assets/leaflet/clusterMarker.css";
 
 const customMarkerHtml = renderToStaticMarkup(
   <div
@@ -60,12 +60,10 @@ const famousMarkerHtml = renderToStaticMarkup(
       {`
         @keyframes shine {
           0%, 100% {
-            
             transform: scale(1);
             filter: brightness(1);
           }
           50% {
-            
             transform: scale(1.2);
             filter: brightness(1.5);
           }
@@ -121,11 +119,15 @@ const famousMarkerIcon = new L.divIcon({
 
 function SetViewOnClick({ coords }) {
   const map = useMap();
-  map.flyTo(coords, map.getZoom());
+  useEffect(() => {
+    if (coords) {
+      map.flyTo(coords, map.getZoom());
+    }
+  }, [coords, map]);
   return null;
 }
 
-const createClusterCustomIcon = function (cluster) {
+const createClusterCustomIcon = (cluster) => {
   return L.divIcon({
     html: `<span>${cluster.getChildCount()}</span>`,
     className: "custom_marker",
@@ -143,26 +145,23 @@ const MyMap = () => {
   const goTo = useNavigate();
 
   useEffect(() => {
-    const categories = [
-      "Histoire et Politique",
-      "Scientifiques",
-      "Litterature et Philosophie",
-      "Sports",
-      "Arts visuels",
-      "Arts musicaux",
-      "Arts vivants",
-      "Les plus connus",
-    ];
-
-    setLoading(true);
     const fetchAllItems = async () => {
+      setLoading(true);
       try {
+        const categories = [
+          "Histoire et Politique",
+          "Scientifiques",
+          "Litterature et Philosophie",
+          "Sports",
+          "Arts visuels",
+          "Arts musicaux",
+          "Arts vivants",
+          "Les plus connus",
+        ];
         const docRef = doc(db, "Tombs", "Categories");
         const promises = categories.map((category) => {
           const colRef = collection(docRef, category);
-          const q = query(colRef);
-
-          return getDocs(q);
+          return getDocs(query(colRef));
         });
         const snapshots = await Promise.all(promises);
         const allItems = snapshots.flatMap((snapshot, index) =>
@@ -174,7 +173,7 @@ const MyMap = () => {
         );
         setItems(allItems);
       } catch (e) {
-        setError("Failed to fetch data");
+        setError("Échec de la récupération des données");
         console.error(e);
       } finally {
         setLoading(false);
@@ -182,7 +181,9 @@ const MyMap = () => {
     };
 
     fetchAllItems();
+  }, []);
 
+  useEffect(() => {
     const handleLocationPermission = async () => {
       try {
         const permissionStatus = await navigator.permissions.query({
@@ -191,19 +192,23 @@ const MyMap = () => {
 
         if (permissionStatus.state === "granted") {
           getUserLocation();
-        } else if (
-          permissionStatus.state === "prompt" ||
-          permissionStatus.state === "denied"
-        ) {
+        } else if (permissionStatus.state === "prompt") {
+          requestUserLocation();
+        } else if (permissionStatus.state === "denied") {
+          alert("La géolocalisation est nécessaire pour utiliser cette carte.");
           requestUserLocation();
         }
+
         permissionStatus.onchange = () => {
           if (permissionStatus.state === "granted") {
-            window.location.reload();
+            // window.location.reload();
+          } else if (permissionStatus.state === "denied") {
+            alert("La géolocalisation est nécessaire pour utiliser cette carte.");
+            requestUserLocation();
           }
         };
       } catch (error) {
-        console.error("Error checking geolocation permission:", error);
+        console.error("Erreur lors de la vérification de la permission de géolocalisation :", error);
       }
     };
 
@@ -214,7 +219,8 @@ const MyMap = () => {
           setUserLocation(newPos);
         },
         (error) => {
-          console.error("Error retrieving location:", error);
+          console.error("Erreur lors de la récupération de la position :", error);
+          alert("La géolocalisation est nécessaire pour utiliser cette carte.");
         },
         { enableHighAccuracy: true }
       );
@@ -227,13 +233,18 @@ const MyMap = () => {
           setUserLocation(newPos);
         },
         (error) => {
-          console.error("Error retrieving location:", error);
+          console.error("Erreur lors de la récupération de la position :", error);
+          alert("La géolocalisation est nécessaire pour utiliser cette carte.");
         },
         { enableHighAccuracy: true }
       );
     };
 
     handleLocationPermission();
+
+    const locationCheckInterval = setInterval(handleLocationPermission, 2000);
+
+    return () => clearInterval(locationCheckInterval); 
   }, []);
 
   if (loading) {
@@ -247,7 +258,7 @@ const MyMap = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center h-screen font-aileronBold">
-        <div className="text-red-500 text-xl font-semibold">Error: {error}</div>
+        <div className="text-red-500 text-xl font-semibold">Erreur : {error}</div>
       </div>
     );
   }

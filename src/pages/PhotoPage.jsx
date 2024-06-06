@@ -13,7 +13,6 @@ import { IconContext } from "react-icons";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
-
 const PhotoPage = () => {
   const [personality, setPersonality] = useState("");
   const [cemetery, setCemetery] = useState("");
@@ -24,10 +23,17 @@ const PhotoPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const handlePersonalityChange = (e) => setPersonality(e.target.value);
-  const handleCemeteryChange = (e) => setCemetery(e.target.value);
+  const handlePersonalityChange = (e) => {
+    const value = e.target.value.replace(/[^a-zA-Z\s]/g, "").slice(0, 50);
+    setPersonality(value);
+  };
 
- const handleFileChange = (event) => {
+  const handleCemeteryChange = (e) => {
+    const value = e.target.value.replace(/[^a-zA-Z\s]/g, "").slice(0, 50);
+    setCemetery(value);
+  };
+
+  const handleFileChange = (event) => {
     const newFile = event.target.files[0];
     if (newFile) {
       setFile(newFile);
@@ -62,13 +68,10 @@ const PhotoPage = () => {
     }
 
     try {
-      // Récupérer tous les documents de la collection
       const querySnapshot = await getDocs(collection(db, "PendingTombs"));
-      // Compter le nombre de documents
       const count = querySnapshot.size;
-      // Nouveau nom pour le prochain document
       const newTombName = (count + 1).toString();
-      
+
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const storageRef = ref(storage, `images/${newTombName}`);
@@ -83,7 +86,6 @@ const PhotoPage = () => {
             status: "en attente",
           };
 
-          // Ajouter le nouveau document avec le nouveau nom
           await setDoc(doc(db, "PendingTombs", newTombName), tombData);
 
           setSubmitStatus(t("add_tomb_submit_verify"));
@@ -155,6 +157,7 @@ const PhotoPage = () => {
               value={personality}
               onChange={handlePersonalityChange}
               placeholder={t("add_tomb_name")}
+              maxLength="50"
               className="w-full max-w-96 border-2 p-2 rounded-xl"
               required
             />
@@ -163,6 +166,7 @@ const PhotoPage = () => {
               value={cemetery}
               onChange={handleCemeteryChange}
               placeholder={t("add_tomb_cemetery")}
+              maxLength="50"
               className="w-full max-w-96 border-2 p-2 rounded-xl"
               required
             />
