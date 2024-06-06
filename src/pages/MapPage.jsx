@@ -183,49 +183,55 @@ const MyMap = () => {
     fetchAllItems();
   }, []);
 
+  // const requestUserLocation = () => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position) => {
+  //       const newPos = [position.coords.latitude, position.coords.longitude];
+  //       setUserLocation(newPos);
+  //     },
+  //     (error) => {
+  //       console.error("Erreur lors de la récupération de la position :", error);
+  //       alert("La géolocalisation est nécessaire pour utiliser cette carte.");
+  //     },
+  //     { enableHighAccuracy: true }
+  //   );
+  // };
+
+  // const handleLocationPermission = async () => {
+  //   try {
+  //     const permissionStatus = await navigator.permissions.query({
+  //       name: "geolocation",
+  //     });
+
+  //     if (permissionStatus.state === "granted") {
+  //       getUserLocation();
+  //     } else if (permissionStatus.state === "prompt") {
+  //       requestUserLocation();
+  //     } else if (permissionStatus.state === "denied") {
+  //       alert("La géolocalisation est nécessaire pour utiliser cette carte.");
+  //       requestUserLocation();
+  //     }
+
+  //     permissionStatus.onchange = () => {
+  //       if (permissionStatus.state === "granted") {
+  //         window.location.reload();
+  //       } else if (permissionStatus.state === "denied") {
+  //         alert("La géolocalisation est nécessaire pour utiliser cette carte.");
+  //         requestUserLocation();
+  //       }
+  //     };
+  //   } catch (error) {
+  //     console.error(
+  //       "Erreur lors de la vérification de la permission de géolocalisation :",
+  //       error
+  //     );
+  //   }
+  // };
+
+  // handleLocationPermission();
+  // requestUserLocation();
+
   useEffect(() => {
-    const handleLocationPermission = async () => {
-      try {
-        const permissionStatus = await navigator.permissions.query({
-          name: "geolocation",
-        });
-
-        if (permissionStatus.state === "granted") {
-          getUserLocation();
-        } else if (permissionStatus.state === "prompt") {
-          requestUserLocation();
-        } else if (permissionStatus.state === "denied") {
-          alert("La géolocalisation est nécessaire pour utiliser cette carte.");
-          requestUserLocation();
-        }
-
-        permissionStatus.onchange = () => {
-          if (permissionStatus.state === "granted") {
-            // window.location.reload();
-          } else if (permissionStatus.state === "denied") {
-            alert("La géolocalisation est nécessaire pour utiliser cette carte.");
-            requestUserLocation();
-          }
-        };
-      } catch (error) {
-        console.error("Erreur lors de la vérification de la permission de géolocalisation :", error);
-      }
-    };
-
-    const requestUserLocation = () => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const newPos = [position.coords.latitude, position.coords.longitude];
-          setUserLocation(newPos);
-        },
-        (error) => {
-          console.error("Erreur lors de la récupération de la position :", error);
-          alert("La géolocalisation est nécessaire pour utiliser cette carte.");
-        },
-        { enableHighAccuracy: true }
-      );
-    };
-
     const getUserLocation = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -233,18 +239,16 @@ const MyMap = () => {
           setUserLocation(newPos);
         },
         (error) => {
-          console.error("Erreur lors de la récupération de la position :", error);
-          alert("La géolocalisation est nécessaire pour utiliser cette carte.");
+          // console.error("Erreur lors de la récupération de la position :", error);
+          // alert("La géolocalisation est nécessaire pour utiliser cette carte.");
+          navigator.permissions.query({ name: "geolocation" });
         },
         { enableHighAccuracy: true }
       );
     };
-
-    handleLocationPermission();
-
-    const locationCheckInterval = setInterval(handleLocationPermission, 2000);
-
-    return () => clearInterval(locationCheckInterval); 
+    // const locationCheckInterval = setInterval(handleLocationPermission, 2000);
+    // return () => clearInterval(locationCheckInterval);
+    getUserLocation();
   }, []);
 
   if (loading) {
@@ -258,7 +262,9 @@ const MyMap = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center h-screen font-aileronBold">
-        <div className="text-red-500 text-xl font-semibold">Erreur : {error}</div>
+        <div className="text-red-500 text-xl font-semibold">
+          Erreur : {error}
+        </div>
       </div>
     );
   }
