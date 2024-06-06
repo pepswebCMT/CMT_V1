@@ -239,8 +239,7 @@ const MyMap = () => {
           setUserLocation(newPos);
         },
         (error) => {
-          // console.error("Erreur lors de la récupération de la position :", error);
-          // alert("La géolocalisation est nécessaire pour utiliser cette carte.");
+          alert("La géolocalisation est nécessaire pour utiliser cette carte.");
           navigator.permissions.query({ name: "geolocation" });
         },
         { enableHighAccuracy: true }
