@@ -15,6 +15,7 @@ import NavButtons from "../components/NavButtons";
 const HomePage = () => {
   const [celebrities, setCelebrities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Les plus connus");
+  const [isAppUnavailable, setIsAppUnavailable] = useState(false);
   const displayedCelebrityCount = 8;
   const { t } = useTranslation();
 
@@ -40,22 +41,42 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchCelebrities = async (category) => {
-      const docRef = doc(db, "Tombs", "Categories");
-      const colRef = collection(docRef, category);
-      const querySnapshot = await getDocs(colRef);
-      const fetchedCelebrities = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setCelebrities(fetchedCelebrities.slice(0, displayedCelebrityCount));
+      try {
+        const docRef = doc(db, "Tombs", "Categories");
+        const colRef = collection(docRef, category);
+        const querySnapshot = await getDocs(colRef);
+        const fetchedCelebrities = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCelebrities(fetchedCelebrities.slice(0, displayedCelebrityCount));
+      } catch (error) {
+        if (error.code === 'resource-exhausted') {
+          setIsAppUnavailable(true);
+        } else {
+          console.error("Une erreur s'est produite lors de la récupération des données :", error);
+        }
+      }
     };
 
     fetchCelebrities(selectedCategory);
-  }, [selectedCategory]);
+  }, [selectedCategory, displayedCelebrityCount]);
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
+
+if (isAppUnavailable) {
+  return (
+    <div className="flex items-center justify-center h-screen font-aileronBold">
+      <div className="text-center">
+        <h2 className="text-4xl font-semibold text-red-500 mb-4">L'application est temporairement indisponible</h2>
+        <p className="text-xl text-gray-600">Nous sommes désolés, mais l'application est temporairement indisponible car en maintenance. Veuillez réessayer plus tard.</p>
+      </div>
+    </div>
+  );
+}
+
 
   return (
     <main className="w-full pt-20 pb-20 dark:bg-dark-200 dark:text-white font-josefin">
