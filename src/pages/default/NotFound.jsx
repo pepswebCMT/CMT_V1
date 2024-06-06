@@ -1,10 +1,8 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function NotFound() {
-  const nav = useNavigate();
-
   return (
     <main className="w-full pt-20 pb-20 dark:bg-dark-200 dark:text-white font-josefin">
       <Navbar />
