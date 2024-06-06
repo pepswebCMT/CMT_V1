@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase-config";
 import { collection, getDocs, doc } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import IconBar from "../components/IconBar";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -41,6 +41,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchCelebrities = async (category) => {
       const docRef = doc(db, "Tombs", "Categories");
+      console.log(docRef);
       const colRef = collection(docRef, category);
       const querySnapshot = await getDocs(colRef);
       const fetchedCelebrities = querySnapshot.docs.map((doc) => ({
@@ -50,7 +51,11 @@ const HomePage = () => {
       setCelebrities(fetchedCelebrities.slice(0, displayedCelebrityCount));
     };
 
-    fetchCelebrities(selectedCategory);
+    try {
+      fetchCelebrities(selectedCategory);
+    } catch (error) {
+      return redirect("/unavailable");
+    }
   }, [selectedCategory]);
 
   const handleCategoryChange = (category) => {
