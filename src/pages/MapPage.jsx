@@ -201,7 +201,7 @@ const MyMap = () => {
 
         permissionStatus.onchange = () => {
           if (permissionStatus.state === "granted") {
-            window.location.reload();
+            // window.location.reload();
           } else if (permissionStatus.state === "denied") {
             alert("La géolocalisation est nécessaire pour utiliser cette carte.");
             requestUserLocation();
