@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase-config";
 import { collection, getDocs, doc } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import IconBar from "../components/IconBar";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -41,6 +41,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchCelebrities = async (category) => {
+
       try {
         const docRef = doc(db, "Tombs", "Categories");
         const colRef = collection(docRef, category);
@@ -61,6 +62,7 @@ const HomePage = () => {
 
     fetchCelebrities(selectedCategory);
   }, [selectedCategory, displayedCelebrityCount]);
+
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);

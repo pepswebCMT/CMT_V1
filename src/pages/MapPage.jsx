@@ -182,7 +182,6 @@ const MyMap = () => {
     };
 
     fetchAllItems();
-
     const handleLocationPermission = async () => {
       try {
         const permissionStatus = await navigator.permissions.query({
@@ -214,6 +213,7 @@ const MyMap = () => {
           setUserLocation(newPos);
         },
         (error) => {
+
           console.error("Error retrieving location:", error);
         },
         { enableHighAccuracy: true }
@@ -227,6 +227,7 @@ const MyMap = () => {
           setUserLocation(newPos);
         },
         (error) => {
+
           console.error("Error retrieving location:", error);
         },
         { enableHighAccuracy: true }
@@ -234,6 +235,7 @@ const MyMap = () => {
     };
 
     handleLocationPermission();
+
   }, []);
 
   if (loading) {
