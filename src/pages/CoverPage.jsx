@@ -2,22 +2,23 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useTranslation } from "react-i18next";
+import { FaQuestionCircle } from 'react-icons/fa'; // Import de l'icône d'aide
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
+  const [showHelpDialog, setShowHelpDialog] = useState(false); // État pour afficher la boîte de dialogue d'aide
   const navigate = useNavigate();
   const deferredPrompt = useRef(null);
   const { t } = useTranslation();
 
   useEffect(() => {
-    // Handler pour capturer l'événement beforeinstallprompt
     const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault(); // Empêcher le prompt automatique
-      deferredPrompt.current = event; // Stocker l'événement pour un usage ultérieur
-      setIsAppInstalled(false); // Mettre à jour l'état pour afficher le bouton d'installation
+      event.preventDefault();
+      deferredPrompt.current = event;
+      setIsAppInstalled(false);
+      console.log("beforeinstallprompt event captured");
     };
 
-    // Vérifier si l'application est lancée en mode standalone
     const mediaQueryList = window.matchMedia("(display-mode: standalone)");
     if (mediaQueryList.matches) {
       setIsAppInstalled(true);
@@ -25,20 +26,14 @@ const CoverPage = () => {
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     }
 
-    // Fonction de nettoyage pour retirer l'écouteur
     return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     };
   }, []);
 
   const handleInstall = () => {
-    // Afficher le prompt d'installation stocké
     if (deferredPrompt.current) {
       deferredPrompt.current.prompt();
-      // Gérer la décision de l'utilisateur
       deferredPrompt.current.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("L'application a été installée");
@@ -46,13 +41,21 @@ const CoverPage = () => {
         } else {
           console.log("L'utilisateur a annulé l'installation");
         }
-        deferredPrompt.current = null; // Réinitialiser la référence après utilisation
+        deferredPrompt.current = null;
       });
     }
   };
 
   const navigateToStart = () => {
     navigate("/home");
+  };
+
+  const handleHelp = () => {
+    setShowHelpDialog(true); // Afficher la boîte de dialogue d'aide lorsque l'utilisateur clique sur l'icône d'aide
+  };
+
+  const handleCloseHelpDialog = () => {
+    setShowHelpDialog(false); // Fermer la boîte de dialogue d'aide
   };
 
   return (
@@ -70,13 +73,26 @@ const CoverPage = () => {
         </button>
         {!isAppInstalled && (
           <button
-            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin-100 dark:bg-mandarin-600 text-white rounded-xl"
+            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin-100 dark:bg-mandarin-600 text-white rounded-xl relative" // Ajouter relative pour le positionnement relatif
             onClick={handleInstall}
           >
             {t("cover_app")}
+            <FaQuestionCircle size={24} onClick={handleHelp} style={{ position: 'absolute', top: 4, right: 4, cursor: 'pointer' }} />
           </button>
         )}
       </div>
+
+      {showHelpDialog && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg text-center">
+            <h2 className="text-lg font-bold mb-2">Installation de l'application</h2>
+            <p className="text-lg mb-4">
+              Si vous avez des problèmes avec le bouton, vous pouvez ouvrir le menu de votre navigateur en cliquant sur les 3 points situés en haut à droite de votre navigateur et sélectionner "Ajouter à l'écran d'accueil" ou "Installer l'application".
+            </p>
+            <button onClick={handleCloseHelpDialog} className="bg-blue-500 text-white px-4 py-2 rounded-lg mx-auto block">Fermer</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
