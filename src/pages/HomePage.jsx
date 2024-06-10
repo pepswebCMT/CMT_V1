@@ -41,6 +41,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchCelebrities = async (category) => {
+
       try {
         const docRef = doc(db, "Tombs", "Categories");
         const colRef = collection(docRef, category);
@@ -61,6 +62,7 @@ const HomePage = () => {
 
     fetchCelebrities(selectedCategory);
   }, [selectedCategory, displayedCelebrityCount]);
+
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
