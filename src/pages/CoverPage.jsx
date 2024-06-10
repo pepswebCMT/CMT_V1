@@ -10,13 +10,14 @@ const CoverPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    // Handler pour capturer l'événement beforeinstallprompt
     const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault();
-      deferredPrompt.current = event;
-      setIsAppInstalled(false);
-      console.log("beforeinstallprompt event captured");
+      event.preventDefault(); // Empêcher le prompt automatique
+      deferredPrompt.current = event; // Stocker l'événement pour un usage ultérieur
+      setIsAppInstalled(false); // Mettre à jour l'état pour afficher le bouton d'installation
     };
 
+    // Vérifier si l'application est lancée en mode standalone
     const mediaQueryList = window.matchMedia("(display-mode: standalone)");
     if (mediaQueryList.matches) {
       setIsAppInstalled(true);
@@ -24,14 +25,20 @@ const CoverPage = () => {
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     }
 
+    // Fonction de nettoyage pour retirer l'écouteur
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
     };
   }, []);
 
   const handleInstall = () => {
+    // Afficher le prompt d'installation stocké
     if (deferredPrompt.current) {
       deferredPrompt.current.prompt();
+      // Gérer la décision de l'utilisateur
       deferredPrompt.current.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("L'application a été installée");
@@ -39,7 +46,7 @@ const CoverPage = () => {
         } else {
           console.log("L'utilisateur a annulé l'installation");
         }
-        deferredPrompt.current = null;
+        deferredPrompt.current = null; // Réinitialiser la référence après utilisation
       });
     }
   };
@@ -61,7 +68,7 @@ const CoverPage = () => {
         >
           {t("cover_browse")}
         </button>
-        {!isAppInstalled && deferredPrompt.current && (
+        {!isAppInstalled && (
           <button
             className="w-1/2 max-w-80 p-2 text-xl font-bold bg-mandarin-100 dark:bg-mandarin-600 text-white rounded-xl"
             onClick={handleInstall}

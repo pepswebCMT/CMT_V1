@@ -1,5 +1,5 @@
 const CACHE_NAME = "version-1";
-const urlsToCache = ['./index.html', './favicon.ico', './CMT-logo-02.svg'];
+const urlsToCache = ['./index.html', './offline.html', './favicon.ico', './CMT-logo-02.svg'];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
@@ -18,7 +18,7 @@ self.addEventListener('fetch', (event) => {
                 if (response) {
                     return response;
                 }
-                return fetch(event.request).catch(() => caches.match(''));
+                return fetch(event.request).catch(() => caches.match('/offline.html'));
             })
     );
 });
