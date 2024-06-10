@@ -60,10 +60,12 @@ const famousMarkerHtml = renderToStaticMarkup(
       {`
         @keyframes shine {
           0%, 100% {
+            
             transform: scale(1);
             filter: brightness(1);
           }
           50% {
+            
             transform: scale(1.2);
             filter: brightness(1.5);
           }
@@ -139,7 +141,6 @@ const MyMap = () => {
   const { t } = useTranslation();
   const { place } = useParams();
   const goTo = useNavigate();
-  const [locationRequested, setLocationRequested] = useState(false);
 
   useEffect(() => {
     const categories = [
@@ -196,12 +197,9 @@ const MyMap = () => {
         ) {
           requestUserLocation();
         }
-
         permissionStatus.onchange = () => {
           if (permissionStatus.state === "granted") {
             window.location.reload();
-          } else if (permissionStatus.state === "denied") {
-            alert("Veuillez activer votre localisation pour utiliser cette fonctionnalité.");
           }
         };
       } catch (error) {
@@ -210,44 +208,33 @@ const MyMap = () => {
     };
 
     const requestUserLocation = () => {
-      if (!locationRequested) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const newPos = [position.coords.latitude, position.coords.longitude];
-            setUserLocation(newPos);
-          },
-          (error) => {
-            console.error("Error retrieving location:", error);
-            if (error.code === error.PERMISSION_DENIED) {
-              alert("Veuillez activer votre localisation pour utiliser cette fonctionnalité.");
-            }
-          },
-          { enableHighAccuracy: true }
-        );
-        setLocationRequested(true);
-      }
-    };
-
-    const getUserLocation = () => {
-      const watchId = navigator.geolocation.watchPosition(
+      navigator.geolocation.getCurrentPosition(
         (position) => {
           const newPos = [position.coords.latitude, position.coords.longitude];
           setUserLocation(newPos);
         },
         (error) => {
           console.error("Error retrieving location:", error);
-          if (error.code === error.PERMISSION_DENIED) {
-            alert("Veuillez activer votre localisation pour utiliser cette fonctionnalité.");
-            requestUserLocation();
-          }
         },
         { enableHighAccuracy: true }
       );
-      return () => navigator.geolocation.clearWatch(watchId);
+    };
+
+    const getUserLocation = () => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newPos = [position.coords.latitude, position.coords.longitude];
+          setUserLocation(newPos);
+        },
+        (error) => {
+          console.error("Error retrieving location:", error);
+        },
+        { enableHighAccuracy: true }
+      );
     };
 
     handleLocationPermission();
-  }, [locationRequested]);
+  }, []);
 
   if (loading) {
     return (
