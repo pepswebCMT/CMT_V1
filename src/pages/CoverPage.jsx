@@ -46,7 +46,7 @@ const CoverPage = () => {
         } else {
           console.log("L'utilisateur a annulé l'installation");
         }
-        deferredPrompt.current = null; // Réinitialiser la référence après utilisation
+        deferredPrompt.current = null; 
       });
     }
   };
