@@ -10,14 +10,13 @@ const CoverPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    // Handler pour capturer l'événement beforeinstallprompt
     const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault(); // Empêcher le prompt automatique
-      deferredPrompt.current = event; // Stocker l'événement pour un usage ultérieur
-      setIsAppInstalled(false); // Mettre à jour l'état pour afficher le bouton d'installation
+      event.preventDefault();
+      deferredPrompt.current = event;
+      setIsAppInstalled(false);
+      console.log("beforeinstallprompt event captured");
     };
 
-    // Vérifier si l'application est lancée en mode standalone
     const mediaQueryList = window.matchMedia("(display-mode: standalone)");
     if (mediaQueryList.matches) {
       setIsAppInstalled(true);
@@ -25,20 +24,14 @@ const CoverPage = () => {
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     }
 
-    // Fonction de nettoyage pour retirer l'écouteur
     return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     };
   }, []);
 
   const handleInstall = () => {
-    // Afficher le prompt d'installation stocké
     if (deferredPrompt.current) {
       deferredPrompt.current.prompt();
-      // Gérer la décision de l'utilisateur
       deferredPrompt.current.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("L'application a été installée");
@@ -46,7 +39,7 @@ const CoverPage = () => {
         } else {
           console.log("L'utilisateur a annulé l'installation");
         }
-        deferredPrompt.current = null; 
+        deferredPrompt.current = null;
       });
     }
   };
