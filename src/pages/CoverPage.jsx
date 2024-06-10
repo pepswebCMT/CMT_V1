@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useTranslation } from "react-i18next";
-import { FaQuestionCircle } from 'react-icons/fa'; // Import de l'icône d'aide
+import { FaQuestionCircle } from 'react-icons/fa';
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
-  const [showHelpDialog, setShowHelpDialog] = useState(false); // État pour afficher la boîte de dialogue d'aide
+  const [showHelpDialog, setShowHelpDialog] = useState(false);
   const navigate = useNavigate();
   const deferredPrompt = useRef(null);
   const { t } = useTranslation();
@@ -51,11 +51,11 @@ const CoverPage = () => {
   };
 
   const handleHelp = () => {
-    setShowHelpDialog(true); // Afficher la boîte de dialogue d'aide lorsque l'utilisateur clique sur l'icône d'aide
+    setShowHelpDialog(true);
   };
 
   const handleCloseHelpDialog = () => {
-    setShowHelpDialog(false); // Fermer la boîte de dialogue d'aide
+    setShowHelpDialog(false);
   };
 
   return (
