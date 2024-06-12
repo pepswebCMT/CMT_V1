@@ -75,7 +75,7 @@ const AdminPage = () => {
         <Navbar />
         <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
           <div className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold text-3xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400">
-            <Link to="/home">
+            <Link to="/profileAdminCMTPepswebKDJB">
               <FontAwesomeIcon icon={faArrowLeft} />
             </Link>
             <h1>{t("admin_title")}</h1>

@@ -51,7 +51,7 @@ const UserProfile = ({ user }) => {
         credentials.email,
         credentials.password
       );
-      navigate("/admin");
+      navigate("/adminpepcatchmytombsw");
     } catch (error) {
       setError(t("profile_modal_error"));
     }
