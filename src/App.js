@@ -11,11 +11,22 @@ import MyMap from "./pages/MapPage";
 import AdminPage from "./pages/AdminPage";
 import CoverPage from "./pages/CoverPage";
 
-
 import { PrivateRoute } from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
+  React.useEffect(() => {
+    var _mtm = (window._mtm = window._mtm || []);
+    _mtm.push({ "mtm.startTime": new Date().getTime(), event: "mtm.Start" });
+    var d = document,
+      g = d.createElement("script"),
+      s = d.getElementsByTagName("script")[0];
+    g.async = true;
+    g.src =
+      "https://cdn.matomo.cloud/catchmytomb.matomo.cloud/container_yWAxcPog.js";
+    s.parentNode.insertBefore(g, s);
+  }, []);
+
   return (
     <Router>
       <AuthProvider>
