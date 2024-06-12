@@ -17,7 +17,7 @@ import tombstoneImage from "../assets/img/tombstone_1.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
 import "../assets/leaflet/clusterMarker.css";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const customMarkerHtml = renderToStaticMarkup(
   <div
@@ -48,77 +48,6 @@ const customMarkerIcon = new L.divIcon({
   iconAnchor: [15, 50],
 });
 
-const famousMarkerHtml = renderToStaticMarkup(
-  <div
-    style={{
-      position: "relative",
-      fontSize: "50px",
-      display: "inline-block",
-    }}
-  >
-    <style>
-      {`
-        @keyframes shine {
-          0%, 100% {
-            
-            transform: scale(1);
-            filter: brightness(1);
-          }
-          50% {
-            
-            transform: scale(1.2);
-            filter: brightness(1.5);
-          }
-        }
-        @keyframes raySpread {
-          0%, 100% {
-            opacity: 0;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-        .shine-animation {
-          position: relative;
-          animation: shine 2s infinite;
-          color: #FFC300;
-        }
-        .shine-animation::after {
-          content: '';
-          position: absolute;
-          top: -20px;
-          left: -20px;
-          right: -20px;
-          bottom: -20px;
-          border-radius: 50%;
-          border: 2px solid rgba(255, 215, 0, 1);
-          animation: raySpread 3s infinite;
-        }
-      `}
-    </style>
-    <FaMapMarker className="shine-animation" style={{ zIndex: 2 }} />
-    <img
-      src={tombstoneImage}
-      alt="Tombstone"
-      style={{
-        position: "absolute",
-        width: "30px",
-        height: "auto",
-        top: "5px",
-        left: "10px",
-        zIndex: 3,
-      }}
-    />
-  </div>
-);
-
-const famousMarkerIcon = new L.divIcon({
-  html: famousMarkerHtml,
-  className: "my-custom-class",
-  iconSize: L.point(30, 50),
-  iconAnchor: [15, 50],
-});
-
 function SetViewOnClick({ coords }) {
   const map = useMap();
   map.flyTo(coords, map.getZoom());
@@ -138,43 +67,40 @@ const MyMap = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [locationDenied, setLocationDenied] = useState(false);
   const { t } = useTranslation();
   const { place } = useParams();
-  const goTo = useNavigate();
 
   useEffect(() => {
     const categories = [
-      "Histoire et Politique",
-      "Scientifiques",
-      "Litterature et Philosophie",
-      "Sports",
-      "Arts visuels",
-      "Arts musicaux",
-      "Arts vivants",
-      "Les plus connus",
+          "Histoire et Politique",
+          "Scientifiques",
+          "Litterature et Philosophie",
+          "Sports",
+          "Arts visuels",
+          "Arts musicaux",
+          "Arts vivants",
+          "Les plus connus",
     ];
 
     setLoading(true);
     const fetchAllItems = async () => {
       try {
-        const docRef = doc(db, "Tombs", "Categories");
+        const docRef = doc(db, "Tombs", "OccpEQD19eoOmrLfPaP0");
         const promises = categories.map((category) => {
           const colRef = collection(docRef, category);
           const q = query(colRef);
-
           return getDocs(q);
         });
+
         const snapshots = await Promise.all(promises);
-        const allItems = snapshots.flatMap((snapshot, index) =>
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            category: categories[index],
-            ...doc.data(),
-          }))
+        const allItems = snapshots.flatMap((snapshot) =>
+          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
         );
+
         setItems(allItems);
       } catch (e) {
-        setError("Failed to fetch data");
+        setError("Échec de la récupération des données");
         console.error(e);
       } finally {
         setLoading(false);
@@ -182,61 +108,43 @@ const MyMap = () => {
     };
 
     fetchAllItems();
-    const handleLocationPermission = async () => {
-      try {
-        const permissionStatus = await navigator.permissions.query({
-          name: "geolocation",
-        });
 
-        if (permissionStatus.state === "granted") {
-          getUserLocation();
-        } else if (
-          permissionStatus.state === "prompt" ||
-          permissionStatus.state === "denied"
-        ) {
-          requestUserLocation();
-        }
-        permissionStatus.onchange = () => {
-          if (permissionStatus.state === "granted") {
-            window.location.reload();
-          }
-        };
-      } catch (error) {
-        console.error("Error checking geolocation permission:", error);
-      }
+    const geoSuccess = (position) => {
+      const newPos = [position.coords.latitude, position.coords.longitude];
+      setUserLocation(newPos);
+      setLocationDenied(false);
     };
 
-    const requestUserLocation = () => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const newPos = [position.coords.latitude, position.coords.longitude];
-          setUserLocation(newPos);
-        },
-        (error) => {
-
-          console.error("Error retrieving location:", error);
-        },
-        { enableHighAccuracy: true }
-      );
+    const geoError = (error) => {
+      setError("Permission refusée ou erreur de récupération de la position");
+      setLocationDenied(true);
+      console.error("Permission refusée ou erreur de récupération de la position", error);
     };
 
-    const getUserLocation = () => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const newPos = [position.coords.latitude, position.coords.longitude];
-          setUserLocation(newPos);
-        },
-        (error) => {
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, { enableHighAccuracy: true });
 
-          console.error("Error retrieving location:", error);
-        },
-        { enableHighAccuracy: true }
-      );
+    const watchId = navigator.geolocation.watchPosition(geoSuccess, geoError, { enableHighAccuracy: true });
+
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
     };
-
-    handleLocationPermission();
-
   }, []);
+
+  const handleEnableLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const newPos = [position.coords.latitude, position.coords.longitude];
+        setUserLocation(newPos);
+        setLocationDenied(false);
+      },
+      (error) => {
+        setError("Permission refusée ou erreur de récupération de la position");
+        setLocationDenied(true);
+        console.error("Permission refusée ou erreur de récupération de la position", error);
+      },
+      { enableHighAccuracy: true }
+    );
+  };
 
   if (loading) {
     return (
@@ -246,29 +154,41 @@ const MyMap = () => {
     );
   }
 
-  if (error) {
+  if (error && locationDenied) {
     return (
       <div className="flex items-center justify-center h-screen font-aileronBold">
-        <div className="text-red-500 text-xl font-semibold">Error: {error}</div>
+        <div className="text-red-500 text-xl font-semibold">Erreur : {error}</div>
+        <button
+          onClick={handleEnableLocation}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 m-1 rounded-2xl"
+        >
+          Activer la localisation
+        </button>
       </div>
     );
   }
 
-  const getLocation = (location) => {
-    if (typeof location === "string") {
-      let split = location.split(",");
-      return [split[0], split[1]];
-    } else {
-      return [location._lat, location._long];
-    }
-  };
+  if (!userLocation) {
+    return (
+      <div className="flex items-center justify-center h-screen font-aileronBold">
+        <div className="text-xl font-semibold">
+          Nous avons besoin de votre localisation pour afficher la carte
+        </div>
+        <button
+          onClick={handleEnableLocation}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 m-1 rounded-2xl"
+        >
+          Activer la localisation
+        </button>
+      </div>
+    );
+  }
 
   return (
     <MapContainer
-      center={[51.505, -0.09]}
+      center={userLocation}
       zoom={13}
       style={{ height: "100vh", width: "100%" }}
-      attributionControl={false}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -283,26 +203,17 @@ const MyMap = () => {
             item.location && (
               <Marker
                 key={item.id}
-                position={getLocation(item.location)}
-                icon={
-                  item.category === "Les plus connus"
-                    ? famousMarkerIcon
-                    : customMarkerIcon
-                }
+                position={[item.location._lat, item.location._long]}
+                icon={customMarkerIcon}
               >
                 <Popup>
                   <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
                     <h3>{item.title}</h3>
-                    <div
-                      className="w-full flex justify-center items-center rounded-2xl m-1"
-                      onClick={() => {
-                        goTo(`/category/${item.category}/${item.id}`);
-                      }}
-                    >
+                    <div className="w-full flex justify-center items-center rounded-2xl m-1">
                       <img
                         src={item.imageUrl}
                         alt={item.title}
-                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover object-top"
+                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover"
                       />
                     </div>
                     <button
