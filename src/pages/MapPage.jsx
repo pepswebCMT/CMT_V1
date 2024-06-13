@@ -73,20 +73,20 @@ const MyMap = () => {
 
   useEffect(() => {
     const categories = [
-          "Histoire et Politique",
-          "Scientifiques",
-          "Litterature et Philosophie",
-          "Sports",
-          "Arts visuels",
-          "Arts musicaux",
-          "Arts vivants",
-          "Les plus connus",
+      "Histoire et Politique",
+      "Scientifiques",
+      "Litterature et Philosophie",
+      "Sports",
+      "Arts visuels",
+      "Arts musicaux",
+      "Arts vivants",
+      "Les plus connus",
     ];
 
     setLoading(true);
     const fetchAllItems = async () => {
       try {
-        const docRef = doc(db, "Tombs", "OccpEQD19eoOmrLfPaP0");
+        const docRef = doc(db, "Tombs", "Categories");
         const promises = categories.map((category) => {
           const colRef = collection(docRef, category);
           const q = query(colRef);
@@ -97,7 +97,6 @@ const MyMap = () => {
         const allItems = snapshots.flatMap((snapshot) =>
           snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
         );
-
         setItems(allItems);
       } catch (e) {
         setError("Échec de la récupération des données");
@@ -118,12 +117,19 @@ const MyMap = () => {
     const geoError = (error) => {
       setError("Permission refusée ou erreur de récupération de la position");
       setLocationDenied(true);
-      console.error("Permission refusée ou erreur de récupération de la position", error);
+      console.error(
+        "Permission refusée ou erreur de récupération de la position",
+        error
+      );
     };
 
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, { enableHighAccuracy: true });
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
+      enableHighAccuracy: true,
+    });
 
-    const watchId = navigator.geolocation.watchPosition(geoSuccess, geoError, { enableHighAccuracy: true });
+    const watchId = navigator.geolocation.watchPosition(geoSuccess, geoError, {
+      enableHighAccuracy: true,
+    });
 
     return () => {
       navigator.geolocation.clearWatch(watchId);
@@ -140,7 +146,10 @@ const MyMap = () => {
       (error) => {
         setError("Permission refusée ou erreur de récupération de la position");
         setLocationDenied(true);
-        console.error("Permission refusée ou erreur de récupération de la position", error);
+        console.error(
+          "Permission refusée ou erreur de récupération de la position",
+          error
+        );
       },
       { enableHighAccuracy: true }
     );
@@ -157,7 +166,9 @@ const MyMap = () => {
   if (error && locationDenied) {
     return (
       <div className="flex items-center justify-center h-screen font-aileronBold">
-        <div className="text-red-500 text-xl font-semibold">Erreur : {error}</div>
+        <div className="text-red-500 text-xl font-semibold">
+          Erreur : {error}
+        </div>
         <button
           onClick={handleEnableLocation}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 m-1 rounded-2xl"
