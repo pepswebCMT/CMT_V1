@@ -30,6 +30,7 @@ const AdminPage = () => {
     };
 
     fetchSubmissions();
+    
   }, []);
 
   const approveSubmission = async (submission) => {
@@ -41,6 +42,7 @@ const AdminPage = () => {
   const rejectSubmission = async (id) => {
     await deleteDoc(doc(db, "PendingTombs", id));
     setSubmissions(submissions.filter((s) => s.id !== id));
+  
   };
 
   const startEditing = (submission) => {
@@ -69,6 +71,7 @@ const AdminPage = () => {
     setSubmissions([]);
   };
 
+  console.log(submissions);
   return (
     <section>
       <div className="w-full flex justify-center font-josefin pt-28">
@@ -93,9 +96,9 @@ const AdminPage = () => {
                   <h2 className="text-lg font-semibold text-center">
                     {submission.title}
                   </h2>
-                  {submission.imageUrl && (
+                  {submission.imageTomb && (
                     <img
-                      src={submission.imageUrl}
+                      src={submission.imageTomb}
                       alt=""
                       className="submission-image"
                     />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom"; // Ajoutez Link ici
 import { db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,6 +35,7 @@ const CelebrityDetailPage = () => {
   if (!celebrity) {
     return <div>Chargement...</div>;
   }
+
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
@@ -89,14 +90,24 @@ const CelebrityDetailPage = () => {
             </p>
           </>
         ) : null}
-        {celebrity.location ? (
-          <button
-            onClick={locationType}
-            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold"
+        
+        {categoryName === "Tombes Manquantes" && !celebrity.location ? (
+          <Link
+            to={`/photopage?name=${encodeURIComponent(celebrity.title)}&missingTomb=true`}
+            className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold text-center"
           >
-            Visiter le lieu.
-          </button>
-        ) : null}
+            Ajouter sa tombe
+          </Link>
+        ) : (
+          celebrity.location && (
+            <button
+              onClick={locationType}
+              className="w-1/2 max-w-80 p-2 text-xl font-bold bg-blue-500 text-white rounded-xl font-aileronBold"
+            >
+              Visiter le lieu.
+            </button>
+          )
+        )}
 
         <div className="w-full max-w-96 text-xl text-justify p-2 flex flex-col items-center justify-between font-aileron font-bold">
           {showFullDescription || celebrity.description.length <= maxChar ? (
