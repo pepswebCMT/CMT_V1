@@ -113,7 +113,7 @@ if (isAppUnavailable) {
         </div>
 <div>
   <Link to={`/category/Tombes Manquantes`}>
-    <button className="rounded-full py-1 px-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron text-white text-sm max-w-[200px]">
+    <button className="rounded-full py-1 px-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron text-white max-w-[200px]">
       Aidez-nous à retrouver leurs tombes
     </button>
   </Link>
