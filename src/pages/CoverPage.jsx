@@ -77,7 +77,7 @@ const CoverPage = () => {
             onClick={handleInstall}
           >
             {t("cover_app")}
-            <FaQuestionCircle size={24} onClick={handleHelp} className="absolute top-4 right-4 cursor-pointer" />
+            <FaQuestionCircle size={24} onClick={handleHelp} style={{ position: 'absolute', top: 4, right: 4, cursor: 'pointer' }} />
           </button>
         )}
       </div>
