@@ -4,6 +4,25 @@ import Navbar from "../components/Navbar";
 import { useTranslation } from "react-i18next";
 import { FaQuestionCircle } from 'react-icons/fa';
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+
+// web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCixlZ8xSP9xfcqglcjJWW8YsVsHqmrKO0",
+  authDomain: "mycmtapp.firebaseapp.com",
+  databaseURL: "https://mycmtapp.firebaseio.com",
+  projectId: "mycmtapp",
+  storageBucket: "mycmtapp.appspot.com",
+  messagingSenderId: "675300453637",
+  appId: "1:675300453637:web:612e570da20a18c5fb5b6c",
+  measurementId: "G-ER42SXRQ7D"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const [showHelpDialog, setShowHelpDialog] = useState(false);
@@ -38,6 +57,13 @@ const CoverPage = () => {
         if (choiceResult.outcome === "accepted") {
           console.log("L'application a été installée");
           setIsAppInstalled(true);
+
+          // Log the install event to Firebase Analytics
+          logEvent(analytics, 'install', {
+            event_category: 'PWA',
+            event_label: 'Install',
+            value: 1
+          });
         } else {
           console.log("L'utilisateur a annulé l'installation");
         }
@@ -91,7 +117,7 @@ const CoverPage = () => {
                 <span className="font-bold">Pour Android:</span> Ouvrez le menu de votre navigateur en cliquant sur les trois points en haut à droite, puis sélectionnez <span className="font-bold">"Ajouter à l'écran d'accueil"</span> ou <span className="font-bold">"Installer l'application"</span>.
               </p>
               <p>
-                <span className="font-bold">Pour iPhone:</span> Ouvrez Safari, appuyez sur l'icône de partage en bas de l'écran (le carré avec une flèche vers le haut), puis sélectionnez <span className="font-bold">"Ajouter à l'écran d'accueil"</span>.
+                <span className="font-bold">Pour iPhone:</span> Sous Safari, appuyez sur l'icône de partage en bas de l'écran (le carré avec une flèche vers le haut), puis sélectionnez <span className="font-bold">"Ajouter à l'écran d'accueil"</span>.
               </p>
             </div>
             <button onClick={handleCloseHelpDialog} className="bg-blue-500 text-white px-4 py-2 rounded-lg">Fermer</button>
