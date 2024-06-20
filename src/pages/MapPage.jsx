@@ -189,6 +189,7 @@ const MyMap = () => {
           name: "geolocation",
         });
 
+
         if (permissionStatus.state === "granted") {
           getUserLocation();
         } else if (
