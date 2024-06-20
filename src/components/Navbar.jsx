@@ -1,34 +1,34 @@
-import { FaUserCircle } from "react-icons/fa";
-import { IoIosLogOut } from "react-icons/io";
+//import { FaUserCircle } from "react-icons/fa";
+//import { IoIosLogOut } from "react-icons/io";
 import LangManager from "./LangManager";
 import CMT2 from "../assets/img/CMT-logo-02.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Modal from "./Modal";
+/* import Modal from "./Modal";
 import UserProfile from "./ModalProfil";
 import { useEffect, useState } from "react";
 import { Auth } from "../firebase-config";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth"; */
 
 const Navbar = () => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const nav = useNavigate();
+  //const [currentUser, setCurrentUser] = useState(null);
+  //const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  //const nav = useNavigate();
 
-  const handleUserIconClick = () => {
+/*   const handleUserIconClick = () => {
     setIsProfileModalOpen(true);
-  };
+  }; */
 
-  const handleCloseModal = () => {
+/*   const handleCloseModal = () => {
     setIsProfileModalOpen(false);
-  };
+  }; */
 
-  const handleSignOut = () => {
+/*   const handleSignOut = () => {
     Auth.signOut();
     nav("/home");
-  };
+  }; */
 
-  useEffect(() => {
+/*   useEffect(() => {
     const unsubscribe = onAuthStateChanged(Auth, (user) => {
       if (user) {
         setCurrentUser(user);
@@ -37,7 +37,7 @@ const Navbar = () => {
       }
     });
     return unsubscribe;
-  }, []);
+  }, []); */
 
   return (
     <>
@@ -58,7 +58,7 @@ const Navbar = () => {
             <img src={CMT2} alt="Catch my Tomb" className="w-full" />
           </Link>
         </motion.div>
-        <motion.div
+{/*         <motion.div
           className="w-1/5"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 1.2 }}
@@ -74,11 +74,11 @@ const Navbar = () => {
               onClick={handleUserIconClick}
             />
           )}
-        </motion.div>
+        </motion.div> */}
       </nav>
-      <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
+{/*       <Modal isOpen={isProfileModalOpen} onClose={handleCloseModal}>
         <UserProfile user={currentUser} />
-      </Modal>
+      </Modal> */}
     </>
   );
 };

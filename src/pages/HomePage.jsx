@@ -148,6 +148,14 @@ const HomePage = () => {
               ))}
           </motion.div>
         </div>
+<div>
+  <Link to={`/category/Tombes Manquantes`}>
+    <button className="rounded-full py-1 px-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron text-white max-w-[200px]">
+      Aidez-nous à retrouver leurs tombes
+    </button>
+  </Link>
+</div>
+
         <div className="w-full">
           <AdBox />
         </div>

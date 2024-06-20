@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { db, storage } from "../firebase-config";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { BsSendPlusFill } from "react-icons/bs";
@@ -19,9 +19,19 @@ const PhotoPage = () => {
   const [file, setFile] = useState(null);
   const [submitStatus, setSubmitStatus] = useState("");
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const name = queryParams.get("name");
+    if (name) {
+      setPersonality(name);
+    }
+  }, [location.search]);
 
   const handlePersonalityChange = (e) => {
     const value = e.target.value.replace(/[^a-zA-Z\s]/g, "").slice(0, 50);
@@ -56,13 +66,16 @@ const PhotoPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitStatus("");
+    setIsSubmitting(true); 
 
     if (!file) {
+      setIsSubmitting(false); 
       alert(t("add_tomb_add_photo"));
       return;
     }
 
     if (!navigator.geolocation) {
+      setIsSubmitting(false); 
       alert(t("add_tomb_no_geo"));
       return;
     }
@@ -81,7 +94,7 @@ const PhotoPage = () => {
           const tombData = {
             title: personality,
             cemetery: cemetery,
-            imageUrl: imageUrl,
+            imageTomb: imageUrl,
             location: `${position.coords.latitude},${position.coords.longitude}`,
             status: "en attente",
           };
@@ -95,15 +108,18 @@ const PhotoPage = () => {
             setCemetery("");
             setFile(null);
             setSelectedFileName("");
+            setIsSubmitting(false); 
           }, 4000);
         },
         (error) => {
           console.error("Erreur de géolocalisation: ", error);
+          setIsSubmitting(false); 
         }
       );
     } catch (error) {
       console.error("Erreur lors de la récupération des données: ", error);
       setSubmitStatus(`Oops : ${error.message}`);
+      setIsSubmitting(false); 
     }
   };
 
@@ -159,6 +175,7 @@ const PhotoPage = () => {
               placeholder={t("add_tomb_name")}
               maxLength="50"
               className="w-full max-w-96 border-2 p-2 rounded-xl"
+              disabled={location.search.includes("name")} 
               required
             />
             <input
@@ -178,6 +195,7 @@ const PhotoPage = () => {
             <button
               type="submit"
               className="rounded-full py-3 px-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron"
+              disabled={isSubmitting} 
             >
               <p className="pr-2 font-aileronBold text-white">
                 {t("add_tomb_send")}

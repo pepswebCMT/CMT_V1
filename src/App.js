@@ -10,6 +10,7 @@ import "leaflet/dist/leaflet.css";
 import MyMap from "./pages/MapPage";
 import AdminPage from "./pages/AdminPage";
 import CoverPage from "./pages/CoverPage";
+import UserProfile from "./components/ModalProfil";
 
 import { PrivateRoute } from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/category/:category" element={<CategoryPage />} />
+          <Route path="/profileAdminCMTPepswebKDJB" element={<UserProfile />} />
           <Route
             path="/category/:categoryName/:celebrityId"
             element={<CelebrityDetailPage />}
@@ -43,7 +45,7 @@ const App = () => {
           <Route path="/map" element={<MyMap />} />
           <Route path="/map/:place" element={<MyMap />} />
           <Route
-            path="/admin"
+            path="/adminpepcatchmytombsw"
             element={<PrivateRoute element={<AdminPage />} />}
           />
         </Routes>

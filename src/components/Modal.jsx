@@ -1,7 +1,5 @@
-// Modal.js
 import React from "react";
 import ReactDOM from "react-dom";
-// import "./Modal.css"; // Assurez-vous d'ajouter des styles pour .modal et .modal-content
 import { AnimatePresence, motion } from "framer-motion";
 import { isVisible } from "@testing-library/user-event/dist/utils";
 
