@@ -1,4 +1,4 @@
-// src/serviceWorkerRegistration.js
+/* // src/serviceWorkerRegistration.js
 
 // Enregistre le service worker pour rendre l'application disponible hors ligne et plus rapide
 export function register(config) {
@@ -14,3 +14,4 @@ export function register(config) {
         });
     }
 }
+ */
