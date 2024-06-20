@@ -94,11 +94,10 @@ const CoverPage = () => {
   return (
     <section className="w-full pt-28 dark:bg-dark-200 font-josefin">
       <pwa-install
-        manual-chrome="true"
         manifest-url="/manifest.json"
         disable-screenshots="true"
-        description="description"
-        install-description="install-description"
+        description="Intallez l'application CatchMyTomb"
+        install-description="Partez à la découverte des tombes célèbres proches de vous dés maintenant avec l'application CatchMyTomb"
       ></pwa-install>
       <Navbar />
       <div className="w-full h-96 p-5 flex flex-col justify-around items-center">
