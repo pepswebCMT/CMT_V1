@@ -1,21 +1,4 @@
 {
-  "short_name": "CatchMyTomb",
-  "name": "Catch My Tomb",
-  "screenshots": [
-    {
-      "src": "screenshots/screen_1.png",
-      "sizes": "370x824",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Wonder Widgets"
-    },
-    {
-      "src": "screenshots/screen_1.png",
-      "sizes": "370x824",
-      "type": "image/png",
-      "label": "Wonder Widgets"
-    }
-  ],
   "icons": [
     {
       "src": "windows11/SmallTile.scale-100.png",
@@ -465,10 +448,5 @@
       "src": "ios/1024.png",
       "sizes": "1024x1024"
     }
-  ],
-  "start_url": "./#/home",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "orientation": "portrait"
+  ]
 }
