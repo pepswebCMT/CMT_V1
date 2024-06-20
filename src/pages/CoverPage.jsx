@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useTranslation } from "react-i18next";
-import { FaQuestionCircle } from 'react-icons/fa';
+import { FaQuestionCircle } from "react-icons/fa";
+import "@khmyznikov/pwa-install";
 
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
@@ -27,7 +28,10 @@ const CoverPage = () => {
     }
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
     };
   }, []);
 
@@ -60,6 +64,13 @@ const CoverPage = () => {
 
   return (
     <section className="w-full pt-28 dark:bg-dark-200 font-josefin">
+      <pwa-install
+        manual-chrome="true"
+        manifest-url="/manifest.json"
+        disable-screenshots="true"
+        description="description"
+        install-description="install-description"
+      ></pwa-install>
       <Navbar />
       <div className="w-full h-96 p-5 flex flex-col justify-around items-center">
         <h1 className="w-full font-josefinBold font-bold text-2xl text-center">
@@ -77,7 +88,16 @@ const CoverPage = () => {
             onClick={handleInstall}
           >
             {t("cover_app")}
-            <FaQuestionCircle size={24} onClick={handleHelp} style={{ position: 'absolute', top: 4, right: 4, cursor: 'pointer' }} />
+            <FaQuestionCircle
+              size={24}
+              onClick={handleHelp}
+              style={{
+                position: "absolute",
+                top: 4,
+                right: 4,
+                cursor: "pointer",
+              }}
+            />
           </button>
         )}
       </div>
@@ -85,16 +105,31 @@ const CoverPage = () => {
       {showHelpDialog && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg text-center max-w-lg mx-4">
-            <h2 className="text-xl font-bold mb-4">Installation de l'application</h2>
+            <h2 className="text-xl font-bold mb-4">
+              Installation de l'application
+            </h2>
             <div className="text-justify text-lg mb-4 space-y-4">
               <p className="mb-4">
-                <span className="font-bold">Pour Android:</span> Ouvrez le menu de votre navigateur en cliquant sur les trois points en haut à droite, puis sélectionnez <span className="font-bold">"Ajouter à l'écran d'accueil"</span> ou <span className="font-bold">"Installer l'application"</span>.
+                <span className="font-bold">Pour Android:</span> Ouvrez le menu
+                de votre navigateur en cliquant sur les trois points en haut à
+                droite, puis sélectionnez{" "}
+                <span className="font-bold">"Ajouter à l'écran d'accueil"</span>{" "}
+                ou <span className="font-bold">"Installer l'application"</span>.
               </p>
               <p>
-                <span className="font-bold">Pour iPhone:</span> Sous Safari, appuyez sur l'icône de partage en bas de l'écran (le carré avec une flèche vers le haut), puis sélectionnez <span className="font-bold">"Ajouter à l'écran d'accueil"</span>.
+                <span className="font-bold">Pour iPhone:</span> Sous Safari,
+                appuyez sur l'icône de partage en bas de l'écran (le carré avec
+                une flèche vers le haut), puis sélectionnez{" "}
+                <span className="font-bold">"Ajouter à l'écran d'accueil"</span>
+                .
               </p>
             </div>
-            <button onClick={handleCloseHelpDialog} className="bg-blue-500 text-white px-4 py-2 rounded-lg">Fermer</button>
+            <button
+              onClick={handleCloseHelpDialog}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+            >
+              Fermer
+            </button>
           </div>
         </div>
       )}
