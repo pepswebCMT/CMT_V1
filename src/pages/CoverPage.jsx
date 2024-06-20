@@ -66,7 +66,6 @@ const CoverPage = () => {
     <section className="w-full pt-28 dark:bg-dark-200 font-josefin">
       <pwa-install
         manifest-url="/manifest.json"
-        disable-screenshots="true"
         description="Intallez l'application CatchMyTomb"
         install-description="Partez à la découverte des tombes célèbres proches de vous dés maintenant avec l'application CatchMyTomb"
       ></pwa-install>
