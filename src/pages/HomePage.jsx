@@ -19,6 +19,31 @@ const HomePage = () => {
   const displayedCelebrityCount = 8;
   const { t } = useTranslation();
 
+  const categories = [
+    "Histoire et Politique",
+    "Scientifiques",
+    "Litterature et Philosophie",
+    "Sports",
+    "Arts visuels",
+    "Arts musicaux",
+    "Arts vivants",
+    "Les plus connus",
+  ];
+
+  if (localStorage.getItem("exp")) {
+    const exp = Number(localStorage.getItem("exp"));
+    const now = Date.now();
+    const day = 60 * 60 * 24 * 1000;
+    if (exp + day <= now) {
+      localStorage.removeItem("exp");
+      categories.forEach((category) => {
+        localStorage.removeItem(category);
+      });
+    }
+  } else {
+    localStorage.setItem("exp", Date.now());
+  }
+
   let [ref, { width }] = useMeasure();
 
   const xTranslation = useMotionValue(0);
@@ -41,21 +66,30 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchCelebrities = async (category) => {
-
-      try {
-        const docRef = doc(db, "Tombs", "Categories");
-        const colRef = collection(docRef, category);
-        const querySnapshot = await getDocs(colRef);
-        const fetchedCelebrities = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+      if (localStorage.getItem(category)) {
+        const fetchedCelebrities = JSON.parse(localStorage.getItem(category));
         setCelebrities(fetchedCelebrities.slice(0, displayedCelebrityCount));
-      } catch (error) {
-        if (error.code === 'resource-exhausted') {
-          setIsAppUnavailable(true);
-        } else {
-          console.error("Une erreur s'est produite lors de la récupération des données :", error);
+      } else {
+        try {
+          const docRef = doc(db, "Tombs", "Categories");
+          const colRef = collection(docRef, category);
+          const querySnapshot = await getDocs(colRef);
+          const fetchedCelebrities = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          localStorage.setItem(category, JSON.stringify(fetchedCelebrities));
+          setCelebrities(fetchedCelebrities.slice(0, displayedCelebrityCount));
+        } catch (error) {
+          if (error.code === "resource-exhausted") {
+            setIsAppUnavailable(true);
+          } else {
+            console.error(
+              "Une erreur s'est produite lors de la récupération des données :",
+              error
+            );
+          }
         }
       }
     };
@@ -63,22 +97,25 @@ const HomePage = () => {
     fetchCelebrities(selectedCategory);
   }, [selectedCategory, displayedCelebrityCount]);
 
-
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
 
-if (isAppUnavailable) {
-  return (
-    <div className="flex items-center justify-center h-screen font-aileronBold">
-      <div className="text-center">
-        <h2 className="text-4xl font-semibold text-red-500 mb-4">L'application est temporairement indisponible</h2>
-        <p className="text-xl text-gray-600">Nous sommes désolés, mais l'application est temporairement indisponible car en maintenance. Veuillez réessayer plus tard.</p>
+  if (isAppUnavailable) {
+    return (
+      <div className="flex items-center justify-center h-screen font-aileronBold">
+        <div className="text-center">
+          <h2 className="text-4xl font-semibold text-red-500 mb-4">
+            L'application est temporairement indisponible
+          </h2>
+          <p className="text-xl text-gray-600">
+            Nous sommes désolés, mais l'application est temporairement
+            indisponible car en maintenance. Veuillez réessayer plus tard.
+          </p>
+        </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
 
   return (
     <main className="w-full pt-20 pb-20 dark:bg-dark-200 dark:text-white font-josefin">
