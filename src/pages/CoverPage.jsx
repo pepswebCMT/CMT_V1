@@ -5,28 +5,6 @@ import { useTranslation } from "react-i18next";
 import { FaQuestionCircle } from "react-icons/fa";
 import "@khmyznikov/pwa-install";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAnalytics,
-  logEvent,
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-
-// web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCixlZ8xSP9xfcqglcjJWW8YsVsHqmrKO0",
-  authDomain: "mycmtapp.firebaseapp.com",
-  databaseURL: "https://mycmtapp.firebaseio.com",
-  projectId: "mycmtapp",
-  storageBucket: "mycmtapp.appspot.com",
-  messagingSenderId: "675300453637",
-  appId: "1:675300453637:web:612e570da20a18c5fb5b6c",
-  measurementId: "G-ER42SXRQ7D",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
 const CoverPage = () => {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const [showHelpDialog, setShowHelpDialog] = useState(false);
@@ -64,13 +42,6 @@ const CoverPage = () => {
         if (choiceResult.outcome === "accepted") {
           console.log("L'application a été installée");
           setIsAppInstalled(true);
-
-          // Log the install event to Firebase Analytics
-          logEvent(analytics, "install", {
-            event_category: "PWA",
-            event_label: "Install",
-            value: 1,
-          });
         } else {
           console.log("L'utilisateur a annulé l'installation");
         }
