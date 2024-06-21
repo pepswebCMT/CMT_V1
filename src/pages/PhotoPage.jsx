@@ -12,6 +12,14 @@ import Navbar from "../components/Navbar";
 import { IconContext } from "react-icons";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/ClipLoader"; // Importer ClipLoader depuis react-spinners
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 const PhotoPage = () => {
   const [personality, setPersonality] = useState("");
@@ -34,12 +42,12 @@ const PhotoPage = () => {
   }, [location.search]);
 
   const handlePersonalityChange = (e) => {
-    const value = e.target.value.replace(/[^a-zA-Z\s]/g, "").slice(0, 50);
+    const value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "").slice(0, 50);
     setPersonality(value);
   };
 
   const handleCemeteryChange = (e) => {
-    const value = e.target.value.replace(/[^a-zA-Z\s]/g, "").slice(0, 50);
+    const value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "").slice(0, 50);
     setCemetery(value);
   };
 
@@ -66,16 +74,16 @@ const PhotoPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitStatus("");
-    setIsSubmitting(true); 
+    setIsSubmitting(true);
 
     if (!file) {
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
       alert(t("add_tomb_add_photo"));
       return;
     }
 
     if (!navigator.geolocation) {
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
       alert(t("add_tomb_no_geo"));
       return;
     }
@@ -108,18 +116,18 @@ const PhotoPage = () => {
             setCemetery("");
             setFile(null);
             setSelectedFileName("");
-            setIsSubmitting(false); 
+            setIsSubmitting(false);
           }, 4000);
         },
         (error) => {
           console.error("Erreur de géolocalisation: ", error);
-          setIsSubmitting(false); 
+          setIsSubmitting(false);
         }
       );
     } catch (error) {
       console.error("Erreur lors de la récupération des données: ", error);
       setSubmitStatus(`Oops : ${error.message}`);
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
     }
   };
 
@@ -175,7 +183,7 @@ const PhotoPage = () => {
               placeholder={t("add_tomb_name")}
               maxLength="50"
               className="w-full max-w-96 border-2 p-2 rounded-xl"
-              disabled={location.search.includes("name")} 
+              disabled={location.search.includes("name")}
               required
             />
             <input
@@ -195,14 +203,20 @@ const PhotoPage = () => {
             <button
               type="submit"
               className="rounded-full py-3 px-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron"
-              disabled={isSubmitting} 
+              disabled={isSubmitting}
             >
-              <p className="pr-2 font-aileronBold text-white">
-                {t("add_tomb_send")}
-              </p>
-              <IconContext.Provider value={{ size: "2rem", color: "white" }}>
-                <BsSendPlusFill className="text-center" />
-              </IconContext.Provider>
+              {isSubmitting ? (
+                <ClipLoader color={"#ffffff"} loading={isSubmitting} css={override} size={24} />
+              ) : (
+                <>
+                  <p className="pr-2 font-aileronBold text-white">
+                    {t("add_tomb_send")}
+                  </p>
+                  <IconContext.Provider value={{ size: "2rem", color: "white" }}>
+                    <BsSendPlusFill className="text-center" />
+                  </IconContext.Provider>
+                </>
+              )}
             </button>
             {submitStatus && (
               <div className="w-full text-center">{submitStatus}</div>
