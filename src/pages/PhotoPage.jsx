@@ -12,10 +12,9 @@ import Navbar from "../components/Navbar";
 import { IconContext } from "react-icons";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { css } from "@emotion/react";
-import ClipLoader from "react-spinners/ClipLoader"; // Importer ClipLoader depuis react-spinners
+import ClipLoader from "react-spinners/ClipLoader";
 
-const override = css`
+const override = `
   display: block;
   margin: 0 auto;
   border-color: red;
@@ -41,14 +40,25 @@ const PhotoPage = () => {
     }
   }, [location.search]);
 
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("pendingFormData"));
+    if (storedData) {
+      setPersonality(storedData.personality || "");
+      setCemetery(storedData.cemetery || "");
+      setSelectedFileName(storedData.selectedFileName || "");
+    }
+  }, []);
+
   const handlePersonalityChange = (e) => {
-    const value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "").slice(0, 50);
+    const value = e.target.value.slice(0, 50);
     setPersonality(value);
+    saveFormData();
   };
 
   const handleCemeteryChange = (e) => {
-    const value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "").slice(0, 50);
+    const value = e.target.value.slice(0, 50);
     setCemetery(value);
+    saveFormData();
   };
 
   const handleFileChange = (event) => {
@@ -56,6 +66,7 @@ const PhotoPage = () => {
     if (newFile) {
       setFile(newFile);
       setSelectedFileName(newFile.name);
+      saveFormData();
     }
   };
 
@@ -110,14 +121,8 @@ const PhotoPage = () => {
           await setDoc(doc(db, "PendingTombs", newTombName), tombData);
 
           setSubmitStatus(t("add_tomb_submit_verify"));
-          setTimeout(() => {
-            setSubmitStatus("");
-            setPersonality("");
-            setCemetery("");
-            setFile(null);
-            setSelectedFileName("");
-            setIsSubmitting(false);
-          }, 4000);
+          clearFormData();
+          setIsSubmitting(false);
         },
         (error) => {
           console.error("Erreur de géolocalisation: ", error);
@@ -129,6 +134,23 @@ const PhotoPage = () => {
       setSubmitStatus(`Oops : ${error.message}`);
       setIsSubmitting(false);
     }
+  };
+
+  const saveFormData = () => {
+    const formData = {
+      personality,
+      cemetery,
+      selectedFileName,
+    };
+    localStorage.setItem("pendingFormData", JSON.stringify(formData));
+  };
+
+  const clearFormData = () => {
+    localStorage.removeItem("pendingFormData");
+    setPersonality("");
+    setCemetery("");
+    setFile(null);
+    setSelectedFileName("");
   };
 
   return (
@@ -206,20 +228,23 @@ const PhotoPage = () => {
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <ClipLoader color={"#ffffff"} loading={isSubmitting} css={override} size={24} />
+                <ClipLoader
+                  color={"#ffffff"}
+                  loading={isSubmitting}
+                  css={override}
+                  size={24}
+                />
               ) : (
                 <>
                   <p className="pr-2 font-aileronBold text-white">
                     {t("add_tomb_send")}
                   </p>
-                  <IconContext.Provider value={{ size: "2rem", color: "white" }}>
-                    <BsSendPlusFill className="text-center" />
-                  </IconContext.Provider>
+                  <BsSendPlusFill size="1.5em" color="white" />
                 </>
               )}
             </button>
             {submitStatus && (
-              <div className="w-full text-center">{submitStatus}</div>
+              <p className="w-full p-2 text-center text-lg">{submitStatus}</p>
             )}
           </form>
         </div>
