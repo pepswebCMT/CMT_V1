@@ -13,6 +13,7 @@ const CoverPage = () => {
   useEffect(() => {
     // Capture the beforeinstallprompt event
     const handleBeforeInstallPrompt = (e) => {
+      console.log("beforeinstallprompt event fired"); // Debug log
       e.preventDefault();
       setDeferredPrompt(e);
       setIsInstallable(true); // Show the install button
@@ -61,7 +62,7 @@ const CoverPage = () => {
             className="w-1/2 max-w-80 p-2 text-xl font-bold bg-green-500 text-white rounded-xl mt-4"
             onClick={handleInstallClick}
           >
-            {t("cover_app")} {/* Translated install button text */}
+            Installer l'application {/* Translated install button text */}
           </button>
         )}
       </div>
