@@ -2,21 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="./CMT-logo-02.svg">
+    <link rel="icon" href="./CMT-logo-02.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="This application lets you locate the graves of famous people"
     />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sofia&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sofia&display=swap"
+      rel="stylesheet"
+    />
     <link rel="manifest" href="./manifest.json" />
     <link rel="apple-touch-icon" href="./CMT-logo-02.svg" />
 
@@ -30,7 +42,10 @@
     <script type="module">
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-      import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+      import {
+        getAnalytics,
+        logEvent,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 
       // Your web app's Firebase configuration
       const firebaseConfig = {
@@ -41,7 +56,7 @@
         storageBucket: "mycmtapp.appspot.com",
         messagingSenderId: "675300453637",
         appId: "1:675300453637:web:612e570da20a18c5fb5b6c",
-        measurementId: "G-ER42SXRQ7D"
+        measurementId: "G-ER42SXRQ7D",
       };
 
       // Initialize Firebase
@@ -50,22 +65,22 @@
 
       // Track PWA installation
       let deferredPrompt;
-      window.addEventListener('beforeinstallprompt', (e) => {
+      window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
         deferredPrompt = e;
         // Optionally, show your custom install prompt here
       });
 
-      const installButton = document.getElementById('installButton');
+      const installButton = document.getElementById("installButton");
       if (installButton) {
-        installButton.addEventListener('click', (e) => {
+        installButton.addEventListener("click", (e) => {
           deferredPrompt.prompt();
           deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              logEvent(analytics, 'install', {
-                event_category: 'PWA',
-                event_label: 'Install',
-                value: 1
+            if (choiceResult.outcome === "accepted") {
+              logEvent(analytics, "install", {
+                event_category: "PWA",
+                event_label: "Install",
+                value: 1,
               });
             }
             deferredPrompt = null;
@@ -75,11 +90,12 @@
     </script>
 
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./serviceworker.js')
-            .then((reg) => console.log('Success: ', reg.scope))
-            .catch((err) => console.log('Failure: ', err));
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./serviceworker.js")
+            .then((reg) => console.log("Success: ", reg.scope))
+            .catch((err) => console.log("Failure: ", err));
         });
       }
     </script>

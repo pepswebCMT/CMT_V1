@@ -63,7 +63,7 @@ const CoverPage = () => {
   };
 
   return (
-    <section className="w-full pt-28 dark:bg-dark-200 font-josefin">
+    <section className="w-full dark:bg-dark-200 font-josefin">
       <pwa-install
         manifest-url="/manifest.json"
         disable-screenshots="true"

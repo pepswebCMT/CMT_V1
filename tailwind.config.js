@@ -2,7 +2,7 @@
 const colors = require("tailwindcss/colors");
 module.exports = {
   darkMode: "selector",
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./node_modules/flowbite/**/*.js"],
   theme: {
     extend: {
       fontFamily: {
@@ -29,5 +29,5 @@ module.exports = {
       blue: colors.blue,
     },
   },
-  plugins: [],
+  plugins: [require("flowbite/plugin")],
 };

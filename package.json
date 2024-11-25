@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "browser-image-compression": "^2.0.2",
     "firebase": "^10.10.0",
+    "flowbite": "^2.5.2",
     "framer-motion": "^11.1.7",
     "i18next": "^23.11.2",
     "imagemin": "^9.0.0",
