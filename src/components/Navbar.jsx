@@ -40,11 +40,13 @@ const Navbar = () => {
     });
     return unsubscribe;
   }, []); */
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
   return (
     <>
       {/* <nav className="w-full z-50 bg-mandarin-100 dark:bg-mandarinDark fixed top-0 flex justify-between items-center gap-2 p-2 shadow-inner">
@@ -85,7 +87,7 @@ const Navbar = () => {
       {/* </nav> */}
 
       <nav className="bg-mandarin-100 border-gray-200 dark:bg-gray-900">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="max-w-screen-xl flex flex-wrap justify-between items-center mx-auto p-4">
           <Link to={"/home"}>
             <div className="flex">
               <img
@@ -126,12 +128,12 @@ const Navbar = () => {
             } w-full md:block md:w-auto`}
             id="navbar-default"
           >
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 items-center dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
                 <Link
                   to={"/home"}
                   onClick={() => setIsMenuOpen(false)}
-                  className="font-bold text-2xl "
+                  className="font-bold text-xl "
                 >
                   Accueil
                 </Link>
@@ -140,7 +142,7 @@ const Navbar = () => {
                 <Link
                   to={"/"}
                   onClick={() => setIsMenuOpen(false)}
-                  className="font-bold text-2xl "
+                  className="font-bold text-xl "
                 >
                   Téléchargement
                 </Link>
@@ -149,7 +151,7 @@ const Navbar = () => {
                 <Link
                   to={"/login"}
                   onClick={() => setIsMenuOpen(false)}
-                  className="font-bold text-2xl "
+                  className="font-bold text-xl "
                 >
                   Se connecter/ S'inscire
                 </Link>

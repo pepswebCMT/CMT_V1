@@ -1,22 +1,37 @@
-import React, { useState } from "react";
-import franceFlag from "../assets/img/france.webp"; // Remplace par ton chemin réel
-import ukFlag from "../assets/img/anglais.webp"; // Remplace par ton chemin réel
-import polandFlag from "../assets/img/france.webp"; // Exemple pour polonais
+import React, { useState, useEffect } from "react";
+import franceFlag from "../assets/img/france.webp";
+import ukFlag from "../assets/img/anglais.webp";
+import i18n from "../i18n";
 
 const LanguageSelector = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState("France");
+  const [selectedLanguage, setSelectedLanguage] = useState("Français");
   const [selectedFlag, setSelectedFlag] = useState(franceFlag);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // État pour contrôler l'ouverture du menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const languages = [
-    { name: "English", flag: ukFlag },
-    { name: "French", flag: franceFlag },
+    { name: "Anglais", flag: ukFlag, code: "en" },
+    { name: "Francais", flag: franceFlag, code: "fr" },
   ];
+
+  // Charger la langue sauvegardée
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("selectedLanguage");
+    if (savedLanguage) {
+      const language = languages.find((lang) => lang.code === savedLanguage);
+      if (language) {
+        setSelectedLanguage(language.name);
+        setSelectedFlag(language.flag);
+        i18n.changeLanguage(savedLanguage);
+      }
+    }
+  }, []);
 
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language.name);
     setSelectedFlag(language.flag);
-    setIsMenuOpen(false); // Fermer le menu après sélection
+    i18n.changeLanguage(language.code);
+    localStorage.setItem("selectedLanguage", language.code);
+    setIsMenuOpen(false);
     console.log("Langue sélectionnée :", language.name);
   };
 
@@ -25,7 +40,7 @@ const LanguageSelector = () => {
       {/* Bouton principal */}
       <button
         type="button"
-        onClick={() => setIsMenuOpen(!isMenuOpen)} // Ouvre/ferme le menu
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="inline-flex items-center justify-between w-full px-4 py-2 font-bold text-2xl text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         id="options-menu"
         aria-haspopup="true"
@@ -65,7 +80,7 @@ const LanguageSelector = () => {
             {languages.map((language) => (
               <li key={language.name}>
                 <button
-                  onClick={() => handleLanguageChange(language)} // Sélectionne la langue et ferme le menu
+                  onClick={() => handleLanguageChange(language)}
                   className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   role="menuitem"
                 >

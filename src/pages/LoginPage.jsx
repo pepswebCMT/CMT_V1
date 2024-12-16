@@ -1,98 +1,161 @@
-import React, { useState, useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { Auth } from "../firebase-config";
+// import React, { useState, useNavigate } from "react";
+// import Navbar from "../components/Navbar";
+// import { signInWithEmailAndPassword } from "firebase/auth";
+// import { toast } from "react-toastify";
+// import { auth } from "./../firebase-config";
+
+// function LoginPage() {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const enteredPassword = password; // Stockez temporairement
+//     setPassword(""); // Effacez immédiatement après
+
+//     try {
+//       await signInWithEmailAndPassword(auth, email, enteredPassword);
+//       console.log("L'utilisateur est connecté");
+//       window.location.href = "/profile";
+//     } catch (error) {
+//       console.error(error.message);
+//     }
+//   };
+//   return (
+//     <>
+//       <form onSubmit={handleSubmit}>
+//         <Navbar />
+//         <div className="login">
+//           <h3>Connexion</h3>
+//           <div className="login__container">
+//             <label className="login__label">Email</label>
+//             <input
+//               type="text"
+//               className="login__input"
+//               placeholder="Email"
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
+//             />
+//           </div>
+//           <div className="login__container">
+//             <label className="login__label">Password</label>
+//             <input
+//               type="password"
+//               className="login__input"
+//               placeholder="Password"
+//               value={password}
+//               onChange={(e) => setPassword(e.target.value)}
+//             />
+//           </div>
+//           <div>
+//             <button type="submit" className="submit">
+//               Connexion
+//             </button>
+//           </div>
+//         </div>
+//       </form>
+//     </>
+//   );
+// }
+
+// export default LoginPage;
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import './styles/LoginPage.css';
+import Navbar from "../components/Navbar";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./../firebase-config";
+import { doc, getDoc } from "firebase/firestore"; // Import Firestore
+import { db } from "../firebase-config"; // Assurez-vous d'importer votre Firestore config
+import { toast } from "react-toastify";
 
 function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    fullName: "",
-  });
-  const [rememberMe, setRememberMe] = useState(false);
-  const [confirmationMessage, setConfirmationMessage] = useState("");
-  const [error, setError] = useState("");
 
-  useEffect(() => {
-    const errorTimeout = setTimeout(() => {
-      if (error) setError("");
-    }, 5000);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Authentification de l'utilisateur
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const userId = userCredential.user.uid;
 
-    const confirmationTimeout = setTimeout(() => {
-      if (confirmationMessage) setConfirmationMessage("");
-    }, 5000);
+      // Récupération des données utilisateur depuis Firestore
+      const userDoc = await getDoc(doc(db, "Users", userId)); // Remplacez "users" par le nom de votre collection
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
 
-    return () => {
-      clearTimeout(errorTimeout);
-      clearTimeout(confirmationTimeout);
-    };
-  }, [error, confirmationMessage]);
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setRememberMe(checked);
-    } else {
-      setCredentials({
-        ...credentials,
-        [name]: value,
+        // Vérification du rôle
+        if (userData.role === "admin") {
+          toast.success("Connexion administrateur réussie", {
+            position: "top-center",
+          });
+          navigate("/adminpepcatchmytombsw");
+        } else {
+          toast.success("Connexion utilisateur réussie", {
+            position: "top-center",
+          });
+          navigate("/profile"); // Redirigez les utilisateurs normaux
+        }
+      } else {
+        throw new Error("Utilisateur introuvable");
+      }
+    } catch (error) {
+      console.error("Erreur d'authentification :", error.message);
+      toast.error("Erreur de connexion : vérifiez vos identifiants", {
+        position: "bottom-center",
       });
     }
   };
 
-  const handleLogin = async () => {
-    try {
-      await signInWithEmailAndPassword(
-        Auth,
-        credentials.email,
-        credentials.password
-      );
-      navigate("/admin");
-    } catch (error) {
-      setError("Identifiant ou mot de passe incorrect, veuillez réessayer.");
-    }
-  };
-
   return (
-    <div className="auth-container">
-      <div className="login-form">
-        <h2>Connexion</h2>
-        <input
-          name="email"
-          type="email"
-          value={credentials.email}
-          onChange={handleInputChange}
-          placeholder="Adresse e-mail"
-          required
-        />
-        <input
-          name="password"
-          type="password"
-          value={credentials.password}
-          onChange={handleInputChange}
-          placeholder="Mot de passe"
-          required
-        />
-        {error && <p className="error-message">{error}</p>}
-        <div className="remember-me-container">
-          <input
-            name="rememberMe"
-            type="checkbox"
-            checked={rememberMe}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="rememberMe">Se souvenir de moi</label>
+    <>
+      <form onSubmit={handleSubmit}>
+        <Navbar />
+        <div className="login">
+          <h3 className="login__title">Connexion</h3>
+          <div className="login__container">
+            <label className="login__label">Email</label>
+            <input
+              type="text"
+              className="login__input"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="login__container">
+            <label className="login__label">Password</label>
+            <input
+              type="password"
+              className="login__input"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div>
+            <button type="submit" className="submit">
+              Connexion
+            </button>
+          </div>
+          <p>
+            Pas encore inscrit ?{" "}
+            <a
+              onClick={() => navigate("/register")}
+              className="login__a"
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+            >
+              Inscrit toi
+            </a>
+          </p>
         </div>
-        <div className="button-container">
-          <button onClick={handleLogin}>Se connecter</button>
-        </div>
-        <br />
-        <br />
-      </div>
-    </div>
+      </form>
+    </>
   );
 }
 

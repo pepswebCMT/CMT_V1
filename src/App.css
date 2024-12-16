@@ -28,10 +28,13 @@
   color: #61dafb;
 }
 
-
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
+  font-family: josefin, serif;
+  font-weight: 700;
 }
 
 #root {
@@ -49,3 +52,67 @@ html, body, #root {
   }
 }
 
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.login__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+}
+
+.login__label {
+  margin-bottom: 0.5rem;
+}
+
+.login__input {
+  border-radius: 10px;
+  background-color: lightgrey;
+}
+
+.submit {
+  background-color: #ffa500;
+  width: auto;
+  padding: 1rem;
+  border-radius: 15px;
+}
+
+.login__title {
+  font-size: 2rem;
+  margin: 2rem 0;
+  font-weight: bold;
+}
+
+.login__a {
+  color: #ffa500;
+}
+
+.register__title {
+  font-size: 2rem;
+  margin: 2rem 0;
+  font-weight: bold;
+}
+
+.register__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+}
+
+.register__label {
+  margin-bottom: 0.5rem;
+}
+
+.register__input {
+  border-radius: 10px;
+  background-color: lightgrey;
+}
+.register__a {
+  color: #ffa500;
+}
