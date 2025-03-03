@@ -55,7 +55,7 @@ jobs:
         deployment-id: ${{ fromJson(needs.prepare-matrix.outputs.deployment-ids) }}
     steps:
       - name: Debug deployment-id
-        run: echo "Deployment ID utilisé: ${{ matrix.deployment-id }}"
+        run: echo "Deployment ID utilisé:'' ${{ matrix.deployment-id }}"
 
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1
