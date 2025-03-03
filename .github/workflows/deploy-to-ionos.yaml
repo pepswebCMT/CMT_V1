@@ -67,6 +67,10 @@ jobs:
     steps:
       - name: Debug deployment-id
         run: echo "Deployment ID utilisé:'' '${{ matrix.deployment-id }}'"
+      - name: Debug project-id
+        run: echo "Project ID utilisé:'' '${{ env.PROJECT_ID }}'"
+      - name: Debug branch-id
+        run: echo "Branch ID utilisé:'' '${{ inputs.branch-id }}'"
 
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1
