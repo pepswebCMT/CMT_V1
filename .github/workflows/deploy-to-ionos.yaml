@@ -3,7 +3,7 @@ name: "Deploy Now: Deploy to IONOS"
 on:
   push:
     branches:
-      - master
+      - master # ✅ Déclenche uniquement sur un push sur la branche master
 
 env:
   PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID }}
@@ -19,7 +19,20 @@ jobs:
           echo "Project ID : ${{ env.PROJECT_ID }}"
 
       - name: Récupérer le code du dépôt
-        uses: actions/checkout@v3 # ✅ Cette étape est obligatoire pour que IONOS puisse récupérer le projet
+        uses: actions/checkout@v3 # ✅ Étape obligatoire pour récupérer le projet
+
+      - name: Vérifier que la branche est bien `master`
+        if: github.ref != 'refs/heads/master'
+        run: |
+          echo "Annulation : ce workflow ne s'exécute que sur master."
+          exit 1
+
+      - name: Vérifier `project-id`
+        run: |
+          if [ -z "${{ env.PROJECT_ID }}" ]; then
+            echo "Erreur : Aucun project-id trouvé. Vérifie que `IONOS_PROJECT_ID` est bien défini dans GitHub Secrets."
+            exit 1
+          fi
 
       - name: Déploiement sur IONOS
         uses: ionos-deploy-now/deploy-to-ionos-action@v2
