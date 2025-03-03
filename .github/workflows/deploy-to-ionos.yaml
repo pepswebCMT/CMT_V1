@@ -42,7 +42,7 @@ jobs:
         run: echo "deployment-ids=${{ inputs.deployment-ids || '["default-id"]' }}" >> $GITHUB_ENV
 
       - name: Debug DEPLOYMENT_IDS
-        run: echo "Deployment IDs utilisés: ${{ env.DEPLOYMENT_IDS }}"
+        run: echo "Deployment IDs utilisés:'' ${{ env.DEPLOYMENT_IDS }}"
 
   deploy-to-ionos:
     needs: prepare-matrix
