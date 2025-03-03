@@ -123,6 +123,7 @@ const HomePage = () => {
       <section className="w-full overflow-hidden flex flex-col justify-between gap-4 items-center p-5">
         <div className="w-full max-w-96 font-bold text-4xl p-2 text-center">
           <h2>{t("home_h1")}</h2>
+          <h2>ANCIENNE VERSION CMT</h2>
         </div>
         <IconBar onCategoryChange={handleCategoryChange} />
         <div className="w-full p-2 flex justify-between items-center text-xl font-josefinBold font-bold text-mandarin-100">
@@ -148,13 +149,13 @@ const HomePage = () => {
               ))}
           </motion.div>
         </div>
-<div>
-  <Link to={`/category/Tombes Manquantes`}>
-    <button className="rounded-full py-1 px-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron text-white max-w-[200px]">
-      Aidez-nous à retrouver leurs tombes
-    </button>
-  </Link>
-</div>
+        <div>
+          <Link to={`/category/Tombes Manquantes`}>
+            <button className="rounded-full py-1 px-5 bg-mandarin-100 dark:bg-mandarin-600 flex justify-center items-center font-aileron text-white max-w-[200px]">
+              Aidez-nous à retrouver leurs tombes
+            </button>
+          </Link>
+        </div>
 
         <div className="w-full">
           <AdBox />
