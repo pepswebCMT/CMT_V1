@@ -17,8 +17,9 @@ on:
         required: true
         type: string
       deployment-ids:
-        require: true
+        required: true
         type: string
+        default: '["default-id"]'  # ✅ Valeur par défaut pour éviter l'erreur JSON
   push:
     branches:
       - master
@@ -34,8 +35,11 @@ jobs:
       actions: read
     strategy:
       matrix:
-        deployment-id: ${{ fromJson(inputs.deployment-ids) }}
+        deployment-id: ${{ fromJson(inputs.deployment-ids || '["default-id"]') }}  # ✅ Évite les erreurs si vide
     steps:
+      - name: Debug deployment-ids  # ✅ Vérification des valeurs avant de lancer le déploiement
+        run: echo "Deployment IDs: '${{ inputs.deployment-ids }}'"
+
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1
         with:
