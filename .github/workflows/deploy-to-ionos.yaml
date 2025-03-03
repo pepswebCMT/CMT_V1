@@ -23,10 +23,10 @@ on:
       deployment-ids:
         required: true
         type: string
-        default: '["default-id"]'  # ✅ Valeur par défaut pour éviter l'erreur JSON
+        default: '["default-id"]' # ✅ Valeur par défaut pour éviter l'erreur JSON
 
 env:
-  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }}  # Remplace par ton vrai project ID IONOS
+  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }} # Remplace par ton vrai project ID IONOS
 
 concurrency: ${{ github.ref }}
 
@@ -37,7 +37,7 @@ jobs:
       deployment-ids: ${{ steps.set-ids.outputs.deployment-ids }}
     steps:
       - name: Vérifier `inputs.deployment-ids`
-        run: echo "Valeur reçue pour deployment-ids: '${{ inputs.deployment-ids }}'"
+        run: echo "Valeur reçue pour deployment-ids:r '${{ inputs.deployment-ids }}'"
 
       - name: Définir DEPLOYMENT_IDS si vide
         id: set-ids
@@ -52,7 +52,7 @@ jobs:
           fi
 
       - name: Debug DEPLOYMENT_IDS
-        run: echo "Deployment IDs générés: '${{ env.DEPLOYMENT_IDS }}'"
+        run: echo "Deployment IDs générés:r '${{ env.DEPLOYMENT_IDS }}'"
 
   deploy-to-ionos:
     needs: prepare-matrix
@@ -65,7 +65,7 @@ jobs:
         deployment-id: ${{ fromJson(needs.prepare-matrix.outputs.deployment-ids) }}
     steps:
       - name: Debug deployment-id
-        run: echo "Deployment ID utilisé: '${{ matrix.deployment-id }}'"
+        run: echo "Deployment ID utilisé:r '${{ matrix.deployment-id }}'"
 
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1
