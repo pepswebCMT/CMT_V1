@@ -5,6 +5,10 @@
 name: "Deploy Now: Deploy to IONOS"
 
 on:
+  push:
+    branches:
+      - master
+      - dev
   workflow_dispatch:
     inputs:
       version:
@@ -19,14 +23,10 @@ on:
       deployment-ids:
         required: true
         type: string
-        default: '["default-id"]' # ✅ Valeur par défaut pour éviter l'erreur JSON
-  push:
-    branches:
-      - master
-      - dev
+        default: '["default-id"]'  # ✅ Valeur par défaut pour éviter l'erreur JSON
 
 env:
-  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }} # Remplace par ton vrai project ID IONOS
+  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }}  # Remplace par ton vrai project ID IONOS
 
 concurrency: ${{ github.ref }}
 
@@ -36,28 +36,27 @@ jobs:
     outputs:
       deployment-ids: ${{ steps.set-ids.outputs.deployment-ids }}
     steps:
-      - name: Vérifier `inputs.deployment-ids`
-        run: echo "Valeur reçue pour deployment-ids:'' '${{ inputs.deployment-ids }}'"
+      - name: Vérifier `inputs.branch-id`
+        run: echo "Valeur reçue pour branch-id: '${{ inputs.branch-id }}'"
 
-      - name: Générer un deployment-id si vide
-        id: set-ids
+      - name: Définir BRANCH_ID si vide
+        id: set-branch
         run: |
-          if [ -z "${{ inputs.deployment-ids }}" ]; then
-            UUID=$(uuidgen)
-            echo "Génération d'un nouveau deployment-id: $UUID"
-            echo "deployment-ids=[\"$UUID\"]" >> $GITHUB_ENV
-            echo "deployment-ids=[\"$UUID\"]" >> $GITHUB_OUTPUT
+          if [ -z "${{ inputs.branch-id }}" ]; then
+            echo "Aucun branch-id reçu, utilisation de '${{ github.ref_name }}' par défaut."
+            echo "branch-id=${{ github.ref_name }}" >> $GITHUB_ENV
+            echo "branch-id=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           else
-            echo "deployment-ids=${{ inputs.deployment-ids }}" >> $GITHUB_ENV
-            echo "deployment-ids=${{ inputs.deployment-ids }}" >> $GITHUB_OUTPUT
+            echo "branch-id=${{ inputs.branch-id }}" >> $GITHUB_ENV
+            echo "branch-id=${{ inputs.branch-id }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Debug DEPLOYMENT_IDS
-        run: echo "Deployment IDs générés:'' '${{ env.DEPLOYMENT_IDS }}'"
+      - name: Debug BRANCH_ID
+        run: echo "Branch ID après correction: '${{ env.BRANCH_ID }}'"
 
   deploy-to-ionos:
     needs: prepare-matrix
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev') }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -66,11 +65,7 @@ jobs:
         deployment-id: ${{ fromJson(needs.prepare-matrix.outputs.deployment-ids) }}
     steps:
       - name: Debug deployment-id
-        run: echo "Deployment ID utilisé:'' '${{ matrix.deployment-id }}'"
-      - name: Debug project-id
-        run: echo "Project ID utilisé:'' '${{ env.PROJECT_ID }}'"
-      - name: Debug branch-id
-        run: echo "Branch ID utilisé:'' '${{ inputs.branch-id }}'"
+        run: echo "Deployment ID utilisé: '${{ matrix.deployment-id }}'"
 
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1
@@ -78,7 +73,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ inputs.branch-id }}
+          branch-id: ${{ env.BRANCH_ID }}
           deployment-id: ${{ matrix.deployment-id }}
           action: update-status
           status: in_progress
@@ -89,7 +84,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ inputs.branch-id }}
+          branch-id: ${{ env.BRANCH_ID }}
           version: ${{ inputs.version }}
           action: download
 
@@ -100,7 +95,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ inputs.branch-id }}
+          branch-id: ${{ env.BRANCH_ID }}
           deployment-id: ${{ matrix.deployment-id }}
           action: retrieve-info
 
@@ -114,25 +109,16 @@ jobs:
           output-directory: deployment
           intermediate-data-file: deployment/.template-renderer-data
 
-      - name: Render real site-url to all files
-        run: |
-          for file in $(grep -rl 'https://IONOS_DEPLOY_NOW_SITE_URL' .); do
-            sed -i "s|https://IONOS_DEPLOY_NOW_SITE_URL|${{ fromJson(steps.deployment.outputs.info).site-url }}|g" "$file"
-          done
-
-      - name: Render SSH user secret name
-        run: echo SSH_USERNAME_SECRET=IONOS_DEPLOYMENT_$(echo ${{ matrix.deployment-id }} | tr '[:lower:]' '[:upper:]' | tr '-' '_' )_SSH_USERNAME >> $GITHUB_ENV
-
       - name: Deploy to IONOS
         uses: ionos-deploy-now/deploy-to-ionos-action@v2
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ inputs.branch-id }}
+          branch-id: ${{ env.BRANCH_ID }}
           deployment-id: ${{ matrix.deployment-id }}
           deployment-info: ${{ steps.deployment.outputs.info }}
-          ssh-user: ${{ secrets[env.SSH_USERNAME_SECRET] }}
+          ssh-user: ${{ secrets.IONOS_SSH_KEY }}
           ssh-key: ${{ secrets.IONOS_SSH_KEY }}
 
       - name: Update deployment status
@@ -142,7 +128,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ inputs.branch-id }}
+          branch-id: ${{ env.BRANCH_ID }}
           deployment-id: ${{ matrix.deployment-id }}
           action: update-status
           status: ${{ job.status }}
@@ -158,5 +144,5 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ inputs.branch-id }}
+          branch-id: ${{ env.BRANCH_ID }}
           action: set-deployments-finished
