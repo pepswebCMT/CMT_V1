@@ -28,8 +28,10 @@ jobs:
           action: retrieve-info
       - name: Debug raw output
         run: echo "Raw output ${{ toJson(steps.project.outputs) }}"
+      - name: Debug raw JSON
+        run: echo 'Raw JSON:' '${{ steps.project.outputs.info }}'
       - name: Debug deployment-enabled
-        run: echo 'Deployment enabled:' $(echo '${{ steps.project.outputs.info }}' | jq -r '.deployment-enabled')
+        run: echo "Deployment enabled:" $(echo '${{ steps.project.outputs.info }}' | sed 's/\\/g' | jq -r '.["deployment-enabled"]')
 
   build:
     name: build
