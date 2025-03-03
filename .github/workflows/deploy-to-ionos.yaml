@@ -23,10 +23,10 @@ on:
       deployment-ids:
         required: true
         type: string
-        default: '["default-id"]' # ✅ Valeur par défaut pour éviter l'erreur JSON
+        default: '["default-id"]'  # ✅ Valeur par défaut pour éviter l'erreur JSON
 
 env:
-  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }} # Remplace par ton vrai project ID IONOS
+  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }}  # Remplace par ton vrai project ID IONOS
 
 concurrency: ${{ github.ref }}
 
@@ -36,23 +36,23 @@ jobs:
     outputs:
       deployment-ids: ${{ steps.set-ids.outputs.deployment-ids }}
     steps:
-      - name: Vérifier `inputs.branch-id`
-        run: echo "Valeur reçue pour branch-id:r '${{ inputs.branch-id }}'"
+      - name: Vérifier `inputs.deployment-ids`
+        run: echo "Valeur reçue pour deployment-ids: '${{ inputs.deployment-ids }}'"
 
-      - name: Définir BRANCH_ID si vide
-        id: set-branch
+      - name: Définir DEPLOYMENT_IDS si vide
+        id: set-ids
         run: |
-          if [ -z "${{ inputs.branch-id }}" ]; then
-            echo "Aucun branch-id reçu, utilisation de '${{ github.ref_name }}' par défaut."
-            echo "branch-id=${{ github.ref_name }}" >> $GITHUB_ENV
-            echo "branch-id=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          if [ -z "${{ inputs.deployment-ids }}" ]; then
+            echo "Aucun deployment-ids reçu, utilisation de 'default-id'."
+            echo "deployment-ids=[\"default-id\"]" >> $GITHUB_ENV
+            echo "deployment-ids=[\"default-id\"]" >> $GITHUB_OUTPUT
           else
-            echo "branch-id=${{ inputs.branch-id }}" >> $GITHUB_ENV
-            echo "branch-id=${{ inputs.branch-id }}" >> $GITHUB_OUTPUT
+            echo "deployment-ids=${{ inputs.deployment-ids }}" >> $GITHUB_ENV
+            echo "deployment-ids=${{ inputs.deployment-ids }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Debug BRANCH_ID
-        run: echo "Branch ID après correction:r '${{ env.BRANCH_ID }}'"
+      - name: Debug DEPLOYMENT_IDS
+        run: echo "Deployment IDs générés: '${{ env.DEPLOYMENT_IDS }}'"
 
   deploy-to-ionos:
     needs: prepare-matrix
@@ -65,7 +65,7 @@ jobs:
         deployment-id: ${{ fromJson(needs.prepare-matrix.outputs.deployment-ids) }}
     steps:
       - name: Debug deployment-id
-        run: echo "Deployment ID utilisé:r '${{ matrix.deployment-id }}'"
+        run: echo "Deployment ID utilisé: '${{ matrix.deployment-id }}'"
 
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1
@@ -73,7 +73,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ env.BRANCH_ID }}
+          branch-id: ${{ github.ref_name }}
           deployment-id: ${{ matrix.deployment-id }}
           action: update-status
           status: in_progress
@@ -84,7 +84,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ env.BRANCH_ID }}
+          branch-id: ${{ github.ref_name }}
           version: ${{ inputs.version }}
           action: download
 
@@ -95,7 +95,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ env.BRANCH_ID }}
+          branch-id: ${{ github.ref_name }}
           deployment-id: ${{ matrix.deployment-id }}
           action: retrieve-info
 
@@ -115,7 +115,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ env.BRANCH_ID }}
+          branch-id: ${{ github.ref_name }}
           deployment-id: ${{ matrix.deployment-id }}
           deployment-info: ${{ steps.deployment.outputs.info }}
           ssh-user: ${{ secrets.IONOS_SSH_KEY }}
@@ -128,7 +128,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ env.BRANCH_ID }}
+          branch-id: ${{ github.ref_name }}
           deployment-id: ${{ matrix.deployment-id }}
           action: update-status
           status: ${{ job.status }}
@@ -144,5 +144,5 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ env.BRANCH_ID }}
+          branch-id: ${{ github.ref_name }}
           action: set-deployments-finished
