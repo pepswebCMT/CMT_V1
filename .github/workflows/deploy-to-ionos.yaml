@@ -18,6 +18,9 @@ jobs:
           echo "Branche actuelle : ${{ github.ref_name }}"
           echo "Project ID : ${{ env.PROJECT_ID }}"
 
+      - name: Récupérer le code du dépôt
+        uses: actions/checkout@v3 # ✅ Cette étape est obligatoire pour que IONOS puisse récupérer le projet
+
       - name: Déploiement sur IONOS
         uses: ionos-deploy-now/deploy-to-ionos-action@v2
         with:
