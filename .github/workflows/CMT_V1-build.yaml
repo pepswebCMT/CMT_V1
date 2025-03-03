@@ -17,7 +17,7 @@ env:
   DEPLOYMENT_FOLDER: public
 
 jobs:
-# Please do not rename this job
+  # Please do not rename this job
   build-project:
     name: build CMT_V1
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
         with:
-          submodules: 'recursive'
+          submodules: "recursive"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -34,13 +34,13 @@ jobs:
 
       - name: Build Node assets
         env:
-          CI: true
+          CI: false
           SITE_URL: ${{ inputs.site-url }}
         run: |
           npm ci
           npm run build
 
-# Please do not touch the following action
+      # Please do not touch the following action
       - name: Store deployment content
         uses: ionos-deploy-now/artifact-action@v1
         with:
