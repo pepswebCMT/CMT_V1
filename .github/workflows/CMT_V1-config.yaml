@@ -1,8 +1,0 @@
-version: "1.0"
-build:
-  command: npm run build
-  output: build
-runtime:
-  type: static
-  config:
-    root: build
