@@ -27,6 +27,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }} # Remplace par ton vrai project ID IONOS
+  DEPLOYMENT_IDS: ${{ inputs.deployment-ids || '["default-id"]' }}
 
 concurrency: ${{ github.ref }}
 
@@ -36,11 +37,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: read
+
     strategy:
       matrix:
-        deployment-id: ${{ fromJson(inputs.deployment-ids || '["default-id"]') }} # ✅ Évite les erreurs si vide
+        deployment-id: ${{ fromJson(env.DEPLOYMENT_IDS) }}
     steps:
-      - name: Debug deployment-ids # ✅ Vérification des valeurs avant de lancer le déploiement
+      - name: Debug deployment-ids
         run: echo "Deployment IDs:' '${{ inputs.deployment-ids }}'"
       - name: Debug project-id
         run: echo "Project ID utilisé:'' ${{ env.PROJECT_ID }}"
