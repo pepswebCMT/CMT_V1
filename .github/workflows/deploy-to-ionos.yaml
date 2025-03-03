@@ -20,14 +20,15 @@ on:
         require: true
         type: string
   push:
-    path:
-      - ./.github/workflows/deploy-to-ionos.yaml
+    branches:
+      - master
+      - dev
 
 concurrency: ${{ github.ref }}
 
 jobs:
   deploy-to-ionos:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
