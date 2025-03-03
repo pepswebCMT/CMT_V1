@@ -32,29 +32,31 @@ env:
 concurrency: ${{ github.ref }}
 
 jobs:
+  prepare-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      deployment-ids: ${{ steps.set-ids.outputs.deployment-ids }}
+    steps:
+      - name: Définir DEPLOYMENT_IDS
+        id: set-ids
+        run: echo "deployment-ids=${{ inputs.deployment-ids || '["default-id"]' }}" >> $GITHUB_ENV
+
+      - name: Debug DEPLOYMENT_IDS
+        run: echo "Deployment IDs utilisés: ${{ env.DEPLOYMENT_IDS }}"
+
   deploy-to-ionos:
+    needs: prepare-matrix
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
-
     strategy:
       matrix:
-        deployment-id: ${{ fromJson(env.DEPLOYMENT_IDS) }}
+        deployment-id: ${{ fromJson(needs.prepare-matrix.outputs.deployment-ids) }}
     steps:
-      - name: Debug deployment-ids
-        run: echo "Deployment IDs:' '${{ inputs.deployment-ids }}'"
-      - name: Debug project-id
-        run: echo "Project ID utilisé:'' ${{ env.PROJECT_ID }}"
+      - name: Debug deployment-id
+        run: echo "Deployment ID utilisé: ${{ matrix.deployment-id }}"
 
-      - name: Update deployment status
-        uses: ionos-deploy-now/project-action@v1
-        with:
-          api-key: ${{ secrets.IONOS_API_KEY }}
-          service-host: api-eu.ionos.space
-          project-id: ${{ env.PROJECT_ID }}
-          branch-id: ${{ inputs.branch-id }}
-          deployment-id: ${{ matrix.deployment-id }}
           action: update-status
           status: in_progress
 
