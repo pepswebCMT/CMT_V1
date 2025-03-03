@@ -26,6 +26,8 @@ jobs:
           service-host: api-eu.ionos.space
           project-id: 1764d17f-7ef4-4bc3-8597-08b489757b55
           action: retrieve-info
+      - name: Debug raw output
+        run: echo "Raw output ${{ toJson(steps.project.outputs) }}"
       - name: Debug deployment-enabled
         run: echo "Deployment enabled ${{ needs.retrieve-project.outputs.deployment-enabled }}"
 
