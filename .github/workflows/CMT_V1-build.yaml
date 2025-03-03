@@ -1,6 +1,9 @@
 name: "Deploy Now: Execute Build"
 
 on:
+  push:
+    branches:
+      - master # ✅ Déclenche le build uniquement sur master
   workflow_call:
     inputs:
       site-url:
@@ -24,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # ✅ Vérifie que cette version est supportée
+          node-version: 18 # ✅ Vérifie que cette version est bien supportée
 
       - name: Installer les dépendances
         run: npm ci
@@ -38,7 +41,7 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
           project-id: ${{ secrets.IONOS_PROJECT_ID }}
-          branch-id: ${{ inputs.branch-id }}
+          branch-id: ${{ inputs.branch-id || github.ref_name }}
           version: ${{ github.sha }}
           folder: ${{ env.DEPLOYMENT_FOLDER }}
           config-file: .deploy-now/CMT_V1/config.yaml

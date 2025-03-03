@@ -1,5 +1,5 @@
 name: "Deploy Now: Orchestration"
-run-name: "Deploy Now: Build & Deploy CMT_V1 · ${{ github.event.head_commit.message || format('Triggered by {0}', github.triggering_actor) }}"
+run-name: "Deploy Now: Build & Deploy CMT_V1"
 
 on:
   push:
@@ -22,9 +22,6 @@ jobs:
           service-host: api-eu.ionos.space
           project-id: ${{ secrets.IONOS_PROJECT_ID }}
           action: retrieve-info
-      - name: Debug project info
-        run: |
-          echo "Raw JSON: ${{ steps.project.outputs.info }}"
 
   build:
     name: Build
