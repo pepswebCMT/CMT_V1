@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID }}
+  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || 'MISSING_PROJECT_ID' }}
   IONOS_API_KEY: ${{ secrets.IONOS_API_KEY }}
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
 
       - name: Vérifier que `PROJECT_ID` est bien défini
         run: |
-          if [ -z "${{ env.PROJECT_ID }}" ]; then
+          if [ "${{ env.PROJECT_ID }}" == "MISSING_PROJECT_ID" ]; then
             echo "Erreur : Aucun project-id trouvé. Vérifie que `IONOS_PROJECT_ID` est bien défini dans GitHub Secrets."
             exit 1
           fi
