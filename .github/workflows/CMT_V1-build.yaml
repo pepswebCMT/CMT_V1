@@ -48,4 +48,3 @@ jobs:
           folder: ${{ env.DEPLOYMENT_FOLDER }}
           config-file: .deploy-now/CMT_V1/config.yaml
           action: upload
-          debug: true
