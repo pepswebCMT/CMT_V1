@@ -20,21 +20,17 @@ jobs:
     steps:
       - name: Checkout du dépôt
         uses: actions/checkout@v3
-        with:
-          submodules: "recursive"
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: v22.x
+          node-version: 18 # ✅ Vérifie que cette version est supportée
 
-      - name: Build des fichiers
-        env:
-          CI: false
-          SITE_URL: ${{ inputs.site-url }}
-        run: |
-          npm ci
-          npm run build
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lancer le build
+        run: npm run build
 
       - name: Stocker les fichiers pour le déploiement
         uses: ionos-deploy-now/artifact-action@v1
