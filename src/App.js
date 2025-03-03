@@ -32,6 +32,8 @@ const App = () => {
     s.parentNode.insertBefore(g, s);
   }, []);
 
+  console.log("React a bien démarré !");
+
   return (
     <Router>
       <AuthProvider>
