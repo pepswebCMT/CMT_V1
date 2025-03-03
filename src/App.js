@@ -16,6 +16,8 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
+import TombsManagementPage from "./pages/TombsManageentPage";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   React.useEffect(() => {
@@ -53,6 +55,8 @@ const App = () => {
 
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/managementTomb" element={<TombsManagementPage />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
         </Routes>
       </AuthProvider>
     </Router>

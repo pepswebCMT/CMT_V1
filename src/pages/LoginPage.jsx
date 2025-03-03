@@ -1,64 +1,3 @@
-// import React, { useState, useNavigate } from "react";
-// import Navbar from "../components/Navbar";
-// import { signInWithEmailAndPassword } from "firebase/auth";
-// import { toast } from "react-toastify";
-// import { auth } from "./../firebase-config";
-
-// function LoginPage() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const enteredPassword = password; // Stockez temporairement
-//     setPassword(""); // Effacez immédiatement après
-
-//     try {
-//       await signInWithEmailAndPassword(auth, email, enteredPassword);
-//       console.log("L'utilisateur est connecté");
-//       window.location.href = "/profile";
-//     } catch (error) {
-//       console.error(error.message);
-//     }
-//   };
-//   return (
-//     <>
-//       <form onSubmit={handleSubmit}>
-//         <Navbar />
-//         <div className="login">
-//           <h3>Connexion</h3>
-//           <div className="login__container">
-//             <label className="login__label">Email</label>
-//             <input
-//               type="text"
-//               className="login__input"
-//               placeholder="Email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-//           </div>
-//           <div className="login__container">
-//             <label className="login__label">Password</label>
-//             <input
-//               type="password"
-//               className="login__input"
-//               placeholder="Password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//           </div>
-//           <div>
-//             <button type="submit" className="submit">
-//               Connexion
-//             </button>
-//           </div>
-//         </div>
-//       </form>
-//     </>
-//   );
-// }
-
-// export default LoginPage;
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -67,11 +6,16 @@ import { auth } from "./../firebase-config";
 import { doc, getDoc } from "firebase/firestore"; // Import Firestore
 import { db } from "../firebase-config"; // Assurez-vous d'importer votre Firestore config
 import { toast } from "react-toastify";
+import ResetPassword from "./ResetPassword";
+import { useTranslation } from "react-i18next";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,6 +26,7 @@ function LoginPage() {
         email,
         password
       );
+
       const userId = userCredential.user.uid;
 
       // Récupération des données utilisateur depuis Firestore
@@ -94,21 +39,31 @@ function LoginPage() {
           toast.success("Connexion administrateur réussie", {
             position: "top-center",
           });
-          navigate("/adminpepcatchmytombsw");
+          navigate("/profile");
         } else {
           toast.success("Connexion utilisateur réussie", {
             position: "top-center",
           });
-          navigate("/profile"); // Redirigez les utilisateurs normaux
+          navigate("/profile");
         }
       } else {
         throw new Error("Utilisateur introuvable");
       }
     } catch (error) {
       console.error("Erreur d'authentification :", error.message);
-      toast.error("Erreur de connexion : vérifiez vos identifiants", {
-        position: "bottom-center",
-      });
+
+      if (
+        error.code === "auth/invalid-email" ||
+        error.code === "auth/user-not-found"
+      ) {
+        setEmailError("Adresse email invalide ou introuvable");
+      } else if (error.code === "auth/wrong-password") {
+        setPasswordError("Mot de passe incorrect");
+      } else {
+        toast.error("Erreur de connexion : vérifiez vos identifiants", {
+          position: "bottom-center",
+        });
+      }
     }
   };
 
@@ -117,7 +72,7 @@ function LoginPage() {
       <form onSubmit={handleSubmit}>
         <Navbar />
         <div className="login">
-          <h3 className="login__title">Connexion</h3>
+          <h3 className="login__title">{t("connection")}</h3>
           <div className="login__container">
             <label className="login__label">Email</label>
             <input
@@ -125,32 +80,69 @@ function LoginPage() {
               className="login__input"
               placeholder="Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError("");
+              }}
             />
+            {emailError && (
+              <p
+                style={{
+                  color: "red",
+                  fontSize: "0.9rem",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {emailError}
+              </p>
+            )}
           </div>
           <div className="login__container">
-            <label className="login__label">Password</label>
+            <label className="login__label">{t("password")} </label>
             <input
               type="password"
               className="login__input"
               placeholder="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError("");
+              }}
             />
+            {passwordError && (
+              <p
+                style={{
+                  color: "red",
+                  fontSize: "0.9rem",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {passwordError}
+              </p>
+            )}
+          </div>
+          <div style={{ textAlign: "left" }}>
+            <a
+              onClick={() => navigate("/resetpassword")}
+              className="login__a"
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+            >
+              {t("forgottenpassword")}
+            </a>
           </div>
           <div>
             <button type="submit" className="submit">
-              Connexion
+              {t("connection")}{" "}
             </button>
           </div>
           <p>
-            Pas encore inscrit ?{" "}
+            {t("notregisteredyet")}{" "}
             <a
               onClick={() => navigate("/register")}
               className="login__a"
               style={{ cursor: "pointer", textDecoration: "underline" }}
             >
-              Inscrit toi
+              {t("signup")}{" "}
             </a>
           </p>
         </div>

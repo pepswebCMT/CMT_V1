@@ -100,6 +100,7 @@ import { auth, db } from "./../firebase-config";
 import Navbar from "../components/Navbar";
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -107,6 +108,7 @@ function RegisterPage() {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -143,23 +145,23 @@ function RegisterPage() {
     <>
       <Navbar />
       <form onSubmit={handleRegister}>
-        <div className="login">
-          <h3 className="register__title">Inscription</h3>
+        <div className="register">
+          <h3 className="register__title">{t("registration")}</h3>
           <div className="register__container">
-            <label className="register__label">Prénom</label>
+            <label className="register__label">{t("firstname")}</label>
             <input
               type="text"
-              placeholder="Prénom"
+              placeholder={t("firstname")}
               onChange={(e) => setFname(e.target.value)}
               required
               className="register__input"
             />
           </div>
           <div className="register__container">
-            <label className="register__label">Nom</label>
+            <label className="register__label">{t("lastname")}</label>
             <input
               type="text"
-              placeholder="Nom"
+              placeholder={t("lastname")}
               onChange={(e) => setLname(e.target.value)}
               required
               className="register__input"
@@ -176,10 +178,10 @@ function RegisterPage() {
             />
           </div>
           <div className="register__container">
-            <label className="register__label">Mot de passe</label>
+            <label className="register__label">{t("password")}</label>
             <input
               type="password"
-              placeholder="Mot de passe"
+              placeholder={t("password")}
               onChange={(e) => setPassword(e.target.value)}
               required
               className="register__input"
@@ -187,17 +189,17 @@ function RegisterPage() {
           </div>
           <div>
             <button type="submit" className="submit">
-              Inscription
+              {t("registration")}{" "}
             </button>
           </div>
           <p>
-            Déjà inscrit ?{" "}
+            {t("alreadyregistered")}{" "}
             <a
               onClick={() => navigate("/login")}
               className="register__a"
               style={{ cursor: "pointer", textDecoration: "underline" }}
             >
-              Connecte toi
+              {t("log_in")}{" "}
             </a>
           </p>
         </div>

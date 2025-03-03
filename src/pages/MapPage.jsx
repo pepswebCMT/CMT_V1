@@ -18,7 +18,8 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import { useTranslation } from "react-i18next";
 import "../assets/leaflet/clusterMarker.css";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const customMarkerHtml = renderToStaticMarkup(
   <div
     style={{
@@ -99,7 +100,6 @@ const famousMarkerHtml = renderToStaticMarkup(
     <FaMapMarker className="shine-animation" style={{ zIndex: 2 }} />
     <img
       src={tombstoneImage}
-      alt="Tombstone"
       style={{
         position: "absolute",
         width: "30px",
@@ -141,6 +141,48 @@ const MyMap = () => {
   const { t } = useTranslation();
   const { place } = useParams();
   const goTo = useNavigate();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const categories = [
+  //     "Histoire et Politique",
+  //     "Scientifiques",
+  //     "Litterature et Philosophie",
+  //     "Sports",
+  //     "Arts visuels",
+  //     "Arts musicaux",
+  //     "Arts vivants",
+  //     "Les plus connus",
+  //   ];
+
+  //   setLoading(true);
+  //   const fetchAllItems = async () => {
+  //     try {
+  //       const docRef = doc(db, "Tombs", "Categories");
+  //       const promises = categories.map((category) => {
+  //         const colRef = collection(docRef, category);
+  //         const q = query(colRef);
+
+  //         return getDocs(q);
+  //       });
+  //       const snapshots = await Promise.all(promises);
+  //       const allItems = snapshots.flatMap((snapshot, index) =>
+  //         snapshot.docs.map((doc) => ({
+  //           id: doc.id,
+  //           category: categories[index],
+  //           ...doc.data(),
+  //         }))
+  //       );
+  //       setItems(allItems);
+  //     } catch (e) {
+  //       setError("Failed to fetch data");
+  //       console.error(e);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAllItems();
 
   useEffect(() => {
     const categories = [
@@ -154,24 +196,37 @@ const MyMap = () => {
       "Les plus connus",
     ];
 
-    setLoading(true);
     const fetchAllItems = async () => {
       try {
+        setLoading(true);
         const docRef = doc(db, "Tombs", "Categories");
         const promises = categories.map((category) => {
           const colRef = collection(docRef, category);
           const q = query(colRef);
-
           return getDocs(q);
         });
-        const snapshots = await Promise.all(promises);
-        const allItems = snapshots.flatMap((snapshot, index) =>
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            category: categories[index],
-            ...doc.data(),
-          }))
-        );
+
+        const otherPointsRef = collection(db, "NewTombs");
+        const otherPointsSnapshot = getDocs(otherPointsRef);
+
+        const snapshots = await Promise.all([...promises, otherPointsSnapshot]);
+
+        const allItems = snapshots.flatMap((snapshot, index) => {
+          if (index < categories.length) {
+            return snapshot.docs.map((doc) => ({
+              id: doc.id,
+              category: categories[index],
+              ...doc.data(),
+            }));
+          } else {
+            return snapshot.docs.map((doc) => ({
+              id: doc.id,
+              category: "NewTombs",
+              ...doc.data(),
+            }));
+          }
+        });
+
         setItems(allItems);
       } catch (e) {
         setError("Failed to fetch data");
@@ -188,7 +243,6 @@ const MyMap = () => {
         const permissionStatus = await navigator.permissions.query({
           name: "geolocation",
         });
-
 
         if (permissionStatus.state === "granted") {
           getUserLocation();
@@ -263,86 +317,99 @@ const MyMap = () => {
   };
 
   return (
-    <MapContainer
-      center={[51.505, -0.09]}
-      zoom={13}
-      style={{ height: "100vh", width: "100%" }}
-      attributionControl={false}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-      />
-      <MarkerClusterGroup
-        chunkedLoading
-        iconCreateFunction={createClusterCustomIcon}
+    <div className="relative">
+      {/* Bouton Retour */}
+      <button
+        onClick={() => navigate(-1)} // Retourne à la page précédente
+        className="absolute top-4 z-1000 left-16 z-50 bg-mandarin-100 text-white px-4 py-2 rounded-lg shadow-md retour"
       >
-        {items.map(
-          (item) =>
-            item.location && (
-              <Marker
-                key={item.id}
-                position={getLocation(item.location)}
-                icon={
-                  item.category === "Les plus connus"
-                    ? famousMarkerIcon
-                    : customMarkerIcon
-                }
-              >
-                <Popup>
-                  <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
-                    <h3>{item.title}</h3>
-                    <div
-                      className="w-full flex justify-center items-center rounded-2xl m-1"
-                      onClick={() => {
-                        goTo(`/category/${item.category}/${item.id}`);
-                      }}
-                    >
-                      <img
-                        src={item.imageUrl}
-                        alt={item.title}
-                        className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover object-top"
-                      />
-                    </div>
-                    <button
-                      onClick={() => {
-                        window.open(
-                          `https://www.google.com/maps/search/?api=1&query=${item.location._lat},${item.location._long}`,
-                          "_blank"
-                        );
-                      }}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 m-1 rounded-2xl"
-                    >
-                      {t("map_go")}
-                    </button>
-                  </div>
-                </Popup>
-              </Marker>
-            )
-        )}
-      </MarkerClusterGroup>
-
-      {place && (
-        <SetViewOnClick
-          coords={[Number(place.split(",")[0]), Number(place.split(",")[1])]}
+        <FontAwesomeIcon icon={faArrowLeft} />
+      </button>
+      <MapContainer
+        center={[51.505, -0.09]}
+        zoom={13}
+        style={{ height: "100vh", width: "100%" }}
+        attributionControl={false}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         />
-      )}
+        <MarkerClusterGroup
+          chunkedLoading
+          iconCreateFunction={createClusterCustomIcon}
+        >
+          {items.map(
+            (item) =>
+              item.location && (
+                <Marker
+                  key={item.id}
+                  position={getLocation(item.location)}
+                  icon={
+                    item.category === "Les plus connus"
+                      ? famousMarkerIcon
+                      : customMarkerIcon
+                  }
+                >
+                  <Popup>
+                    <div className="flex flex-col items-center justify-between max-w-44 max-h-60 font-aileronBold text-xl">
+                      <h3>{item.title}</h3>
+                      <div
+                        className="w-full flex justify-center items-center rounded-2xl m-1"
+                        onClick={() => {
+                          goTo(`/category/${item.category}/${item.id}`);
+                        }}
+                      >
+                        {item.imageTomb || item.imageUrl ? (
+                          <img
+                            src={item.imageTomb || item.imageUrl}
+                            alt={item.title || "Image"}
+                            className="w-28 h-28 max-w-32 max-h-36 rounded-2xl object-cover object-top"
+                          />
+                        ) : (
+                          <p className="text-red-500">Image non disponible</p>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => {
+                          window.open(
+                            `https://www.google.com/maps/search/?api=1&query=${item.location._lat},${item.location._long}`,
+                            "_blank"
+                          );
+                        }}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 m-1 rounded-2xl"
+                      >
+                        {t("map_go")}
+                      </button>
+                    </div>
+                  </Popup>
+                </Marker>
+              )
+          )}
+        </MarkerClusterGroup>
 
-      {userLocation && (
-        <>
-          <CircleMarker
-            center={userLocation}
-            color="blue"
-            radius={2}
-            fillColor="#0000FF"
-            fillOpacity={1}
-          >
-            <Popup>Vous êtes ici</Popup>
-          </CircleMarker>
-          {!place && <SetViewOnClick coords={userLocation} />}
-        </>
-      )}
-    </MapContainer>
+        {place && (
+          <SetViewOnClick
+            coords={[Number(place.split(",")[0]), Number(place.split(",")[1])]}
+          />
+        )}
+
+        {userLocation && (
+          <>
+            <CircleMarker
+              center={userLocation}
+              color="blue"
+              radius={2}
+              fillColor="#0000FF"
+              fillOpacity={1}
+            >
+              <Popup>Vous êtes ici</Popup>
+            </CircleMarker>
+            {!place && <SetViewOnClick coords={userLocation} />}
+          </>
+        )}
+      </MapContainer>
+    </div>
   );
 };
 
