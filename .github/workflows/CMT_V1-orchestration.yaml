@@ -29,7 +29,7 @@ jobs:
       - name: Debug raw output
         run: echo "Raw output ${{ toJson(steps.project.outputs) }}"
       - name: Debug deployment-enabled
-        run: echo "Deployment enabled ${{ needs.retrieve-project.outputs.deployment-enabled }}"
+        run: echo 'Deployment enabled:' $(echo '${{ steps.project.outputs.info }}' | jq -r '.deployment-enabled')
 
   build:
     name: build
