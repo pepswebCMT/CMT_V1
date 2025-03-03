@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import CategoryPage from "./pages/CategoryPage";
 import "./App.css";
@@ -14,6 +14,10 @@ import UserProfile from "./components/ModalProfil";
 
 import { PrivateRoute } from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
+import RegisterPage from "./pages/RegisterPage";
+import ProfilePage from "./pages/ProfilePage";
+import TombsManagementPage from "./pages/TombsManageentPage";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   React.useEffect(() => {
@@ -48,6 +52,11 @@ const App = () => {
             path="/adminpepcatchmytombsw"
             element={<PrivateRoute element={<AdminPage />} />}
           />
+
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/managementTomb" element={<TombsManagementPage />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
         </Routes>
       </AuthProvider>
     </Router>

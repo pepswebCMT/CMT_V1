@@ -11,9 +11,9 @@ import { db } from "../firebase-config";
 import { FaCheck, FaTimes, FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
 
 const AdminPage = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -30,7 +30,6 @@ const AdminPage = () => {
     };
 
     fetchSubmissions();
-    
   }, []);
 
   const approveSubmission = async (submission) => {
@@ -42,7 +41,6 @@ const AdminPage = () => {
   const rejectSubmission = async (id) => {
     await deleteDoc(doc(db, "PendingTombs", id));
     setSubmissions(submissions.filter((s) => s.id !== id));
-  
   };
 
   const startEditing = (submission) => {
@@ -63,119 +61,110 @@ const AdminPage = () => {
 
   const clearAllSubmissions = async () => {
     const querySnapshot = await getDocs(collection(db, "PendingTombs"));
-    const batch = db.batch();
-    querySnapshot.docs.forEach((doc) => {
-      batch.delete(doc.ref);
+    querySnapshot.docs.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
     });
-    await batch.commit();
     setSubmissions([]);
   };
 
-  console.log(submissions);
   return (
-    <section>
-      <div className="w-full flex justify-center font-josefin pt-28">
-        <Navbar />
-        <div className="w-full max-w-96 p-2 flex flex-col gap-2 justify-center items-center">
-          <div className="w-full p-2 rounded-xl shadow-inner sticky z-40 top-28 flex justify-between items-center font-bold text-3xl text-mandarin-100 dark:text-mandarin-600 bg-white dark:bg-dark-400">
-            <Link to="/profileAdminCMTPepswebKDJB">
-              <FontAwesomeIcon icon={faArrowLeft} />
-            </Link>
-            <h1>{t("admin_title")}</h1>
-          </div>
-          {submissions.length > 0 ? (
-            <div className="w-full flex flex-col items-center">
-              <button
-                className="w-full max-w-96 p-2 bg-red-500 text-white rounded-xl mb-4"
-                onClick={clearAllSubmissions}
-              >
-                {t("admin_clear_all")}
-              </button>
-              {submissions.map((submission) => (
-                <div key={submission.id} className="submission">
-                  <h2 className="text-lg font-semibold text-center">
+    <>
+      <Navbar />
+      <div className="admin">
+        <div className="admin__header">
+          <Link to="/profile" className="admin__back">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </Link>
+          <h1 className="admin__title">{t("admin_title")}</h1>
+        </div>
+        <button
+          className="admin__button admin__button--clear"
+          onClick={clearAllSubmissions}
+        >
+          {t("admin_clear_all")}
+        </button>
+        {submissions.length > 0 ? (
+          <div className="admin__submissions">
+            {submissions.map((submission) => (
+              <div key={submission.id} className="admin__submission">
+                <div className="admin__submission-container">
+                  <h2 className="admin__submission-title">
                     {submission.title}
                   </h2>
-                  {submission.imageTomb && (
-                    <img
-                      src={submission.imageTomb}
-                      alt=""
-                      className="submission-image"
-                    />
-                  )}
-                  <h3 className="text-lg font-semibold text-center">
-                    {submission.cemetery}
-                  </h3>
-                  {editSubmission && editSubmission.id === submission.id ? (
-                    <div className="w-full flex flex-col justify-around items-center gap-4 text-xl font-aileron">
-                      <input
-                        type="text"
-                        name="title"
-                        value={editSubmission.title}
-                        onChange={(e) => handleEditChange(e)}
-                        className="w-full max-w-96 border-2 p-2 rounded-xl"
-                      />
-                      <input
-                        type="text"
-                        name="cemetery"
-                        value={editSubmission.cemetery}
-                        onChange={(e) => handleEditChange(e)}
-                        className="w-full max-w-96 border-2 p-2 rounded-xl"
-                      />
-                      <div className="w-full flex justify-center items-center">
-                        <button
-                          className="w-1/3 p-3"
-                          onClick={handleEditSubmit}
-                        >
-                          {t("admin_save")}
-                        </button>
-                        <button
-                          className="w-1/3 p-3"
-                          onClick={() => setEditSubmission(null)}
-                        >
-                          {t("admin_cancel")}
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="submission-actions flex justify-between">
-                      <div>
-                        <FaCheck
-                          className="icon-a icon-accept cursor-pointer text-green-500"
-                          onClick={() => approveSubmission(submission)}
-                          title={t("admin_accept")}
-                          size={24}
-                        />
-                      </div>
-                      <div>
-                        <FaTimes
-                          className="icon-a icon-reject cursor-pointer text-red-500"
-                          onClick={() => rejectSubmission(submission.id)}
-                          title={t("admin_reject")}
-                          size={24}
-                        />
-                      </div>
-                      <div>
-                        <FaEdit
-                          className="icon-a icon-edit cursor-pointer text-blue-500"
-                          onClick={() => startEditing(submission)}
-                          title={t("admin_edit")}
-                          size={24}
-                        />
-                      </div>
-                    </div>
-                  )}
+                  <button
+                    className="admin__button admin__button--edit"
+                    onClick={() => startEditing(submission)}
+                  >
+                    Modifier
+                  </button>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="pt-40 text-center text-2xl font-bold">
-              {t("admin_no_tomb")}
-            </p>
-          )}
-        </div>
+                {submission.imageTomb && (
+                  <img
+                    src={submission.imageTomb}
+                    alt="Submission"
+                    className="admin__submission-image"
+                  />
+                )}
+                <p className="admin__submission-details">
+                  {submission.cemetery}
+                </p>
+                {editSubmission && editSubmission.id === submission.id ? (
+                  <form className="admin__edit-form">
+                    <input
+                      type="text"
+                      name="title"
+                      value={editSubmission.title}
+                      onChange={handleEditChange}
+                      className="admin__input"
+                    />
+                    <input
+                      type="text"
+                      name="cemetery"
+                      value={editSubmission.cemetery}
+                      onChange={handleEditChange}
+                      className="admin__input"
+                    />
+                    <div className="admin__actions">
+                      <button
+                        type="button"
+                        className="admin__button admin__button--save"
+                        onClick={handleEditSubmit}
+                      >
+                        {t("admin_save")}
+                      </button>
+                      <button
+                        type="button"
+                        className="admin__button admin__button--cancel"
+                        onClick={() => setEditSubmission(null)}
+                      >
+                        {t("admin_cancel")}
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="admin__submission-actions">
+                    <button
+                      className="admin__button admin__button--accept"
+                      onClick={() => approveSubmission(submission)}
+                    >
+                      Valider
+                    </button>
+                    <button
+                      className="admin__button admin__button--reject"
+                      onClick={() => rejectSubmission(submission.id)}
+                    >
+                      Refuser
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="admin__empty">{t("admin_no_tomb")}</p>
+        )}
       </div>
-    </section>
+    </>
   );
 };
 

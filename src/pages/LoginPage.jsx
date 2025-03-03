@@ -1,98 +1,153 @@
-import React, { useState, useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { Auth } from "../firebase-config";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import './styles/LoginPage.css';
+import Navbar from "../components/Navbar";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./../firebase-config";
+import { doc, getDoc } from "firebase/firestore"; // Import Firestore
+import { db } from "../firebase-config"; // Assurez-vous d'importer votre Firestore config
+import { toast } from "react-toastify";
+import ResetPassword from "./ResetPassword";
+import { useTranslation } from "react-i18next";
 
 function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    fullName: "",
-  });
-  const [rememberMe, setRememberMe] = useState(false);
-  const [confirmationMessage, setConfirmationMessage] = useState("");
-  const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const { t } = useTranslation();
 
-  useEffect(() => {
-    const errorTimeout = setTimeout(() => {
-      if (error) setError("");
-    }, 5000);
-
-    const confirmationTimeout = setTimeout(() => {
-      if (confirmationMessage) setConfirmationMessage("");
-    }, 5000);
-
-    return () => {
-      clearTimeout(errorTimeout);
-      clearTimeout(confirmationTimeout);
-    };
-  }, [error, confirmationMessage]);
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setRememberMe(checked);
-    } else {
-      setCredentials({
-        ...credentials,
-        [name]: value,
-      });
-    }
-  };
-
-  const handleLogin = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      await signInWithEmailAndPassword(
-        Auth,
-        credentials.email,
-        credentials.password
+      // Authentification de l'utilisateur
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
-      navigate("/admin");
+
+      const userId = userCredential.user.uid;
+
+      // Récupération des données utilisateur depuis Firestore
+      const userDoc = await getDoc(doc(db, "Users", userId)); // Remplacez "users" par le nom de votre collection
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+
+        // Vérification du rôle
+        if (userData.role === "admin") {
+          toast.success("Connexion administrateur réussie", {
+            position: "top-center",
+          });
+          navigate("/profile");
+        } else {
+          toast.success("Connexion utilisateur réussie", {
+            position: "top-center",
+          });
+          navigate("/profile");
+        }
+      } else {
+        throw new Error("Utilisateur introuvable");
+      }
     } catch (error) {
-      setError("Identifiant ou mot de passe incorrect, veuillez réessayer.");
+      console.error("Erreur d'authentification :", error.message);
+
+      if (
+        error.code === "auth/invalid-email" ||
+        error.code === "auth/user-not-found"
+      ) {
+        setEmailError("Adresse email invalide ou introuvable");
+      } else if (error.code === "auth/wrong-password") {
+        setPasswordError("Mot de passe incorrect");
+      } else {
+        toast.error("Erreur de connexion : vérifiez vos identifiants", {
+          position: "bottom-center",
+        });
+      }
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="login-form">
-        <h2>Connexion</h2>
-        <input
-          name="email"
-          type="email"
-          value={credentials.email}
-          onChange={handleInputChange}
-          placeholder="Adresse e-mail"
-          required
-        />
-        <input
-          name="password"
-          type="password"
-          value={credentials.password}
-          onChange={handleInputChange}
-          placeholder="Mot de passe"
-          required
-        />
-        {error && <p className="error-message">{error}</p>}
-        <div className="remember-me-container">
-          <input
-            name="rememberMe"
-            type="checkbox"
-            checked={rememberMe}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="rememberMe">Se souvenir de moi</label>
+    <>
+      <form onSubmit={handleSubmit}>
+        <Navbar />
+        <div className="login">
+          <h3 className="login__title">{t("connection")}</h3>
+          <div className="login__container">
+            <label className="login__label">Email</label>
+            <input
+              type="text"
+              className="login__input"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError("");
+              }}
+            />
+            {emailError && (
+              <p
+                style={{
+                  color: "red",
+                  fontSize: "0.9rem",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {emailError}
+              </p>
+            )}
+          </div>
+          <div className="login__container">
+            <label className="login__label">{t("password")} </label>
+            <input
+              type="password"
+              className="login__input"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError("");
+              }}
+            />
+            {passwordError && (
+              <p
+                style={{
+                  color: "red",
+                  fontSize: "0.9rem",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {passwordError}
+              </p>
+            )}
+          </div>
+          <div style={{ textAlign: "left" }}>
+            <a
+              onClick={() => navigate("/resetpassword")}
+              className="login__a"
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+            >
+              {t("forgottenpassword")}
+            </a>
+          </div>
+          <div>
+            <button type="submit" className="submit">
+              {t("connection")}{" "}
+            </button>
+          </div>
+          <p>
+            {t("notregisteredyet")}{" "}
+            <a
+              onClick={() => navigate("/register")}
+              className="login__a"
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+            >
+              {t("signup")}{" "}
+            </a>
+          </p>
         </div>
-        <div className="button-container">
-          <button onClick={handleLogin}>Se connecter</button>
-        </div>
-        <br />
-        <br />
-      </div>
-    </div>
+      </form>
+    </>
   );
 }
 
