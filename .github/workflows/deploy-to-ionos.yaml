@@ -19,15 +19,14 @@ on:
       deployment-ids:
         required: true
         type: string
-        default: '["default-id"]' # ✅ Valeur par défaut pour éviter l'erreur JSON
+        default: '["default-id"]'  # ✅ Valeur par défaut pour éviter l'erreur JSON
   push:
     branches:
       - master
       - dev
 
 env:
-  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }} # Remplace par ton vrai project ID IONOS
-  DEPLOYMENT_IDS: ${{ inputs.deployment-ids || '["default-id"]' }}
+  PROJECT_ID: ${{ secrets.IONOS_PROJECT_ID || '1764d17f-7ef4-4bc3-8597-08b489757b55' }}  # Remplace par ton vrai project ID IONOS
 
 concurrency: ${{ github.ref }}
 
@@ -37,12 +36,24 @@ jobs:
     outputs:
       deployment-ids: ${{ steps.set-ids.outputs.deployment-ids }}
     steps:
-      - name: Définir DEPLOYMENT_IDS
+      - name: Vérifier `inputs.deployment-ids`
+        run: echo "Valeur reçue pour deployment-ids: '${{ inputs.deployment-ids }}'"
+
+      - name: Générer un deployment-id si vide
         id: set-ids
-        run: echo "deployment-ids=${{ inputs.deployment-ids || '["default-id"]' }}" >> $GITHUB_ENV
+        run: |
+          if [ -z "${{ inputs.deployment-ids }}" ]; then
+            UUID=$(uuidgen)
+            echo "Génération d'un nouveau deployment-id: $UUID"
+            echo "deployment-ids=[\"$UUID\"]" >> $GITHUB_ENV
+            echo "deployment-ids=[\"$UUID\"]" >> $GITHUB_OUTPUT
+          else
+            echo "deployment-ids=${{ inputs.deployment-ids }}" >> $GITHUB_ENV
+            echo "deployment-ids=${{ inputs.deployment-ids }}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Debug DEPLOYMENT_IDS
-        run: echo "Deployment IDs utilisés:'' ${{ env.DEPLOYMENT_IDS }}"
+        run: echo "Deployment IDs générés: '${{ env.DEPLOYMENT_IDS }}'"
 
   deploy-to-ionos:
     needs: prepare-matrix
@@ -55,7 +66,7 @@ jobs:
         deployment-id: ${{ fromJson(needs.prepare-matrix.outputs.deployment-ids) }}
     steps:
       - name: Debug deployment-id
-        run: echo "Deployment ID utilisé:'' ${{ matrix.deployment-id }}"
+        run: echo "Deployment ID utilisé: '${{ matrix.deployment-id }}'"
 
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1
