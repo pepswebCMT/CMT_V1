@@ -16,10 +16,9 @@ jobs:
       - name: 📦 Installer les dépendances
         run: npm install
 
-      - name: Désactiver le CI pour éviter l'échec du build
-        run: unset CI
-
       - name: 🛠️ Construire le projet
+        env:
+          CI: false
         run: npm run build
 
       - name: 🚀 Déployer sur Plesk via SSH
