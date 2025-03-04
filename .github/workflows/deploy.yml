@@ -32,3 +32,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./build/
           server-dir: /htdocs/
+          timeout: 120000
+          protocol: ftps
