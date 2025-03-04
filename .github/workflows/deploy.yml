@@ -1,0 +1,39 @@
+name: Deploy to Plesk
+
+on:
+  push:
+    branches:
+      - main # Change "main" si ta branche de production a un autre nom
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Cloner le repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Installer les dépendances
+        run: npm install
+
+      - name: 🛠️ Construire le projet
+        run: npm run build
+
+      - name: 🚀 Déployer sur Plesk via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.PLESK_HOST }}
+          username: ${{ secrets.PLESK_USER }}
+          password: ${{ secrets.PLESK_PASS }}
+          source: "build/*"
+          target: "/var/www/vhosts/ton-domaine/httpdocs"
+
+      - name: 🔄 Redémarrer le serveur si nécessaire
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PLESK_HOST }}
+          username: ${{ secrets.PLESK_USER }}
+          password: ${{ secrets.PLESK_PASS }}
+          script: |
+            cd /var/www/vhosts/ton-domaine/httpdocs
+            pm2 restart all || echo "No PM2 process found"
