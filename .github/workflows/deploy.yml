@@ -3,7 +3,7 @@ name: Deploy to Plesk
 on:
   push:
     branches:
-      - main # Change "main" si ta branche de production a un autre nom
+      - master
 
 jobs:
   deploy:
