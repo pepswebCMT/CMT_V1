@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="./CMT-logo-02.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
@@ -31,73 +31,59 @@
     />
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="CMT-logo-02.svg" />
-
     <title>Catch My Tomb</title>
+    <script defer="defer" src="./static/js/main.bbeeee68.js"></script>
+    <link href="./static/css/main.c44d01bb.css" rel="stylesheet" />
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <div id="modal-root"></div>
-
     <script type="module">
-      // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
       import {
         getAnalytics,
         logEvent,
       } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-
-      // Your web app's Firebase configuration
       const firebaseConfig = {
-        apiKey: "AIzaSyCixlZ8xSP9xfcqglcjJWW8YsVsHqmrKO0",
-        authDomain: "mycmtapp.firebaseapp.com",
-        databaseURL: "https://mycmtapp.firebaseio.com",
-        projectId: "mycmtapp",
-        storageBucket: "mycmtapp.appspot.com",
-        messagingSenderId: "675300453637",
-        appId: "1:675300453637:web:612e570da20a18c5fb5b6c",
-        measurementId: "G-ER42SXRQ7D",
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
-
-      // Track PWA installation
+          apiKey: "AIzaSyCixlZ8xSP9xfcqglcjJWW8YsVsHqmrKO0",
+          authDomain: "mycmtapp.firebaseapp.com",
+          databaseURL: "https://mycmtapp.firebaseio.com",
+          projectId: "mycmtapp",
+          storageBucket: "mycmtapp.appspot.com",
+          messagingSenderId: "675300453637",
+          appId: "1:675300453637:web:612e570da20a18c5fb5b6c",
+          measurementId: "G-ER42SXRQ7D",
+        },
+        app = initializeApp(firebaseConfig),
+        analytics = getAnalytics(app);
       let deferredPrompt;
       window.addEventListener("beforeinstallprompt", (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        // Optionally, show your custom install prompt here
+        e.preventDefault(), (deferredPrompt = e);
       });
-
       const installButton = document.getElementById("installButton");
-      if (installButton) {
+      installButton &&
         installButton.addEventListener("click", (e) => {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === "accepted") {
-              logEvent(analytics, "install", {
-                event_category: "PWA",
-                event_label: "Install",
-                value: 1,
-              });
-            }
-            deferredPrompt = null;
-          });
+          deferredPrompt.prompt(),
+            deferredPrompt.userChoice.then((e) => {
+              "accepted" === e.outcome &&
+                logEvent(analytics, "install", {
+                  event_category: "PWA",
+                  event_label: "Install",
+                  value: 1,
+                }),
+                (deferredPrompt = null);
+            });
         });
-      }
     </script>
-
     <script>
-      if ("serviceWorker" in navigator) {
+      "serviceWorker" in navigator &&
         window.addEventListener("load", () => {
           navigator.serviceWorker
             .register("./serviceworker.js")
-            .then((reg) => console.log("Success: ", reg.scope))
-            .catch((err) => console.log("Failure: ", err));
+            .then((e) => console.log("Success: ", e.scope))
+            .catch((e) => console.log("Failure: ", e));
         });
-      }
     </script>
   </body>
 </html>
