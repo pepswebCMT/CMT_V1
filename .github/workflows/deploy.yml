@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASS }}
           source: "build/*"
-          target: "/var/www/vhosts/ton-domaine/httpdocs"
+          target: "/var/www/vhosts/sweet-torvalds.217-160-42-64.plesk.page/httpdocs"
 
       - name: 🔄 Redémarrer le serveur si nécessaire
         uses: appleboy/ssh-action@master
@@ -35,5 +35,5 @@ jobs:
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASS }}
           script: |
-            cd /var/www/vhosts/ton-domaine/httpdocs
+            cd /var/www/vhosts/sweet-torvalds.217-160-42-64.plesk.page/httpdocs
             pm2 restart all || echo "No PM2 process found"
