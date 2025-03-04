@@ -20,6 +20,8 @@ jobs:
         env:
           CI: false
         run: npm run build
+
+      - name: 🛠️ Vérifier le dossier build
         run: ls -la build
 
       - name: 🚀 Déployer sur Plesk via SSH
