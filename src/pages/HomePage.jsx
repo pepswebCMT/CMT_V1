@@ -304,7 +304,7 @@ const HomePage = () => {
       <section className="w-full overflow-hidden flex flex-col justify-between gap-4 items-center p-5">
         <div className="w-full max-w-96 font-bold text-4xl p-2 text-center">
           <h2>{t("home_h1")}</h2>
-          <h2>ANCIENNE VERSION CMT</h2>
+          {/* <h2>ANCIENNE VERSION CMT</h2> */}
         </div>
         <IconBar
           categories={categories}
