@@ -293,8 +293,8 @@ const MyMap = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen font-aileronBold">
-        <div className="text-xl font-semibold">REST IN PEACE...</div>
+      <div className="pending-container">
+        <span className="loader"></span>
       </div>
     );
   }

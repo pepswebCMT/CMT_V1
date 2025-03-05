@@ -29,8 +29,8 @@ const Navbar = () => {
       <div className="max-w-screen-xl flex flex-wrap justify-between items-center mx-auto p-4">
         {/* Logo */}
         <Link to={"/home"} className="flex items-center">
-          <img src={CMT2} alt="Catch my Tomb" className="w-full h-14 mr-3" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+          <img src={CMT2} alt="Catch my Tomb" className="w-full h-10 mr-3" />
+          <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
             Catch My Tomb
           </span>
         </Link>

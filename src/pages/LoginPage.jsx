@@ -102,7 +102,7 @@ function LoginPage() {
             <input
               type="password"
               className="login__input"
-              placeholder="Password"
+              placeholder={t("password")}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);

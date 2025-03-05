@@ -1,5 +1,5 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { Auth } from '../firebase-config';
+import React, { createContext, useEffect, useState } from "react";
+import { Auth } from "../firebase-config";
 
 export const AuthContext = createContext();
 
@@ -8,14 +8,18 @@ export const AuthProvider = ({ children }) => {
   const [pending, setPending] = useState(true);
 
   useEffect(() => {
-    Auth.onAuthStateChanged(user => {
+    Auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       setPending(false);
     });
   }, []);
 
   if (pending) {
-    return <>REST IN PEACE</>; 
+    return (
+      <div className="pending-container">
+        <span className="loader"></span>
+      </div>
+    );
   }
 
   return (
